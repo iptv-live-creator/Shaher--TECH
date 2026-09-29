@@ -126,7 +126,10 @@
      ═══════════════════════════════════════════════════════════════════════ -->
 <section id="tool-view" class="tool-view" hidden aria-label="Active tool">
   <div class="tool-view-inner">
-    <button id="tool-close" class="tool-close" aria-label="Back to all tools">← كل الأدوات</button>
+    <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:18px; flex-wrap:wrap;">
+      <button id="tool-close" class="tool-close" aria-label="Back to all tools" style="margin-bottom:0;">← كل الأدوات</button>
+      <button id="tool-share" class="btn-ghost" type="button" style="padding:6px 14px; font-size:12.5px; border-radius:999px;">🔗 نسخ رابط الأداة</button>
+    </div>
     <div class="tool-head">
       <h2 id="tool-title"></h2>
       <p id="tool-desc"></p>
@@ -196,6 +199,7 @@
   const viewDesc  = document.getElementById('tool-desc');
   const viewCat   = document.getElementById('tool-category');
   const closeBtn  = document.getElementById('tool-close');
+  const shareBtn  = document.getElementById('tool-share');
   const noResults = document.getElementById('no-results');
   const toolCount = document.getElementById('tool-count');
 
@@ -259,7 +263,8 @@
   }
 
   // ---- open a tool ----------------------------------------------------
-  function openTool(id) {
+  function openTool(id, updateUrl) {
+    if (typeof updateUrl === 'undefined') updateUrl = true;
     const tool = toolsDB[id];
     if (!tool) return;
     activeTool = id;
@@ -275,6 +280,12 @@
     document.body.classList.add('tool-open');
     window.scrollTo({ top: 0, behavior: 'instant' });
 
+    if (updateUrl) {
+      const newUrl = window.location.pathname + '?tool=' + encodeURIComponent(id);
+      history.pushState({ tool: id }, '', newUrl);
+      document.title = tool.title + ' — شاهر إسماعيل | TECH';
+    }
+
     if (typeof tool.init === 'function') {
       try { tool.init(); }
       catch (err) {
@@ -284,24 +295,60 @@
     }
   }
 
-  function closeTool() {
+  function closeTool(updateUrl) {
+    if (typeof updateUrl === 'undefined') updateUrl = true;
     activeTool = null;
     view.hidden = true;
     document.body.classList.remove('tool-open');
     viewBody.innerHTML = '';
+
+    if (updateUrl) {
+      history.pushState(null, '', window.location.pathname);
+      document.title = 'شاهر إسماعيل | TECH · ' + entries.length + ' أداة';
+    }
   }
 
-  closeBtn.addEventListener('click', closeTool);
+  closeBtn.addEventListener('click', function () { closeTool(true); });
   document.getElementById('brand-link').addEventListener('click', function (e) {
-    e.preventDefault(); closeTool();
+    e.preventDefault(); closeTool(true);
   });
+
+  if (shareBtn) {
+    shareBtn.addEventListener('click', function () {
+      if (!activeTool) return;
+      const shareUrl = window.location.origin + window.location.pathname + '?tool=' + encodeURIComponent(activeTool);
+      navigator.clipboard.writeText(shareUrl).then(function () {
+        const orig = shareBtn.textContent;
+        shareBtn.textContent = '✓ تم نسخ الرابط!';
+        setTimeout(function () { shareBtn.textContent = orig; }, 2000);
+      }).catch(function () {
+        prompt('انسخ رابط الأداة المباشر:', shareUrl);
+      });
+    });
+  }
+
+  window.addEventListener('popstate', function () {
+    checkUrlTool();
+  });
+
+  function checkUrlTool() {
+    const params = new URLSearchParams(window.location.search);
+    const toolParam = params.get('tool') || (window.location.hash ? window.location.hash.replace('#', '') : null);
+    if (toolParam && toolsDB[toolParam]) {
+      openTool(toolParam, false);
+    } else if (activeTool) {
+      closeTool(false);
+    }
+  }
+
   document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape' && activeTool) closeTool();
+    if (e.key === 'Escape' && activeTool) closeTool(true);
     if (e.key === '/' && document.activeElement !== search) { e.preventDefault(); search.focus(); }
   });
   search.addEventListener('input', renderGrid);
 
   renderGrid();
+  checkUrlTool();
 })();
 </script>
 </body>
