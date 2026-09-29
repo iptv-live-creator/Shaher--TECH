@@ -262,6 +262,23 @@
     noResults.hidden = shown !== 0;
   }
 
+  // ---- slug / alias resolver -----------------------------------------
+  function findToolId(slug) {
+    if (!slug) return null;
+    slug = String(slug).toLowerCase().trim();
+    if (toolsDB[slug]) return slug;
+    for (const [id, t] of Object.entries(toolsDB)) {
+      if (t.slug && t.slug.toLowerCase() === slug) return id;
+      if (Array.isArray(t.aliases)) {
+        for (const a of t.aliases) {
+          if (String(a).toLowerCase() === slug) return id;
+        }
+      }
+      if (id.toLowerCase() === slug) return id;
+    }
+    return null;
+  }
+
   // ---- open a tool ----------------------------------------------------
   function openTool(id, updateUrl) {
     if (typeof updateUrl === 'undefined') updateUrl = true;
@@ -281,7 +298,8 @@
     window.scrollTo({ top: 0, behavior: 'instant' });
 
     if (updateUrl) {
-      const newUrl = window.location.pathname + '?tool=' + encodeURIComponent(id);
+      const slug = tool.slug || id;
+      const newUrl = '/' + encodeURIComponent(slug);
       history.pushState({ tool: id }, '', newUrl);
       document.title = tool.title + ' — شاهر إسماعيل | TECH';
     }
@@ -303,7 +321,7 @@
     viewBody.innerHTML = '';
 
     if (updateUrl) {
-      history.pushState(null, '', window.location.pathname);
+      history.pushState(null, '', '/');
       document.title = 'شاهر إسماعيل | TECH · ' + entries.length + ' أداة';
     }
   }
@@ -316,7 +334,9 @@
   if (shareBtn) {
     shareBtn.addEventListener('click', function () {
       if (!activeTool) return;
-      const shareUrl = window.location.origin + window.location.pathname + '?tool=' + encodeURIComponent(activeTool);
+      const tool = toolsDB[activeTool];
+      const slug = (tool && tool.slug) || activeTool;
+      const shareUrl = window.location.origin + '/' + encodeURIComponent(slug);
       navigator.clipboard.writeText(shareUrl).then(function () {
         const orig = shareBtn.textContent;
         shareBtn.textContent = '✓ تم نسخ الرابط!';
@@ -332,10 +352,17 @@
   });
 
   function checkUrlTool() {
-    const params = new URLSearchParams(window.location.search);
-    const toolParam = params.get('tool') || (window.location.hash ? window.location.hash.replace('#', '') : null);
-    if (toolParam && toolsDB[toolParam]) {
-      openTool(toolParam, false);
+    let rawPath = window.location.pathname.replace(/^\/+|\/+$/g, '');
+    let matchedId = findToolId(rawPath);
+
+    if (!matchedId) {
+      const params = new URLSearchParams(window.location.search);
+      const queryParam = params.get('tool') || (window.location.hash ? window.location.hash.replace('#', '') : null);
+      if (queryParam) matchedId = findToolId(queryParam);
+    }
+
+    if (matchedId) {
+      openTool(matchedId, false);
     } else if (activeTool) {
       closeTool(false);
     }

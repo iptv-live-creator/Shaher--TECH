@@ -98,6 +98,8 @@ const toolsDB = {
   whatsappLinkTool: {
     emoji: '💬',
     title: 'WhatsApp Direct Link',
+    slug: 'whatsapp',
+    aliases: ['wa', '1'],
     category: 'Social Media',
     desc: 'Open a WhatsApp chat with any number without saving it to your contacts.',
     html: `

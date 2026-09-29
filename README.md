@@ -67,6 +67,8 @@ Shaher--TECH/
 myNewToolId: {
   emoji: '🛠️',           // أيقونة الأداة (تتحول تلقائياً لمفتاح كيبورد 3D Keycap)
   title: 'اسم الأداة',     // عنوان الأداة
+  slug: 'toolname',       // ⭐️ الرابط القصير بعد السلاش (مثال: shaher-tech.vercel.app/toolname)
+  aliases: ['tn', '2'],   // ⭐️ أسماء وروابط بديلة مختصرة
   category: 'Utilities',  // التصنيف (Text | Developer | Social Media | Utilities | AI | Image | SEO)
   desc: 'وصف في سطر واحد لوظيفة الأداة',
   html: `
