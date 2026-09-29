@@ -236,6 +236,208 @@ const toolsDB = {
 
       build();
     }
+  },
+
+  /* ───────────────────────── AI & PROMPT ENGINEERING ───────────────────────── */
+
+  aiPromptArchitectTool: {
+    emoji: '🪄',
+    title: 'Multi-AI Prompt Architect',
+    slug: 'prompt',
+    aliases: ['prompts', 'ai', '2'],
+    category: 'AI',
+    desc: 'أنشئ برومبتات هندسية فائقة الدقة مخصصة لخوارزمية ChatGPT، Claude، أو Google Gemini.',
+    html: `
+      <label class="label-hint">1. اختر النموذج المستهدف (Target AI Engine)</label>
+      <div class="row" style="gap:8px; margin-bottom:6px;">
+        <label style="display:flex; align-items:center; gap:6px; cursor:pointer; background:rgba(255,255,255,0.03); padding:8px 14px; border-radius:8px; border:1px solid var(--border);">
+          <input type="radio" name="pa-model" value="chatgpt" checked>
+          <b>ChatGPT</b> <span style="font-size:11px; color:var(--beige-muted);">(OpenAI)</span>
+        </label>
+        <label style="display:flex; align-items:center; gap:6px; cursor:pointer; background:rgba(255,255,255,0.03); padding:8px 14px; border-radius:8px; border:1px solid var(--border);">
+          <input type="radio" name="pa-model" value="claude">
+          <b>Claude</b> <span style="font-size:11px; color:var(--beige-muted);">(Anthropic / XML)</span>
+        </label>
+        <label style="display:flex; align-items:center; gap:6px; cursor:pointer; background:rgba(255,255,255,0.03); padding:8px 14px; border-radius:8px; border:1px solid var(--border);">
+          <input type="radio" name="pa-model" value="gemini">
+          <b>Google</b> <span style="font-size:11px; color:var(--beige-muted);">(Gemini)</span>
+        </label>
+      </div>
+
+      <div class="row">
+        <div>
+          <label class="label-hint">2. مجال ومجمل المهمة (Task Category)</label>
+          <select id="pa-category" class="form-control">
+            <option value="content">✍️ صناعة محتوى وسكريبتات (Content & Scripts)</option>
+            <option value="code">💻 برمجة وتطوير برمجيات (Coding & Architecture)</option>
+            <option value="research">📊 تحليل بيانات ودراسة (Research & Analysis)</option>
+            <option value="business">🎯 تسويق وأعمال وبيزنس (Marketing & Business)</option>
+            <option value="education">🎓 تعليم وشرح مبسط (Simplifying & Education)</option>
+          </select>
+        </div>
+        <div>
+          <label class="label-hint">3. شخصية الذكاء الاصطناعي (AI Persona)</label>
+          <select id="pa-persona" class="form-control">
+            <option value="senior">خبير سينيور معتمد ومستشار أول (Senior Specialist)</option>
+            <option value="creator">صانع محتوى إبداعي يشد الانتباه (Viral Creator)</option>
+            <option value="explainer">مدرب عملي يبسط التكنولوجيا للناس العادية (Practical Explainer)</option>
+            <option value="critic">ناقد تحليلي دقيق وصارم (Critical Reviewer)</option>
+          </select>
+        </div>
+      </div>
+
+      <label class="label-hint">4. فكرتك أو طلبك (اكتبه براحتك بدون تعقيد)</label>
+      <textarea id="pa-idea" class="form-control" rows="3" placeholder="مثال: فكرة تطبيق ذكاء اصطناعي يساعد الموظفين في كتابة تقارير العمل اليومية وتلخيص الإيميلات في ثواني..."></textarea>
+
+      <div class="row">
+        <div>
+          <label class="label-hint">5. شكل النتيجة المطلوبة (Format)</label>
+          <select id="pa-format" class="form-control">
+            <option value="steps">خطوات مرقمة خطوة بخطوة (Step-by-Step Guide)</option>
+            <option value="table">جدول مقارنة منظم ومقسم (Comparison Table)</option>
+            <option value="ready">نص كامل جاهز للنشر والاستخدام الفوري (Ready-to-use Deliverable)</option>
+            <option value="code">كود برمجي كامل ونظيف مع شرح التعليقات (Clean Code)</option>
+            <option value="plan">خطة عمل استراتيجية تنفيذية (Action Plan)</option>
+          </select>
+        </div>
+        <div>
+          <label class="label-hint">6. النبرة واللغة (Tone & Language)</label>
+          <select id="pa-tone" class="form-control">
+            <option value="ar-simple">عربي مبسط، مباشر بدون فزلكة أو حشو</option>
+            <option value="ar-pro">عربي فصيح، احترافي ورسمي</option>
+            <option value="en-tech">English (Concise, High-Signal, Technical)</option>
+          </select>
+        </div>
+      </div>
+
+      <label class="label-hint">7. شروط أو استثناءات إضافية (اختياري)</label>
+      <input id="pa-constraints" class="form-control" placeholder="مثال: بدون مقدمات ترحيبية، اذكر أمثلة حقيقية واقعية...">
+
+      <div class="row" style="margin-top:4px;">
+        <button id="pa-generate" class="btn-action" type="button">⚡ توليد البرومبت الهندسي</button>
+        <button id="pa-copy" class="btn-ghost" type="button">📋 نسخ البرومبت</button>
+      </div>
+
+      <div id="pa-output-wrap" style="display:none; margin-top:8px;">
+        <label class="label-hint">البرومبت الهندسي الجاهز (Master Prompt) — انسخه وضعه في النموذج المختار:</label>
+        <div id="pa-output" class="result-box mono" style="max-height:360px; overflow-y:auto; line-height:1.6;"></div>
+        <p id="pa-tip" class="state-success" style="margin-top:8px;"></p>
+      </div>
+    `,
+    init: function () {
+      const ideaEl = document.getElementById('pa-idea');
+      const catEl = document.getElementById('pa-category');
+      const personaEl = document.getElementById('pa-persona');
+      const formatEl = document.getElementById('pa-format');
+      const toneEl = document.getElementById('pa-tone');
+      const constrEl = document.getElementById('pa-constraints');
+      const genBtn = document.getElementById('pa-generate');
+      const copyBtn = document.getElementById('pa-copy');
+      const outWrap = document.getElementById('pa-output-wrap');
+      const outEl = document.getElementById('pa-output');
+      const tipEl = document.getElementById('pa-tip');
+
+      function getSelectedModel() {
+        const radios = document.getElementsByName('pa-model');
+        for (let i = 0; i < radios.length; i++) {
+          if (radios[i].checked) return radios[i].value;
+        }
+        return 'chatgpt';
+      }
+
+      function buildPrompt() {
+        const model = getSelectedModel();
+        const idea = ideaEl.value.trim() || 'ساعدني في إنجاز هذه المهمة بأعلى جودة واحترافية ممكنة.';
+        const cat = catEl.value;
+        const personaText = personaEl.options[personaEl.selectedIndex].text;
+        const formatText = formatEl.options[formatEl.selectedIndex].text;
+        const toneText = toneEl.options[toneEl.selectedIndex].text;
+        const constraints = constrEl.value.trim();
+
+        let prompt = '';
+        let tip = '';
+
+        if (model === 'claude') {
+          // Anthropic Claude Architecture: XML Tags with strict reasoning
+          prompt = `<role>\n` +
+            `You are a top-tier ${personaText}. You possess deep domain expertise, prioritize high-signal insight, and eliminate all fluff.\n` +
+            `</role>\n\n` +
+            `<context>\n` +
+            `Task Category: ${catEl.options[catEl.selectedIndex].text}\n` +
+            `Primary Goal: The user needs a comprehensive, actionable execution for the following request.\n` +
+            `</context>\n\n` +
+            `<request>\n` +
+            `${idea}\n` +
+            `</request>\n\n` +
+            `<instructions>\n` +
+            `1. Think carefully step-by-step before formulating your response to ensure maximum thoroughness.\n` +
+            `2. Deliver the final output strictly formatted as: ${formatText}.\n` +
+            `3. Language & Tone: ${toneText}.\n` +
+            (constraints ? `4. Mandatory Constraints: ${constraints}\n` : `4. Avoid generic introductions, filler text, or apologies.\n`) +
+            `5. Provide practical, high-value examples wherever applicable.\n` +
+            `</instructions>\n\n` +
+            `<output_format>\n` +
+            `Present your final response directly, adhering precisely to the specifications above.\n` +
+            `</output_format>`;
+          tip = '💡 سر كلود (Claude): يعالج وسوم الـ XML بأعلى كفاءة منطقية. ستلاحظ أنه يفكر خطوة بخطوة ويعطيك إجابة خالية من الحشو.';
+
+        } else if (model === 'gemini') {
+          // Google Gemini Architecture: Multimodal Context & Direct Objective
+          prompt = `[SYSTEM INSTRUCTION: HIGH-SIGNAL EXPERT]\n` +
+            `ACT AS: ${personaText}\n\n` +
+            `MISSION OBJECTIVE:\n` +
+            `${idea}\n\n` +
+            `EXECUTION BLUEPRINT:\n` +
+            `• Domain: ${catEl.options[catEl.selectedIndex].text}\n` +
+            `• Target Output Format: ${formatText}\n` +
+            `• Tone of Voice: ${toneText}\n` +
+            (constraints ? `• Special Constraints: ${constraints}\n` : `• Special Constraints: Direct, practical, zero filler.\n`) +
+            `\nQUALITY BENCHMARK:\n` +
+            `Deliver a rich, well-organized response that directly answers the core challenge with actionable clarity and structure.`;
+          tip = '💡 سر جيميناي (Google Gemini): يعشق توجيهات الأهداف الصريحة (Mission Objectives) والاستجابة المنظمة بالأقسام.';
+
+        } else {
+          // OpenAI ChatGPT Architecture: Role / Context / Task / Framework
+          prompt = `# ROLE & PERSONA\n` +
+            `Act as an elite ${personaText}.\n\n` +
+            `## CORE TASK\n` +
+            `${idea}\n\n` +
+            `## REQUIREMENTS & GUIDELINES\n` +
+            `1. **Domain:** ${catEl.options[catEl.selectedIndex].text}\n` +
+            `2. **Tone & Style:** ${toneText}\n` +
+            `3. **Format:** Output strictly as ${formatText}\n` +
+            (constraints ? `4. **Constraints:** ${constraints}\n` : `4. **Constraints:** No conversational fluff. Go straight to the solution.\n`) +
+            `5. Make the answer immediately applicable, structured, and insightful.\n\n` +
+            `## BEGIN RESPONSE:`;
+          tip = '💡 سر شات جي بي تي (ChatGPT): تنسيق الماركداون المنظم برؤوس واضحة يجعله يلتزم بالقواعد بدقة 100%.';
+        }
+
+        outEl.textContent = prompt;
+        tipEl.textContent = tip;
+        outWrap.style.display = 'block';
+        outWrap.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+
+      genBtn.addEventListener('click', buildPrompt);
+
+      copyBtn.addEventListener('click', function () {
+        const text = outEl.textContent;
+        if (!text) {
+          buildPrompt();
+        }
+        const toCopy = outEl.textContent;
+        if (toCopy) {
+          navigator.clipboard.writeText(toCopy).then(function () {
+            const orig = copyBtn.textContent;
+            copyBtn.textContent = '✓ تم نسخ البرومبت!';
+            setTimeout(function () { copyBtn.textContent = orig; }, 2000);
+          }).catch(function () {
+            prompt('انسخ البرومبت الهندسي:', toCopy);
+          });
+        }
+      });
+    }
   }
 
 };
+
