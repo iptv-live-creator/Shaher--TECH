@@ -265,7 +265,7 @@ const toolsDB = {
       </div>
 
       <div class="row">
-        <div>
+        <div style="flex:1 1 100%;">
           <label class="label-hint">2. مجال ومجمل المهمة (Task Category)</label>
           <select id="pa-category" class="form-control">
             <option value="content">✍️ صناعة محتوى وسكريبتات (Content & Scripts)</option>
@@ -275,23 +275,14 @@ const toolsDB = {
             <option value="education">🎓 تعليم وشرح مبسط (Simplifying & Education)</option>
           </select>
         </div>
-        <div>
-          <label class="label-hint">3. شخصية الذكاء الاصطناعي (AI Persona)</label>
-          <select id="pa-persona" class="form-control">
-            <option value="senior">خبير سينيور معتمد ومستشار أول (Senior Specialist)</option>
-            <option value="creator">صانع محتوى إبداعي يشد الانتباه (Viral Creator)</option>
-            <option value="explainer">مدرب عملي يبسط التكنولوجيا للناس العادية (Practical Explainer)</option>
-            <option value="critic">ناقد تحليلي دقيق وصارم (Critical Reviewer)</option>
-          </select>
-        </div>
       </div>
 
-      <label class="label-hint">4. فكرتك أو طلبك (اكتبه براحتك بدون تعقيد)</label>
+      <label class="label-hint">3. فكرتك أو طلبك (اكتبه براحتك بدون تعقيد)</label>
       <textarea id="pa-idea" class="form-control" rows="3" placeholder="مثال: فكرة تطبيق ذكاء اصطناعي يساعد الموظفين في كتابة تقارير العمل اليومية وتلخيص الإيميلات في ثواني..."></textarea>
 
       <div class="row">
         <div>
-          <label class="label-hint">5. شكل النتيجة المطلوبة (Format)</label>
+          <label class="label-hint">4. شكل النتيجة المطلوبة (Format)</label>
           <select id="pa-format" class="form-control">
             <option value="steps">خطوات مرقمة خطوة بخطوة (Step-by-Step Guide)</option>
             <option value="table">جدول مقارنة منظم ومقسم (Comparison Table)</option>
@@ -301,7 +292,7 @@ const toolsDB = {
           </select>
         </div>
         <div>
-          <label class="label-hint">6. النبرة واللغة (Tone & Language)</label>
+          <label class="label-hint">5. النبرة واللغة (Tone & Language)</label>
           <select id="pa-tone" class="form-control">
             <option value="ar-simple">عربي مبسط، مباشر بدون فزلكة أو حشو</option>
             <option value="ar-pro">عربي فصيح، احترافي ورسمي</option>
@@ -310,7 +301,7 @@ const toolsDB = {
         </div>
       </div>
 
-      <label class="label-hint">7. شروط أو استثناءات إضافية (اختياري)</label>
+      <label class="label-hint">6. شروط أو استثناءات إضافية (اختياري)</label>
       <input id="pa-constraints" class="form-control" placeholder="مثال: بدون مقدمات ترحيبية، اذكر أمثلة حقيقية واقعية...">
 
       <div class="row" style="margin-top:4px;">
@@ -327,7 +318,6 @@ const toolsDB = {
     init: function () {
       const ideaEl = document.getElementById('pa-idea');
       const catEl = document.getElementById('pa-category');
-      const personaEl = document.getElementById('pa-persona');
       const formatEl = document.getElementById('pa-format');
       const toneEl = document.getElementById('pa-tone');
       const constrEl = document.getElementById('pa-constraints');
@@ -349,7 +339,15 @@ const toolsDB = {
         const model = getSelectedModel();
         const idea = ideaEl.value.trim() || 'ساعدني في إنجاز هذه المهمة بأعلى جودة واحترافية ممكنة.';
         const cat = catEl.value;
-        const personaText = personaEl.options[personaEl.selectedIndex].text;
+        const catText = catEl.options[catEl.selectedIndex].text;
+        const roleMap = {
+          content: 'Senior Content Strategist & Viral Scriptwriter',
+          code: 'Principal Software Engineer & Solutions Architect',
+          research: 'Lead Research Analyst & Data Specialist',
+          business: 'Executive Business Consultant & Growth Strategist',
+          education: 'Master Technical Educator & Practical Explainer'
+        };
+        const roleTitle = roleMap[cat] || 'Elite Domain Expert';
         const formatText = formatEl.options[formatEl.selectedIndex].text;
         const toneText = toneEl.options[toneEl.selectedIndex].text;
         const constraints = constrEl.value.trim();
@@ -360,10 +358,10 @@ const toolsDB = {
         if (model === 'claude') {
           // Anthropic Claude Architecture: XML Tags with strict reasoning
           prompt = `<role>\n` +
-            `You are a top-tier ${personaText}. You possess deep domain expertise, prioritize high-signal insight, and eliminate all fluff.\n` +
+            `You are an elite ${roleTitle}. You possess deep domain expertise, prioritize high-signal insight, and eliminate all fluff.\n` +
             `</role>\n\n` +
             `<context>\n` +
-            `Task Category: ${catEl.options[catEl.selectedIndex].text}\n` +
+            `Domain: ${catText}\n` +
             `Primary Goal: The user needs a comprehensive, actionable execution for the following request.\n` +
             `</context>\n\n` +
             `<request>\n` +
@@ -384,11 +382,11 @@ const toolsDB = {
         } else if (model === 'gemini') {
           // Google Gemini Architecture: Multimodal Context & Direct Objective
           prompt = `[SYSTEM INSTRUCTION: HIGH-SIGNAL EXPERT]\n` +
-            `ACT AS: ${personaText}\n\n` +
+            `ACT AS: Elite ${roleTitle}\n\n` +
             `MISSION OBJECTIVE:\n` +
             `${idea}\n\n` +
             `EXECUTION BLUEPRINT:\n` +
-            `• Domain: ${catEl.options[catEl.selectedIndex].text}\n` +
+            `• Domain: ${catText}\n` +
             `• Target Output Format: ${formatText}\n` +
             `• Tone of Voice: ${toneText}\n` +
             (constraints ? `• Special Constraints: ${constraints}\n` : `• Special Constraints: Direct, practical, zero filler.\n`) +
@@ -399,11 +397,11 @@ const toolsDB = {
         } else {
           // OpenAI ChatGPT Architecture: Role / Context / Task / Framework
           prompt = `# ROLE & PERSONA\n` +
-            `Act as an elite ${personaText}.\n\n` +
+            `Act as an elite ${roleTitle}.\n\n` +
             `## CORE TASK\n` +
             `${idea}\n\n` +
             `## REQUIREMENTS & GUIDELINES\n` +
-            `1. **Domain:** ${catEl.options[catEl.selectedIndex].text}\n` +
+            `1. **Domain:** ${catText}\n` +
             `2. **Tone & Style:** ${toneText}\n` +
             `3. **Format:** Output strictly as ${formatText}\n` +
             (constraints ? `4. **Constraints:** ${constraints}\n` : `4. **Constraints:** No conversational fluff. Go straight to the solution.\n`) +
