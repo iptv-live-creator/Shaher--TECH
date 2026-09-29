@@ -19,6 +19,12 @@ app.use(express.json({ limit: '8mb' }));
 app.use(express.urlencoded({ extended: true, limit: '8mb' }));
 
 // ---- static portal ------------------------------------------------------
+app.use(express.static(path.join(__dirname, 'public'), {
+  extensions: ['html'],
+  setHeaders: function (res, filePath) {
+    if (/\.js$/.test(filePath)) res.setHeader('Content-Type', 'application/javascript; charset=utf-8');
+  }
+}));
 app.use(express.static(path.join(__dirname), {
   extensions: ['html'],
   setHeaders: function (res, filePath) {
@@ -102,9 +108,17 @@ app.get('/api/health', function (req, res) {
 
 // ---- SPA fallback -------------------------------------------------------
 app.get('*', function (req, res) {
+  const publicCandidate = path.join(__dirname, 'public', req.path);
+  if (fs.existsSync(publicCandidate) && fs.statSync(publicCandidate).isFile()) {
+    return res.sendFile(publicCandidate);
+  }
   const candidate = path.join(__dirname, req.path);
   if (fs.existsSync(candidate) && fs.statSync(candidate).isFile()) {
     return res.sendFile(candidate);
+  }
+  const publicIndex = path.join(__dirname, 'public', 'index.html');
+  if (fs.existsSync(publicIndex)) {
+    return res.sendFile(publicIndex);
   }
   res.sendFile(path.join(__dirname, 'index.html'));
 });
