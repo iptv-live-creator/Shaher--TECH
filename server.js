@@ -109,7 +109,11 @@ app.get('*', function (req, res) {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-app.listen(PORT, function () {
-  console.log('Shaher Tech Tools running at http://localhost:' + PORT);
-  console.log('Atria proxy ' + (ATRIA_KEY ? 'CONFIGURED' : 'NOT configured (set ATRIA_API_KEY in .env)'));
-});
+if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
+  app.listen(PORT, function () {
+    console.log('Shaher Tech Tools running at http://localhost:' + PORT);
+    console.log('Atria proxy ' + (ATRIA_KEY ? 'CONFIGURED' : 'NOT configured (set ATRIA_API_KEY in .env)'));
+  });
+}
+
+module.exports = app;
