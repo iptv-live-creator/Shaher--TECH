@@ -248,70 +248,165 @@ const toolsDB = {
     category: 'AI',
     desc: 'أنشئ برومبتات هندسية فائقة الدقة مخصصة لخوارزمية ChatGPT، Claude، أو Google Gemini.',
     html: `
-      <label class="label-hint">1. اختر الذكاء الاصطناعي الذي ستتحدث معه (Target AI Engine)</label>
-      <div class="row" style="gap:8px; margin-bottom:6px;">
-        <label style="display:flex; align-items:center; gap:6px; cursor:pointer; background:rgba(255,255,255,0.03); padding:8px 14px; border-radius:8px; border:1px solid var(--border);">
+      <style>
+        .pa-pill-group {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 8px;
+          margin-bottom: 12px;
+        }
+        .pa-pill {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          cursor: pointer;
+          background: rgba(255, 255, 255, 0.03);
+          padding: 8px 12px;
+          border-radius: 8px;
+          border: 1px solid var(--border);
+          font-size: 13px;
+          color: var(--beige);
+          transition: all 0.18s ease;
+          user-select: none;
+        }
+        .pa-pill:hover {
+          background: rgba(255, 255, 255, 0.07);
+          border-color: var(--teal-light);
+          transform: translateY(-1px);
+        }
+        .pa-pill input[type="radio"] {
+          accent-color: var(--gold);
+          cursor: pointer;
+        }
+        .pa-pill:has(input[type="radio"]:checked) {
+          background: rgba(200, 149, 46, 0.12);
+          border-color: var(--gold);
+          color: #fff;
+          box-shadow: 0 0 10px rgba(200, 149, 46, 0.15);
+        }
+      </style>
+
+      <label class="label-hint">1. اختر الذكاء الاصطناعي المستهدف (Target AI Engine)</label>
+      <div class="pa-pill-group">
+        <label class="pa-pill">
           <input type="radio" name="pa-model" value="chatgpt" checked>
-          <b>ChatGPT</b> <span style="font-size:11px; color:var(--beige-muted);">(OpenAI)</span>
+          <b>🟢 ChatGPT</b> <span style="font-size:11px; opacity:0.7;">(OpenAI)</span>
         </label>
-        <label style="display:flex; align-items:center; gap:6px; cursor:pointer; background:rgba(255,255,255,0.03); padding:8px 14px; border-radius:8px; border:1px solid var(--border);">
+        <label class="pa-pill">
           <input type="radio" name="pa-model" value="claude">
-          <b>Claude</b> <span style="font-size:11px; color:var(--beige-muted);">(Anthropic / XML)</span>
+          <b>🟣 Claude</b> <span style="font-size:11px; opacity:0.7;">(Anthropic / XML)</span>
         </label>
-        <label style="display:flex; align-items:center; gap:6px; cursor:pointer; background:rgba(255,255,255,0.03); padding:8px 14px; border-radius:8px; border:1px solid var(--border);">
+        <label class="pa-pill">
           <input type="radio" name="pa-model" value="gemini">
-          <b>Google</b> <span style="font-size:11px; color:var(--beige-muted);">(Gemini)</span>
+          <b>🔵 Google Gemini</b> <span style="font-size:11px; opacity:0.7;">(Direct Blueprint)</span>
         </label>
       </div>
 
-      <div class="row">
-        <div style="flex:1 1 100%;">
-          <label class="label-hint">2. نوع ومجال المهمة (Task Category)</label>
-          <select id="pa-category" class="form-control">
-            <option value="powerpoint">📊 إنشاء عرض بوربوينت كامل بالشرائح (PowerPoint Presentation)</option>
-            <option value="image_gen">🎨 إنشاء وتوليد صور بالذكاء الاصطناعي (AI Image Generation)</option>
-            <option value="image_enhance">✨ تحسين وتعديل وتوضيح الصور (Photo Retouch & Upscaling)</option>
-            <option value="excel">📈 معادلات وحيل إكسيل وجداول (Excel & Sheets Formulas)</option>
-            <option value="cv">📄 صياغة سيرة ذاتية ورسائل توظيف (Professional CV & Cover Letter)</option>
-            <option value="email">📧 كتابة إيميلات رسمية ومراسلات عمل (Professional Emails)</option>
-            <option value="content">🎬 صناعة محتوى وسكريبتات ريلز وتيك توك (Viral Video Scripts)</option>
-            <option value="business">🚀 خطة تسويق وفكرة بيزنس ومشروع (Business & Marketing Plan)</option>
-            <option value="education">💡 تبسيط وشرح أي فكرة صعبة (Feynman Technique / Easy Tutoring)</option>
-            <option value="research">📝 تلخيص كتب وأبحاث وملفات PDF (Document & Book Summarizing)</option>
-            <option value="code">💻 برمجة وأكواد وحلول تقنية (Coding & Tech Solutions)</option>
-          </select>
-        </div>
+      <label class="label-hint">2. اختر نوع ومجال المهمة (Task Category)</label>
+      <div class="pa-pill-group" id="pa-cat-group">
+        <label class="pa-pill">
+          <input type="radio" name="pa-cat" value="powerpoint" checked>
+          📊 عرض بوربوينت كامل (+ كود VBA)
+        </label>
+        <label class="pa-pill">
+          <input type="radio" name="pa-cat" value="image_gen">
+          🎨 إنشاء صور بالذكاء الاصطناعي (1:1)
+        </label>
+        <label class="pa-pill">
+          <input type="radio" name="pa-cat" value="image_enhance">
+          ✨ تحسين وتعديل وتوضيح الصور
+        </label>
+        <label class="pa-pill">
+          <input type="radio" name="pa-cat" value="excel">
+          📈 معادلات وحيل إكسيل وجداول
+        </label>
+        <label class="pa-pill">
+          <input type="radio" name="pa-cat" value="cv">
+          📄 سيرة ذاتية وخطاب تقديم (CV & ATS)
+        </label>
+        <label class="pa-pill">
+          <input type="radio" name="pa-cat" value="email">
+          📧 إيميل رسمي ومراسلات مهنية
+        </label>
+        <label class="pa-pill">
+          <input type="radio" name="pa-cat" value="content">
+          🎬 سيناريو فيديو وريلز (Hook + CTA)
+        </label>
+        <label class="pa-pill">
+          <input type="radio" name="pa-cat" value="business">
+          🚀 خطة تسويق ومشروع ناشئ
+        </label>
+        <label class="pa-pill">
+          <input type="radio" name="pa-cat" value="education">
+          💡 شرح وتبسيط فكرة صعبة (Feynman)
+        </label>
+        <label class="pa-pill">
+          <input type="radio" name="pa-cat" value="research">
+          📝 تلخيص أبحاث وكتب و PDF
+        </label>
+        <label class="pa-pill">
+          <input type="radio" name="pa-cat" value="code">
+          💻 برمجة وأكواد وحلول برمجية
+        </label>
       </div>
 
-      <label class="label-hint">3. فكرتك أو طلبك (اكتبه بالعامية أو الفصحى بدون تعقيد)</label>
-      <textarea id="pa-idea" class="form-control" rows="3" placeholder="مثال: عاوز عرض بوربوينت عن الذكاء الاصطناعي في خدمة العملاء ومكون من 6 شرائح... أو: عاوز سكريبت فيديو تيك توك مدته 45 ثانية عن ميزة سرية في الآيفون..."></textarea>
+      <label class="label-hint">3. فكرتك أو طلبك (اكتبه بالعامية أو الفصحى براحتك)</label>
+      <textarea id="pa-idea" class="form-control" rows="3" placeholder="مثال: عاوز عرض بوربوينت 6 شرائح عن استخدام الذكاء الاصطناعي في خدمة العملاء... أو: برومبت لصورة رائد فضاء داخل مكتبة عتيقة..."></textarea>
 
-      <div class="row">
-        <div>
-          <label class="label-hint">4. شكل النتيجة المطلوبة (Format)</label>
-          <select id="pa-format" class="form-control">
-            <option value="slides">شرائح بوربوينت كاملة (Slide by Slide + كود VBA لإنشائها تلقائياً)</option>
-            <option value="image_prompt">برومبت صورة سينمائي فائق الدقة (Photorealistic Image Prompt - 1:1)</option>
-            <option value="script">سيناريو فيديو كامل (Hook قوي + توجيهات بصرية + صوت + CTA)</option>
-            <option value="steps">خطوات عملية مرقمة خطوة بخطوة (Step-by-Step Guide)</option>
-            <option value="table">جدول مقارنة منظم ومقسم (Comparison Table)</option>
-            <option value="ready">نص كامل جاهز للنسخ والاستخدام الفوري (Ready-to-use Deliverable)</option>
-            <option value="code">كود برمجي أو معادلة مع شرح التعليقات (Formulas / Code)</option>
-            <option value="plan">خطة عمل استراتيجية تنفيذية (Action Plan)</option>
-          </select>
-        </div>
-        <div>
-          <label class="label-hint">5. النبرة واللغة (Tone & Language)</label>
-          <select id="pa-tone" class="form-control">
-            <option value="ar-simple">عربي مبسط، مباشر بدون فزلكة أو حشو</option>
-            <option value="ar-pro">عربي فصيح، احترافي ورسمي</option>
-            <option value="en-tech">English (Concise, High-Signal, Technical)</option>
-          </select>
-        </div>
+      <label class="label-hint">4. شكل وتنسيق النتيجة المطلوبة (Output Format)</label>
+      <div class="pa-pill-group" id="pa-format-group">
+        <label class="pa-pill">
+          <input type="radio" name="pa-format" value="slides" checked>
+          📑 شرائح مفصلة + كود VBA
+        </label>
+        <label class="pa-pill">
+          <input type="radio" name="pa-format" value="image_prompt">
+          🖼️ برومبت صورة سينمائي (1:1 Square)
+        </label>
+        <label class="pa-pill">
+          <input type="radio" name="pa-format" value="script">
+          🎬 سيناريو فيديو (Hook + Visuals + CTA)
+        </label>
+        <label class="pa-pill">
+          <input type="radio" name="pa-format" value="steps">
+          🔢 خطوات عملية خطوة بخطوة
+        </label>
+        <label class="pa-pill">
+          <input type="radio" name="pa-format" value="table">
+          📊 جدول مقارنة منظم
+        </label>
+        <label class="pa-pill">
+          <input type="radio" name="pa-format" value="ready">
+          ✍️ نص كامل جاهز للاستخدام فوراً
+        </label>
+        <label class="pa-pill">
+          <input type="radio" name="pa-format" value="code">
+          💻 معادلة / كود مع التعليقات
+        </label>
+        <label class="pa-pill">
+          <input type="radio" name="pa-format" value="plan">
+          🎯 خطة عمل استراتيجية
+        </label>
+      </div>
+
+      <label class="label-hint">5. النبرة واللغة (Tone & Language)</label>
+      <div class="pa-pill-group" id="pa-tone-group">
+        <label class="pa-pill">
+          <input type="radio" name="pa-tone" value="ar-simple" checked>
+          💬 عربي مبسط ومباشر بدون فزلكة
+        </label>
+        <label class="pa-pill">
+          <input type="radio" name="pa-tone" value="ar-pro">
+          👔 عربي فصيح رسمي واحترافي
+        </label>
+        <label class="pa-pill">
+          <input type="radio" name="pa-tone" value="en-tech">
+          🌐 English (High-Signal, Concise)
+        </label>
       </div>
 
       <label class="label-hint">6. شروط أو استثناءات إضافية (اختياري)</label>
-      <input id="pa-constraints" class="form-control" placeholder="مثال: بدون مقدمات ترحيبية، اذكر أمثلة واقعية، اجعل الوقت 45 ثانية...">
+      <input id="pa-constraints" class="form-control" placeholder="مثال: بدون مقدمات ترحيبية، اذكر أمثلة واقعية، المدة 45 ثانية...">
 
       <div class="row" style="margin-top:6px;">
         <button id="pa-generate" class="btn-action" type="button">⚡ توليد البرومبت الهندسي</button>
@@ -334,9 +429,6 @@ const toolsDB = {
     `,
     init: function () {
       const ideaEl = document.getElementById('pa-idea');
-      const catEl = document.getElementById('pa-category');
-      const formatEl = document.getElementById('pa-format');
-      const toneEl = document.getElementById('pa-tone');
       const constrEl = document.getElementById('pa-constraints');
       const genBtn = document.getElementById('pa-generate');
       const copyBtn = document.getElementById('pa-copy');
@@ -344,19 +436,26 @@ const toolsDB = {
       const outEl = document.getElementById('pa-output');
       const tipEl = document.getElementById('pa-tip');
 
-      function getSelectedModel() {
-        const radios = document.getElementsByName('pa-model');
+      function getRadioVal(name, fallback) {
+        const radios = document.getElementsByName(name);
         for (let i = 0; i < radios.length; i++) {
-          if (radios[i].checked) return radios[i].value;
+          if (radios[i].checked) {
+            const labelText = radios[i].parentElement ? radios[i].parentElement.textContent.trim() : '';
+            return { value: radios[i].value, text: labelText };
+          }
         }
-        return 'chatgpt';
+        return { value: fallback, text: fallback };
       }
 
       function buildPrompt() {
-        const model = getSelectedModel();
-        const idea = ideaEl.value.trim() || 'ساعدني في إنجاز هذه المهمة بأعلى جودة واحترافية ممكنة.';
-        const cat = catEl.value;
-        const catText = catEl.options[catEl.selectedIndex].text;
+        const modelData = getRadioVal('pa-model', 'chatgpt');
+        const model = modelData.value;
+        const idea = (ideaEl && ideaEl.value.trim()) || 'ساعدني في إنجاز هذه المهمة بأعلى جودة واحترافية ممكنة.';
+        
+        const catData = getRadioVal('pa-cat', 'powerpoint');
+        const cat = catData.value;
+        const catText = catData.text;
+
         const roleMap = {
           powerpoint: 'Executive Presentation Designer & Slide Architecture Specialist',
           image_gen: 'World-Class AI Art Director & Cinematic Prompt Engineer',
@@ -371,9 +470,14 @@ const toolsDB = {
           code: 'Principal Software Engineer & Solutions Architect'
         };
         const roleTitle = roleMap[cat] || 'Elite Domain Expert';
-        const formatText = formatEl.options[formatEl.selectedIndex].text;
-        const toneText = toneEl.options[toneEl.selectedIndex].text;
-        const constraints = constrEl.value.trim();
+
+        const formatData = getRadioVal('pa-format', 'slides');
+        const formatText = formatData.text;
+
+        const toneData = getRadioVal('pa-tone', 'ar-simple');
+        const toneText = toneData.text;
+
+        const constraints = constrEl ? constrEl.value.trim() : '';
 
         let extraDirectives = '';
         if (cat === 'powerpoint') {
