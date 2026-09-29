@@ -108,8 +108,8 @@ const toolsDB = {
       <label class="label-hint">Pre-filled message (optional)</label>
       <textarea id="wl-message" class="form-control" rows="2" placeholder="Hi! I'm reaching out about…"></textarea>
       <div class="row">
-        <button id="wl-open" class="btn-action">Open chat</button>
-        <button id="wl-copy" class="btn-ghost">Copy link</button>
+        <a id="wl-open" class="btn-action" href="#" target="_blank" rel="noopener noreferrer" style="text-decoration:none; display:inline-flex; align-items:center; justify-content:center;">فتح المحادثة (Open chat)</a>
+        <button id="wl-copy" class="btn-ghost" type="button">نسخ الرابط (Copy link)</button>
       </div>
       <p id="wl-status" class="state-error"></p>
       <input id="wl-link" class="form-control mono" readonly placeholder="https://wa.me/…">
@@ -174,8 +174,10 @@ const toolsDB = {
         if (!digits) {
           linkEl.value = '';
           status.className = 'label-hint';
-          status.textContent = 'The link builds as you type.';
-          openBtn.disabled = true;
+          status.textContent = 'الرابط يُبنى تلقائياً أثناء كتابة الرقم.';
+          openBtn.removeAttribute('href');
+          openBtn.style.pointerEvents = 'none';
+          openBtn.style.opacity = '0.5';
           return null;
         }
 
@@ -183,9 +185,11 @@ const toolsDB = {
         if (full.length < 7 || full.length > 15) {
           linkEl.value = '';
           status.className = 'state-error';
-          status.textContent = '✗ Not a valid number — got ' + full.length +
-            ' digits; expected 7–15 including the country code.';
-          openBtn.disabled = true;
+          status.textContent = '✗ رقم غير صالح — تم إدخال ' + full.length +
+            ' أرقام؛ المطلوب بين 7 و 15 رقم بما فيها كود الدولة.';
+          openBtn.removeAttribute('href');
+          openBtn.style.pointerEvents = 'none';
+          openBtn.style.opacity = '0.5';
           return null;
         }
 
@@ -193,8 +197,10 @@ const toolsDB = {
         if (text) link += '?text=' + encodeURIComponent(text);
         linkEl.value = link;
         status.className = 'state-success';
-        status.textContent = '✓ Ready — +' + full;
-        openBtn.disabled = false;
+        status.textContent = '✓ جاهز — +' + full;
+        openBtn.href = link;
+        openBtn.style.pointerEvents = 'auto';
+        openBtn.style.opacity = '1';
         return link;
       }
 
@@ -202,12 +208,28 @@ const toolsDB = {
       msg.addEventListener('input', build);
       sel.addEventListener('change', build);
 
-      openBtn.addEventListener('click', function () {
+      openBtn.addEventListener('click', function (e) {
         const link = build();
-        if (link) window.open(link, '_blank', 'noopener');
+        if (!link) {
+          e.preventDefault();
+          return;
+        }
       });
+
       copyBtn.addEventListener('click', function () {
-        if (linkEl.value) { linkEl.select(); navigator.clipboard.writeText(linkEl.value); }
+        if (linkEl.value) {
+          linkEl.select();
+          navigator.clipboard.writeText(linkEl.value).then(function () {
+            const orig = copyBtn.textContent;
+            copyBtn.textContent = '✓ تم النسخ!';
+            setTimeout(function () { copyBtn.textContent = orig; }, 2000);
+          }).catch(function () {
+            document.execCommand('copy');
+            const orig = copyBtn.textContent;
+            copyBtn.textContent = '✓ تم النسخ!';
+            setTimeout(function () { copyBtn.textContent = orig; }, 2000);
+          });
+        }
       });
 
       build();
