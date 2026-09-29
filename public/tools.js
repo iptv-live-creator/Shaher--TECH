@@ -246,195 +246,154 @@ const toolsDB = {
     slug: 'prompt',
     aliases: ['prompts', 'ai', '2'],
     category: 'AI',
-    desc: 'أنشئ برومبتات هندسية فائقة الدقة مخصصة لخوارزمية ChatGPT، Claude، أو Google Gemini.',
+    desc: 'حوّل فكرتك البسيطة إلى برومبت احترافي جاهز للنسخ إلى ChatGPT أو Gemini أو Claude.',
     html: `
       <style>
-        .pa-pill-group {
+        .pa-simple-group {
           display: flex;
           flex-wrap: wrap;
           gap: 8px;
-          margin-bottom: 12px;
+          margin-bottom: 14px;
         }
-        .pa-pill {
+        .pa-card-opt {
           display: inline-flex;
           align-items: center;
-          gap: 6px;
+          gap: 8px;
           cursor: pointer;
           background: rgba(255, 255, 255, 0.03);
-          padding: 8px 12px;
-          border-radius: 8px;
+          padding: 10px 14px;
+          border-radius: 10px;
           border: 1px solid var(--border);
-          font-size: 13px;
+          font-size: 13.5px;
           color: var(--beige);
           transition: all 0.18s ease;
           user-select: none;
         }
-        .pa-pill:hover {
-          background: rgba(255, 255, 255, 0.07);
+        .pa-card-opt:hover {
+          background: rgba(255, 255, 255, 0.08);
           border-color: var(--teal-light);
           transform: translateY(-1px);
         }
-        .pa-pill input[type="radio"] {
+        .pa-card-opt input[type="radio"] {
           accent-color: var(--gold);
           cursor: pointer;
         }
-        .pa-pill:has(input[type="radio"]:checked) {
-          background: rgba(200, 149, 46, 0.12);
+        .pa-card-opt:has(input[type="radio"]:checked) {
+          background: rgba(200, 149, 46, 0.14);
           border-color: var(--gold);
           color: #fff;
-          box-shadow: 0 0 10px rgba(200, 149, 46, 0.15);
+          box-shadow: 0 0 12px rgba(200, 149, 46, 0.2);
+          font-weight: 600;
         }
       </style>
 
-      <label class="label-hint">1. اختر الذكاء الاصطناعي المستهدف (Target AI Engine)</label>
-      <div class="pa-pill-group">
-        <label class="pa-pill">
+      <label class="label-hint" style="font-weight:600; color:var(--gold);">1. هتتكلم مع مين؟</label>
+      <div class="pa-simple-group">
+        <label class="pa-card-opt">
           <input type="radio" name="pa-model" value="chatgpt" checked>
-          <b>🟢 ChatGPT</b> <span style="font-size:11px; opacity:0.7;">(OpenAI)</span>
+          <span>🟢 <b>ChatGPT</b></span>
         </label>
-        <label class="pa-pill">
-          <input type="radio" name="pa-model" value="claude">
-          <b>🟣 Claude</b> <span style="font-size:11px; opacity:0.7;">(Anthropic / XML)</span>
-        </label>
-        <label class="pa-pill">
+        <label class="pa-card-opt">
           <input type="radio" name="pa-model" value="gemini">
-          <b>🔵 Google Gemini</b> <span style="font-size:11px; opacity:0.7;">(Direct Blueprint)</span>
+          <span>🔵 <b>Google Gemini</b></span>
+        </label>
+        <label class="pa-card-opt">
+          <input type="radio" name="pa-model" value="claude">
+          <span>🟣 <b>Claude</b></span>
         </label>
       </div>
 
-      <label class="label-hint">2. اختر نوع ومجال المهمة (Task Category)</label>
-      <div class="pa-pill-group" id="pa-cat-group">
-        <label class="pa-pill">
+      <label class="label-hint" style="font-weight:600; color:var(--gold);">2. عاوزه يساعدك في إيه؟</label>
+      <div class="pa-simple-group" id="pa-tasks-group">
+        <label class="pa-card-opt">
           <input type="radio" name="pa-cat" value="powerpoint" checked>
-          📊 عرض بوربوينت كامل (+ كود VBA)
+          📊 عمل عرض بوربوينت كامل
         </label>
-        <label class="pa-pill">
+        <label class="pa-card-opt">
           <input type="radio" name="pa-cat" value="image_gen">
-          🎨 إنشاء صور بالذكاء الاصطناعي (1:1)
+          🎨 رسم وتوليد صورة بالذكاء الاصطناعي
         </label>
-        <label class="pa-pill">
-          <input type="radio" name="pa-cat" value="image_enhance">
-          ✨ تحسين وتعديل وتوضيح الصور
-        </label>
-        <label class="pa-pill">
+        <label class="pa-card-opt">
           <input type="radio" name="pa-cat" value="excel">
-          📈 معادلات وحيل إكسيل وجداول
+          📈 حل معادلة أو جدول في إكسيل
         </label>
-        <label class="pa-pill">
+        <label class="pa-card-opt">
           <input type="radio" name="pa-cat" value="cv">
-          📄 سيرة ذاتية وخطاب تقديم (CV & ATS)
+          📄 كتابة أو تظبيط سيرة ذاتية (CV)
         </label>
-        <label class="pa-pill">
+        <label class="pa-card-opt">
           <input type="radio" name="pa-cat" value="email">
-          📧 إيميل رسمي ومراسلات مهنية
+          📧 كتابة إيميل رسمي أو شكوى أو اعتذار
         </label>
-        <label class="pa-pill">
+        <label class="pa-card-opt">
           <input type="radio" name="pa-cat" value="content">
-          🎬 سيناريو فيديو وريلز (Hook + CTA)
+          🎬 سيناريو فيديو تيك توك أو ريلز
         </label>
-        <label class="pa-pill">
-          <input type="radio" name="pa-cat" value="business">
-          🚀 خطة تسويق ومشروع ناشئ
-        </label>
-        <label class="pa-pill">
+        <label class="pa-card-opt">
           <input type="radio" name="pa-cat" value="education">
-          💡 شرح وتبسيط فكرة صعبة (Feynman)
+          💡 شرح حاجة صعبة بأسلوب سهل وبسيط
         </label>
-        <label class="pa-pill">
+        <label class="pa-card-opt">
           <input type="radio" name="pa-cat" value="research">
-          📝 تلخيص أبحاث وكتب و PDF
+          📝 تلخيص كتاب أو بحث أو مقال
         </label>
-        <label class="pa-pill">
-          <input type="radio" name="pa-cat" value="code">
-          💻 برمجة وأكواد وحلول برمجية
-        </label>
-      </div>
-
-      <label class="label-hint">3. فكرتك أو طلبك (اكتبه بالعامية أو الفصحى براحتك)</label>
-      <textarea id="pa-idea" class="form-control" rows="3" placeholder="مثال: عاوز عرض بوربوينت 6 شرائح عن استخدام الذكاء الاصطناعي في خدمة العملاء... أو: برومبت لصورة رائد فضاء داخل مكتبة عتيقة..."></textarea>
-
-      <label class="label-hint">4. شكل وتنسيق النتيجة المطلوبة (Output Format)</label>
-      <div class="pa-pill-group" id="pa-format-group">
-        <label class="pa-pill">
-          <input type="radio" name="pa-format" value="slides" checked>
-          📑 شرائح مفصلة + كود VBA
-        </label>
-        <label class="pa-pill">
-          <input type="radio" name="pa-format" value="image_prompt">
-          🖼️ برومبت صورة سينمائي (1:1 Square)
-        </label>
-        <label class="pa-pill">
-          <input type="radio" name="pa-format" value="script">
-          🎬 سيناريو فيديو (Hook + Visuals + CTA)
-        </label>
-        <label class="pa-pill">
-          <input type="radio" name="pa-format" value="steps">
-          🔢 خطوات عملية خطوة بخطوة
-        </label>
-        <label class="pa-pill">
-          <input type="radio" name="pa-format" value="table">
-          📊 جدول مقارنة منظم
-        </label>
-        <label class="pa-pill">
-          <input type="radio" name="pa-format" value="ready">
-          ✍️ نص كامل جاهز للاستخدام فوراً
-        </label>
-        <label class="pa-pill">
-          <input type="radio" name="pa-format" value="code">
-          💻 معادلة / كود مع التعليقات
-        </label>
-        <label class="pa-pill">
-          <input type="radio" name="pa-format" value="plan">
-          🎯 خطة عمل استراتيجية
+        <label class="pa-card-opt">
+          <input type="radio" name="pa-cat" value="image_enhance">
+          ✨ تحسين جودة وتعديل صورة
         </label>
       </div>
 
-      <label class="label-hint">5. النبرة واللغة (Tone & Language)</label>
-      <div class="pa-pill-group" id="pa-tone-group">
-        <label class="pa-pill">
-          <input type="radio" name="pa-tone" value="ar-simple" checked>
-          💬 عربي مبسط ومباشر بدون فزلكة
-        </label>
-        <label class="pa-pill">
-          <input type="radio" name="pa-tone" value="ar-pro">
-          👔 عربي فصيح رسمي واحترافي
-        </label>
-        <label class="pa-pill">
-          <input type="radio" name="pa-tone" value="en-tech">
-          🌐 English (High-Signal, Concise)
-        </label>
+      <label class="label-hint" style="font-weight:600; color:var(--gold);">3. اكتب طلبك هنا ببساطة (بالعامية أو الفصحى):</label>
+      <textarea id="pa-idea" class="form-control" rows="3" placeholder="مثال: عاوز عرض بوربوينت من 5 شرائح عن أهمية الذكاء الاصطناعي في الشركات..."></textarea>
+
+      <div class="row" style="margin-top:10px;">
+        <button id="pa-generate" class="btn-action" type="button" style="font-size:15px; padding:12px 20px;">⚡ جهّز لي البرومبت الاحترافي</button>
+        <button id="pa-copy" class="btn-ghost" type="button" style="font-size:14px;">📋 نسخ البرومبت</button>
       </div>
 
-      <label class="label-hint">6. شروط أو استثناءات إضافية (اختياري)</label>
-      <input id="pa-constraints" class="form-control" placeholder="مثال: بدون مقدمات ترحيبية، اذكر أمثلة واقعية، المدة 45 ثانية...">
-
-      <div class="row" style="margin-top:6px;">
-        <button id="pa-generate" class="btn-action" type="button">⚡ توليد البرومبت الهندسي</button>
-        <button id="pa-copy" class="btn-ghost" type="button">📋 نسخ البرومبت</button>
-      </div>
-
-      <div id="pa-output-wrap" style="display:none; margin-top:12px;">
-        <label class="label-hint" style="color:var(--gold);">البرومبت الهندسي الجاهز (Master Prompt) — انسخه وضعه في الذكاء الاصطناعي:</label>
+      <div id="pa-output-wrap" style="display:none; margin-top:14px;">
+        <label class="label-hint" style="color:var(--gold); font-size:13px; font-weight:600;">جاهز! انسخ البرومبت وضعه في المنصة:</label>
         <div id="pa-output" class="result-box mono" style="max-height:360px; overflow-y:auto; line-height:1.6; user-select:all;"></div>
         
-        <div style="margin-top:10px; display:flex; flex-wrap:wrap; gap:8px; align-items:center;">
-          <span style="font-size:12px; color:var(--beige-muted);">فتح المنصة مباشرة:</span>
-          <a id="pa-link-chatgpt" href="https://chatgpt.com/" target="_blank" rel="noopener noreferrer" class="btn-ghost" style="text-decoration:none; padding:5px 10px; font-size:12px;">🟢 فتح ChatGPT</a>
-          <a id="pa-link-claude" href="https://claude.ai/new" target="_blank" rel="noopener noreferrer" class="btn-ghost" style="text-decoration:none; padding:5px 10px; font-size:12px;">🟣 فتح Claude</a>
-          <a id="pa-link-gemini" href="https://gemini.google.com/" target="_blank" rel="noopener noreferrer" class="btn-ghost" style="text-decoration:none; padding:5px 10px; font-size:12px;">🔵 فتح Gemini</a>
+        <div style="margin-top:12px; display:flex; flex-wrap:wrap; gap:8px; align-items:center;">
+          <span style="font-size:12.5px; color:var(--beige-muted);">افتح المنصة بضغطة واحدة:</span>
+          <a id="pa-link-chatgpt" href="https://chatgpt.com/" target="_blank" rel="noopener noreferrer" class="btn-ghost" style="text-decoration:none; padding:6px 12px; font-size:12.5px;">🟢 فتح ChatGPT</a>
+          <a id="pa-link-gemini" href="https://gemini.google.com/" target="_blank" rel="noopener noreferrer" class="btn-ghost" style="text-decoration:none; padding:6px 12px; font-size:12.5px;">🔵 فتح Gemini</a>
+          <a id="pa-link-claude" href="https://claude.ai/new" target="_blank" rel="noopener noreferrer" class="btn-ghost" style="text-decoration:none; padding:6px 12px; font-size:12.5px;">🟣 فتح Claude</a>
         </div>
         
-        <p id="pa-tip" class="state-success" style="margin-top:8px;"></p>
+        <p id="pa-tip" class="state-success" style="margin-top:10px; font-size:13px;"></p>
       </div>
     `,
     init: function () {
       const ideaEl = document.getElementById('pa-idea');
-      const constrEl = document.getElementById('pa-constraints');
       const genBtn = document.getElementById('pa-generate');
       const copyBtn = document.getElementById('pa-copy');
       const outWrap = document.getElementById('pa-output-wrap');
       const outEl = document.getElementById('pa-output');
       const tipEl = document.getElementById('pa-tip');
+
+      const placeholders = {
+        powerpoint: 'مثال: عاوز عرض بوربوينت من 5 شرائح عن أهمية الذكاء الاصطناعي في تحسين خدمة العملاء وزيادة المبيعات...',
+        image_gen: 'مثال: قطة رائد فضاء جالسة على مكتب خشبي عتيق محاطة بكتب قديمة ونجوم في الخلفية...',
+        excel: 'مثال: عندي جدول بمبيعات المناديب، عاوز معادلة تجمع إجمالي مبيعات المندوب (أحمد) لو كانت في شهر مارس...',
+        cv: 'مثال: أنا محاسب خبرة 4 سنين، اشتغلت في إعداد القوائم المالية، وعاوز أكتب ملخص مهني قوي متوافق مع أنظمة الـ ATS...',
+        email: 'مثال: عاوز إيميل رسمي للمدير بطلب فيه إجازة سنوية لمدة أسبوع، مع توضيح تسليم المهام لزميلي...',
+        content: 'مثال: سكريبت فيديو تيك توك مدته 40 ثانية عن 3 حيل مخفية في الآيفون الموظفين بيحتاجوها كل يوم...',
+        education: 'مثال: اشرح لي الحوسبة السحابية (Cloud Computing) بأسلوب مبسط جداً زي ما أكون بشرح لطفل...',
+        research: 'مثال: لخص لي أهم الأفكار والخطوات العملية في كتاب العادات الذرية وكيفية تطبيقها يومياً...',
+        image_enhance: 'مثال: عندي صورة قديمة باهتة فيها تشويش، عاوز خطوات وأوامر لتحسين الحدة وتعديل ألوان البشرة والإضاءة...'
+      };
+
+      // Dynamic placeholder when task changes
+      const taskRadios = document.getElementsByName('pa-cat');
+      for (let i = 0; i < taskRadios.length; i++) {
+        taskRadios[i].addEventListener('change', function () {
+          if (placeholders[this.value] && (!ideaEl.value || Object.values(placeholders).includes(ideaEl.value))) {
+            ideaEl.placeholder = placeholders[this.value];
+          }
+        });
+      }
 
       function getRadioVal(name, fallback) {
         const radios = document.getElementsByName(name);
@@ -457,112 +416,97 @@ const toolsDB = {
         const catText = catData.text;
 
         const roleMap = {
-          powerpoint: 'Executive Presentation Designer & Slide Architecture Specialist',
+          powerpoint: 'Executive Presentation Designer & Slide Architect',
           image_gen: 'World-Class AI Art Director & Cinematic Prompt Engineer',
-          image_enhance: 'Master Photo Retoucher, Colorist & Digital Restoration Expert',
-          excel: 'Advanced Excel & Data Analytics Guru',
+          image_enhance: 'Master Photo Retoucher & Digital Restoration Specialist',
+          excel: 'Advanced Excel & Data Analytics Specialist',
           cv: 'Certified Executive Career Coach & ATS Resume Strategist',
           email: 'Corporate Communications Director & Professional Copywriter',
-          content: 'Senior Content Strategist & Viral Short-Form Video Producer',
-          business: 'Growth Strategist & Startup Business Consultant',
-          education: 'Master Technical Educator (Feynman Simplification Method)',
-          research: 'Lead Research Analyst & Document Synthesis Specialist',
-          code: 'Principal Software Engineer & Solutions Architect'
+          content: 'Senior Viral Content Producer & Short-Form Video Strategist',
+          education: 'Master Educator (Feynman Simplification Method)',
+          research: 'Lead Research Analyst & Document Synthesis Specialist'
         };
         const roleTitle = roleMap[cat] || 'Elite Domain Expert';
 
-        const formatData = getRadioVal('pa-format', 'slides');
-        const formatText = formatData.text;
+        // Pre-configured optimal recipes based on category
+        let recipeDirectives = '';
+        let targetFormat = 'منظم ومباشر بدون حشو';
 
-        const toneData = getRadioVal('pa-tone', 'ar-simple');
-        const toneText = toneData.text;
-
-        const constraints = constrEl ? constrEl.value.trim() : '';
-
-        let extraDirectives = '';
         if (cat === 'powerpoint') {
-          extraDirectives = '\n• For PowerPoint: Structure output as distinct slides [Slide 1: Title & Hook], [Slide 2...], include speaker notes, visual cues, and a copy-pasteable VBA script to auto-generate the slides inside PowerPoint.';
+          targetFormat = 'شرائح بوربوينت كاملة (Slide by Slide) + كود VBA لإنشائها تلقائياً في ثواني';
+          recipeDirectives = '\n1. قسّم المحتوى إلى شرائح واضحة: [الشريحة 1: العنوان الرئيسي والهوك]، ثم الشرائح التالية مدعومة بنقاط مركزة وملاحظات للمتحدث (Speaker Notes).\n2. في نهاية الإجابة، اكتب كود VBA كامل جاهز للنسخ في PowerPoint ليقوم بإنشاء هذه الشرائح تلقائياً وتلوينها بضغطة زر واحدة.';
         } else if (cat === 'image_gen') {
-          extraDirectives = '\n• For Image Generation: Format as a rich visual prompt specifying Subject, Camera & Lens (35mm f/1.8), Lighting style, Color palette, and parameters (--ar 1:1, photorealistic, 8k, cinematic lighting).';
-        } else if (cat === 'image_enhance') {
-          extraDirectives = '\n• For Photo Retouch: Specify detailed enhancement steps: noise reduction, clarity, color grading curves, shadow recovery, and texture preservation.';
+          targetFormat = 'برومبت صورة سينمائي فائق الدقة بالإنجليزية (Photorealistic Prompt - 1:1 Square)';
+          recipeDirectives = '\n1. اكتب برومبت مفصل بالإنجليزية يتضمن: الموضوع الرئيسي بدقة، زاوية الكاميرا ونوع العدسة (35mm f/1.8)، أسلوب الإضاءة السينمائي، لوحة الألوان.\n2. أضف المعاملات القياسية: --ar 1:1 --v 6.0 --style raw --q 2 photorealistic, 8k resolution.\n3. أضف ترجمة عربية موجزة تشرح المشهد.';
         } else if (cat === 'excel') {
-          extraDirectives = '\n• For Excel: Give the exact formula, explanation of every parameter, sample data table, and error-handling (e.g. IFERROR).';
+          targetFormat = 'المعادلة الدقيقة + شرح كل جزء + جدول بيانات توضيحي';
+          recipeDirectives = '\n1. أعطني الصيغة المباشرة للمعادلة (Excel Formula) جاهزة للنسخ.\n2. اشرح وظيفة كل خانة في المعادلة بأسلوب مبسط جداً للمبتدئين.\n3. أضف نصيحة لحماية المعادلة من الأخطاء مثل استخدام دالة IFERROR.';
         } else if (cat === 'cv') {
-          extraDirectives = '\n• For CV/Resume: Ensure 100% ATS compliance, quantifiable achievements, and strong action verbs.';
+          targetFormat = 'سيرة ذاتية متوافقة 100% مع أنظمة الـ ATS';
+          recipeDirectives = '\n1. استخدم أفعال حركة قوية وإنجازات رقمية قابلة للقياس (Action Verbs + Metrics).\n2. رتب الأقسام: نبذة مهنية ملهمة، الخبرات العملية، المهارات الأساسية، الكلمات المفتاحية للوظيفة.\n3. اجعل النص خالياً تماماً من الجداول المعقدة لضمان قراءته بسهولة بواسطة برامج التوظيف.';
         } else if (cat === 'email') {
-          extraDirectives = '\n• For Professional Emails: Include 2-3 subject line options, direct opening, clear call to action, and professional closing.';
+          targetFormat = 'إيميل مهني جاهز للإرسال الفوري';
+          recipeDirectives = '\n1. اقترح 3 خيارات لعنوان الإيميل (Subject Line) جذابة وواضحة.\n2. اكتب نص الإيميل بأسلوب مهني محترم ومباشر يبدأ بالموضوع دون مقدمات طويلة.\n3. ضع طلباً واضحاً للخطوة التالية (Call to Action) وخاتمة رسمية مناسبة.';
         } else if (cat === 'content') {
-          extraDirectives = '\n• For Viral Video Scripts: Include a compelling 3-second hook (Scroll-Stopper), timestamped visual cues, voiceover lines, on-screen text, and a strong Call-To-Action (CTA).';
-        } else if (cat === 'business') {
-          extraDirectives = '\n• For Business & Marketing: Provide target persona, unique value proposition (UVP), customer acquisition strategy, and a 30-day tactical roadmap.';
+          targetFormat = 'سيناريو فيديو كامل ومفصل بالثواني (Hook + Visuals + CTA)';
+          recipeDirectives = '\n1. هوك قوي في أول 3 ثواني يوقف التمرير فوراً (Scroll-Stopper Hook).\n2. عمود أو توضيح للتوجيهات البصرية (ماذا يظهر على الشاشة) وما يقال صوتياً (Voiceover).\n3. إيقاع سريع وممتع مدته أقل من 60 ثانية مع دعوة واضحة للتفاعل في النهاية (CTA).';
         } else if (cat === 'education') {
-          extraDirectives = '\n• For Education: Use the Feynman technique. Explain as if speaking to an intelligent 10-year-old using real-world analogies, zero jargon, and an everyday practical example.';
+          targetFormat = 'شرح مبسط جداً (تقنية فاينمان) بأمثلة من الحياة اليومية';
+          recipeDirectives = '\n1. اشرح المفهوم وكأنك تشرحه لشخص ذكي بعمر 10 سنوات بدون أي مصطلحات معقدة أو إنجليزية غير مفهومة.\n2. استخدم تشبيهاً واقعياً من الحياة اليومية لتقريب الفكرة.\n3. اختم بملخص في سطرين يلخص كل شيء.';
         } else if (cat === 'research') {
-          extraDirectives = '\n• For Summarization: Provide a 1-paragraph Executive Summary, 5 key actionable takeaways, and a bulleted list of essential concepts without filler.';
-        } else if (cat === 'code') {
-          extraDirectives = '\n• For Code: Write clean, documented, modern code with error handling, explanations of key lines, and sample usage.';
+          targetFormat = 'ملخص تنفيذي فائق التركيز';
+          recipeDirectives = '\n1. ابدأ بملخص شامل في فقرة واحدة فقط.\n2. استخرج أهم 5 نقاط ودروس عملية مستفادة قابلة للتطبيق فوراً.\n3. احذف أي حشو أو كلام نظري غير مفيد.';
+        } else if (cat === 'image_enhance') {
+          targetFormat = 'خطوات عملية واضحة لتعديل وتحسين الصورة';
+          recipeDirectives = '\n1. أوامر دقيقة لتصحيح الألوان ودرجات التباين والظلال.\n2. كيفية إزالة التشويش وتوضيح الملامح والحدة دون إفساد التفاصيل.\n3. أفضل الأدوات أو الإعدادات المجانية لإنجاز ذلك.';
         }
 
         let prompt = '';
         let tip = '';
 
         if (model === 'claude') {
-          // Anthropic Claude Architecture: XML Tags with strict reasoning
           prompt = `<role>\n` +
-            `You are an elite ${roleTitle}. You possess deep domain expertise, prioritize high-signal insight, and eliminate all fluff.\n` +
+            `You are an elite ${roleTitle}. You deliver concise, exceptionally high-signal results without conversational filler or apologies.\n` +
             `</role>\n\n` +
-            `<context>\n` +
-            `Domain: ${catText}\n` +
-            `Primary Goal: The user needs a comprehensive, actionable execution for the following request.\n` +
-            `</context>\n\n` +
-            `<request>\n` +
+            `<user_request>\n` +
             `${idea}\n` +
-            `</request>\n\n` +
+            `</user_request>\n\n` +
+            `<task_specifications>\n` +
+            `• Domain: ${catText}\n` +
+            `• Target Output Format: ${targetFormat}\n` +
+            `• Execution Guidelines:${recipeDirectives}\n` +
+            `• Tone: أسلوب عربي واضح ومباشر وعملي بدون فزلكة\n` +
+            `</task_specifications>\n\n` +
             `<instructions>\n` +
-            `1. Think carefully step-by-step before formulating your response to ensure maximum thoroughness.\n` +
-            `2. Deliver the final output strictly formatted as: ${formatText}.\n` +
-            `3. Language & Tone: ${toneText}.\n` +
-            (extraDirectives ? `4. Domain Best Practices:${extraDirectives}\n` : '') +
-            (constraints ? `5. Mandatory Constraints: ${constraints}\n` : `5. Avoid generic introductions, filler text, or apologies.\n`) +
-            `6. Provide practical, high-value examples wherever applicable.\n` +
-            `</instructions>\n\n` +
-            `<output_format>\n` +
-            `Present your final response directly, adhering precisely to the specifications above.\n` +
-            `</output_format>`;
-          tip = '💡 سر كلود (Claude): يعالج وسوم الـ XML بأعلى كفاءة منطقية. ستلاحظ أنه يفكر خطوة بخطوة ويعطيك إجابة خالية من الحشو.';
+            `Deliver the solution immediately, beautifully structured, and completely ready to use.\n` +
+            `</instructions>`;
+          tip = '💡 سر كلود (Claude): يفهم التفاصيل المنطقية بدقة فائقة ويخرج لك نتائج مرتبة بدون كلام زايد.';
 
         } else if (model === 'gemini') {
-          // Google Gemini Architecture: Multimodal Context & Direct Objective
-          prompt = `[SYSTEM INSTRUCTION: HIGH-SIGNAL EXPERT]\n` +
+          prompt = `[SYSTEM: HIGH-SIGNAL EXPERT]\n` +
             `ACT AS: Elite ${roleTitle}\n\n` +
-            `MISSION OBJECTIVE:\n` +
+            `MISSION:\n` +
             `${idea}\n\n` +
-            `EXECUTION BLUEPRINT:\n` +
-            `• Domain: ${catText}\n` +
-            `• Target Output Format: ${formatText}\n` +
-            `• Tone of Voice: ${toneText}\n` +
-            (extraDirectives ? `• Domain Standards:${extraDirectives}\n` : '') +
-            (constraints ? `• Special Constraints: ${constraints}\n` : `• Special Constraints: Direct, practical, zero filler.\n`) +
-            `\nQUALITY BENCHMARK:\n` +
-            `Deliver a rich, well-organized response that directly answers the core challenge with actionable clarity and structure.`;
-          tip = '💡 سر جيميناي (Google Gemini): يعشق توجيهات الأهداف الصريحة (Mission Objectives) والاستجابة المنظمة بالأقسام.';
+            `BLUEPRINT & DELIVERABLE:\n` +
+            `• المجال: ${catText}\n` +
+            `• شكل النتيجة المطلوبة: ${targetFormat}\n` +
+            `• توجيهات التنفيذ:${recipeDirectives}\n` +
+            `• النبرة: أسلوب عربي سهل، مباشر، وخالٍ تماماً من الحشو والمقدمات الإنشائية.\n\n` +
+            `ابدأ بالإجابة فوراً:`;
+          tip = '💡 سر جوجل جيميناي (Gemini): يتألق في الاستجابة المباشرة للمهمة والأفكار المنظمة.';
 
         } else {
-          // OpenAI ChatGPT Architecture: Role / Context / Task / Framework
-          prompt = `# ROLE & PERSONA\n` +
-            `Act as an elite ${roleTitle}.\n\n` +
-            `## CORE TASK\n` +
+          prompt = `# الدور المطلوب (Role)\n` +
+            `تصرف كخبير ومستشار محترف: ${roleTitle}.\n\n` +
+            `## المهمة والطلب (Task)\n` +
             `${idea}\n\n` +
-            `## REQUIREMENTS & GUIDELINES\n` +
-            `1. **Domain:** ${catText}\n` +
-            `2. **Tone & Style:** ${toneText}\n` +
-            `3. **Format:** Output strictly as ${formatText}\n` +
-            (extraDirectives ? `4. **Domain Standards:**${extraDirectives}\n` : '') +
-            (constraints ? `5. **Constraints:** ${constraints}\n` : `5. **Constraints:** No conversational fluff. Go straight to the solution.\n`) +
-            `6. Make the answer immediately applicable, structured, and insightful.\n\n` +
-            `## BEGIN RESPONSE:`;
-          tip = '💡 سر شات جي بي تي (ChatGPT): تنسيق الماركداون المنظم برؤوس واضحة يجعله يلتزم بالقواعد بدقة 100%.';
+            `## متطلبات الإجابة والتنفيذ (Guidelines)\n` +
+            `1. **المجال:** ${catText}\n` +
+            `2. **شكل النتيجة:** ${targetFormat}\n` +
+            `3. **القواعد العملية:**${recipeDirectives}\n` +
+            `4. **الأسلوب:** عربي مبسط، عملي، بدون مقدمات ترحيبية أو فزلكة.\n\n` +
+            `## الإجابة المباشرة:`;
+          tip = '💡 سر شات جي بي تي (ChatGPT): تنظيم العناوين يجعله ينفذ لك كود الـ VBA أو الشرائح أو المعادلات بنسبة دقة 100%.';
         }
 
         outEl.textContent = prompt;
