@@ -2145,6 +2145,766 @@ const toolsDB = {
       // Pre-load pdf-lib silently in background so user doesn't wait
       ensurePdfLib(function () { });
     }
+  },
+
+  /* ───────────────────────── IMAGE COMPRESSOR ───────────────────────── */
+
+  imageCompressorTool: {
+    emoji: '🗜️',
+    title: 'مُصغر الصور الذكي (Image Compressor)',
+    slug: 'compress',
+    aliases: ['image', 'img', 'resize', '3'],
+    category: 'Image',
+    desc: 'حل مشكلة "حجم الملف كبير جداً": قلل حجم أي صورة لأقل من 2MB أو الحجم المطلوب بضغطة زر مع الحفاظ على أعلى جودة وخصوصية 100%.',
+    html: `
+      <style>
+        .ic-wrap {
+          display: flex;
+          flex-direction: column;
+          gap: 16px;
+          max-width: 720px;
+          margin: 0 auto;
+        }
+
+        /* ── Dropzone ── */
+        .ic-dropzone {
+          border: 2px dashed rgba(200, 149, 46, 0.4);
+          background: rgba(22, 27, 24, 0.6);
+          border-radius: var(--radius);
+          padding: 34px 20px;
+          text-align: center;
+          cursor: pointer;
+          transition: all 0.25s ease;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+        }
+        .ic-dropzone:hover {
+          border-color: var(--gold);
+          background: rgba(26, 74, 66, 0.25);
+          box-shadow: 0 0 24px rgba(200, 149, 46, 0.15);
+        }
+        .ic-dropzone.dragover {
+          border-color: var(--gold-bright);
+          background: rgba(200, 149, 46, 0.15);
+          transform: scale(1.01);
+        }
+        .ic-drop-icon {
+          font-size: 42px;
+          line-height: 1;
+          filter: drop-shadow(0 2px 8px rgba(0,0,0,0.4));
+        }
+        .ic-drop-title {
+          font-family: var(--font-headline);
+          font-size: 17px;
+          font-weight: 700;
+          color: #fff;
+        }
+        .ic-drop-subtitle {
+          font-size: 13px;
+          color: var(--beige-soft);
+          max-width: 480px;
+        }
+
+        /* ── Preset Pills ── */
+        .ic-preset-label {
+          font-size: 13px;
+          font-weight: 600;
+          color: var(--gold);
+          display: flex;
+          align-items: center;
+          gap: 6px;
+        }
+        .ic-presets-grid {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 8px;
+        }
+        .ic-preset-btn {
+          background: rgba(26, 74, 66, 0.35);
+          border: 1px solid rgba(200, 149, 46, 0.3);
+          border-radius: 999px;
+          color: var(--beige);
+          padding: 8px 14px;
+          font-size: 13px;
+          font-family: var(--font);
+          cursor: pointer;
+          transition: all 0.2s ease;
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+        }
+        .ic-preset-btn:hover {
+          border-color: var(--gold);
+          background: rgba(26, 74, 66, 0.55);
+          transform: translateY(-1px);
+        }
+        .ic-preset-btn.active {
+          background: var(--gold);
+          color: #0a0b0b;
+          font-weight: 700;
+          border-color: var(--gold-bright);
+          box-shadow: 0 0 14px rgba(200, 149, 46, 0.45);
+        }
+
+        /* ── Advanced Controls ── */
+        .ic-advanced-panel {
+          background: rgba(17, 20, 18, 0.85);
+          border: 1px solid var(--border);
+          border-radius: var(--radius);
+          padding: 16px;
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+          gap: 14px;
+        }
+        .ic-field {
+          display: flex;
+          flex-direction: column;
+          gap: 6px;
+        }
+        .ic-field label {
+          font-size: 12.5px;
+          color: var(--beige-soft);
+          font-weight: 600;
+        }
+        .ic-range-wrap {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+        }
+        .ic-range-wrap input[type=range] {
+          flex: 1;
+          accent-color: var(--gold);
+          cursor: pointer;
+        }
+        .ic-range-val {
+          font-family: var(--mono);
+          font-size: 13px;
+          color: var(--gold);
+          min-width: 44px;
+          text-align: left;
+        }
+
+        /* ── Comparison View ── */
+        .ic-compare-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 14px;
+        }
+        @media (max-width: 640px) {
+          .ic-compare-grid {
+            grid-template-columns: 1fr;
+          }
+        }
+        .ic-card {
+          background: rgba(17, 20, 18, 0.9);
+          border: 1px solid var(--border);
+          border-radius: var(--radius);
+          padding: 14px;
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          position: relative;
+        }
+        .ic-card.compressed {
+          border-color: rgba(200, 149, 46, 0.5);
+          background: linear-gradient(180deg, rgba(26, 74, 66, 0.25) 0%, rgba(17, 20, 18, 0.9) 100%);
+        }
+        .ic-card-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          font-size: 13px;
+          font-weight: 700;
+        }
+        .ic-badge {
+          display: inline-flex;
+          align-items: center;
+          gap: 4px;
+          padding: 3px 8px;
+          border-radius: 999px;
+          font-size: 12px;
+          font-family: var(--mono);
+        }
+        .ic-badge-orig {
+          background: rgba(74, 74, 48, 0.4);
+          color: var(--beige);
+          border: 1px solid var(--border-warm);
+        }
+        .ic-badge-comp {
+          background: rgba(109, 184, 122, 0.2);
+          color: var(--success);
+          border: 1px solid rgba(109, 184, 122, 0.4);
+          font-weight: 700;
+        }
+        .ic-badge-saved {
+          background: rgba(200, 149, 46, 0.2);
+          color: var(--gold-bright);
+          border: 1px solid rgba(200, 149, 46, 0.4);
+          font-weight: 700;
+        }
+        .ic-preview-box {
+          height: 180px;
+          background: #070808;
+          border: 1px solid rgba(42, 53, 48, 0.5);
+          border-radius: var(--radius-sm);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          overflow: hidden;
+          position: relative;
+        }
+        .ic-preview-img {
+          max-width: 100%;
+          max-height: 100%;
+          object-fit: contain;
+          transition: transform 0.2s ease;
+        }
+        .ic-meta-list {
+          display: flex;
+          justify-content: space-between;
+          font-size: 12px;
+          color: var(--beige-muted);
+          border-top: 1px solid rgba(42, 53, 48, 0.4);
+          padding-top: 8px;
+        }
+
+        /* ── Action Box ── */
+        .ic-action-box {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 10px;
+          justify-content: center;
+          margin-top: 8px;
+        }
+
+        /* ── Spinner ── */
+        .ic-spinner {
+          display: inline-block;
+          width: 18px;
+          height: 18px;
+          border: 2px solid rgba(200, 149, 46, 0.3);
+          border-top-color: var(--gold-bright);
+          border-radius: 50%;
+          animation: icSpin 0.7s linear infinite;
+        }
+        @keyframes icSpin {
+          to { transform: rotate(360deg); }
+        }
+      </style>
+
+      <div class="ic-wrap">
+
+        <!-- Hidden input for file picking -->
+        <input id="ic-file-input" type="file" accept="image/jpeg,image/png,image/webp,image/avif,image/bmp" style="display:none;">
+
+        <!-- Dropzone Area -->
+        <div id="ic-dropzone" class="ic-dropzone">
+          <div class="ic-drop-icon">🗜️</div>
+          <div class="ic-drop-title">اسحب صورتك هنا أو اضغط للاختيار</div>
+          <div class="ic-drop-subtitle">يدعم JPG, PNG, WebP, AVIF • يمكنك أيضاً لصق الصورة مباشرة بـ <kbd style="background:rgba(200,149,46,0.2); border:1px solid rgba(200,149,46,0.4); border-radius:4px; padding:1px 6px; font-size:11px; color:var(--gold);">Ctrl + V</kbd></div>
+          <button id="ic-browse-btn" class="btn-ghost" type="button" style="margin-top:4px; font-size:13px; pointer-events:none;">📂 تصفح الصورة من جهازك</button>
+        </div>
+
+        <!-- Privacy Assurance Sticky Note -->
+        <div class="sticky-note" style="margin-top:0;">
+          <div class="sticky-note-title">🔒 أمان وخصوصية 100%</div>
+          الضغط يتم محلياً بالكامل داخل متصفحك عبر معالج جهازك (Client-Side). صورتك أو بطاقتك الشخصية لن تُرفع لأي سيرفر نهائياً.
+        </div>
+
+        <!-- Main Workspace (Shown after file selection) -->
+        <div id="ic-workspace" style="display:none; flex-direction:column; gap:16px;">
+          
+          <!-- Target Presets Header -->
+          <div style="display:flex; flex-direction:column; gap:8px;">
+            <div class="ic-preset-label">
+              <span>🎯 اختر الحجم المطلوب بضغطة زر:</span>
+            </div>
+            <div class="ic-presets-grid">
+              <button class="ic-preset-btn active" type="button" data-preset="2mb">
+                <span>⚡ أقل من 2 ميجابايت (المواقع الحكومية والتوظيف)</span>
+              </button>
+              <button class="ic-preset-btn" type="button" data-preset="1mb">
+                <span>⚡ أقل من 1 ميجابايت</span>
+              </button>
+              <button class="ic-preset-btn" type="button" data-preset="500kb">
+                <span>⚡ أقل من 500 كيلوبايت</span>
+              </button>
+              <button class="ic-preset-btn" type="button" data-preset="200kb">
+                <span>⚡ أقل من 200 كيلوبايت (بطاقات الهوية)</span>
+              </button>
+              <button class="ic-preset-btn" type="button" data-preset="custom">
+                <span>⚙️ تحكم مخصص</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Advanced Controls (Visible on custom or toggled) -->
+          <div id="ic-custom-panel" class="ic-advanced-panel" style="display:none;">
+            <div class="ic-field">
+              <label>نسبة الجودة:</label>
+              <div class="ic-range-wrap">
+                <input id="ic-quality-slider" type="range" min="10" max="98" value="82" step="2">
+                <span id="ic-quality-val" class="ic-range-val">82%</span>
+              </div>
+            </div>
+
+            <div class="ic-field">
+              <label>أقصى أبعاد (تحجيم تلقائي):</label>
+              <select id="ic-max-dim" class="form-control" style="padding:6px 10px; font-size:13px;">
+                <option value="0">بدون تغيير (الأبعاد الأصلية)</option>
+                <option value="1920" selected>Full HD (1920 بكسل)</option>
+                <option value="1280">HD (1280 بكسل)</option>
+                <option value="800">صغير (800 بكسل - لصور البروفايل)</option>
+              </select>
+            </div>
+
+            <div class="ic-field">
+              <label>صيغة الصورة الناتجة:</label>
+              <select id="ic-format-select" class="form-control" style="padding:6px 10px; font-size:13px;">
+                <option value="image/jpeg" selected>JPEG (الأكثر قبولاً في المواقع)</option>
+                <option value="image/webp">WebP (أصغر حجم لنفس الجودة)</option>
+                <option value="image/png">PNG (موصى بها فقط للشعارات الشفافة)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Processing Indicator -->
+          <div id="ic-processing" style="display:none; align-items:center; justify-content:center; gap:10px; padding:12px; background:rgba(26,74,66,0.3); border-radius:var(--radius); color:var(--gold);">
+            <div class="ic-spinner"></div>
+            <span style="font-size:13.5px; font-weight:600;">جاري ضغط وتحسين الصورة فائق السرعة...</span>
+          </div>
+
+          <!-- Comparison Cards: Original vs Compressed -->
+          <div class="ic-compare-grid">
+            
+            <!-- Original Card -->
+            <div class="ic-card">
+              <div class="ic-card-header">
+                <span style="color:var(--beige-soft);">📷 الصورة الأصلية</span>
+                <span id="ic-orig-size" class="ic-badge ic-badge-orig">0 MB</span>
+              </div>
+              <div class="ic-preview-box">
+                <img id="ic-orig-img" class="ic-preview-img" alt="الصورة الأصلية">
+              </div>
+              <div class="ic-meta-list">
+                <span id="ic-orig-dim">0 × 0 px</span>
+                <span id="ic-orig-type">JPEG</span>
+              </div>
+            </div>
+
+            <!-- Compressed Card -->
+            <div class="ic-card compressed">
+              <div class="ic-card-header">
+                <span style="color:#fff;">✨ بعد الضغط</span>
+                <div style="display:flex; gap:6px; align-items:center;">
+                  <span id="ic-comp-saved" class="ic-badge ic-badge-saved">وفرت 0%</span>
+                  <span id="ic-comp-size" class="ic-badge ic-badge-comp">0 KB</span>
+                </div>
+              </div>
+              <div class="ic-preview-box">
+                <img id="ic-comp-img" class="ic-preview-img" alt="الصورة بعد الضغط">
+              </div>
+              <div class="ic-meta-list">
+                <span id="ic-comp-dim">0 × 0 px</span>
+                <span id="ic-comp-format-tag" style="color:var(--gold);">JPEG</span>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Status / Notification -->
+          <p id="ic-status-msg" class="state-success" style="display:none; margin:0; text-align:center;"></p>
+
+          <!-- Action Buttons -->
+          <div class="ic-action-box">
+            <a id="ic-download-btn" class="btn-action" href="#" download="compressed-image.jpg" style="text-decoration:none; display:inline-flex; align-items:center; gap:8px; font-size:14px; padding:12px 24px;">
+              <span>📥 تحميل الصورة المضغوطة</span>
+            </a>
+            <a id="ic-preview-btn" class="btn-ghost" href="#" target="_blank" rel="noopener noreferrer" style="text-decoration:none; display:inline-flex; align-items:center; gap:6px; font-size:13px; padding:11px 18px;">
+              <span>👁️ معاينة كاملة</span>
+            </a>
+            <button id="ic-copy-btn" class="btn-ghost" type="button" style="font-size:13px; padding:11px 18px; display:inline-flex; align-items:center; gap:6px;">
+              <span>📋 نسخ الصورة</span>
+            </button>
+            <button id="ic-reset-btn" class="btn-ghost" type="button" style="font-size:13px; padding:11px 18px; display:inline-flex; align-items:center; gap:6px;">
+              <span>🔄 ضغط صورة أخرى</span>
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+    `,
+    init: function () {
+      const dropzone = document.getElementById('ic-dropzone');
+      const fileInput = document.getElementById('ic-file-input');
+      const workspace = document.getElementById('ic-workspace');
+      const presetBtns = document.querySelectorAll('.ic-preset-btn');
+      const customPanel = document.getElementById('ic-custom-panel');
+      const qualitySlider = document.getElementById('ic-quality-slider');
+      const qualityVal = document.getElementById('ic-quality-val');
+      const maxDimSelect = document.getElementById('ic-max-dim');
+      const formatSelect = document.getElementById('ic-format-select');
+      const processingEl = document.getElementById('ic-processing');
+      const statusMsg = document.getElementById('ic-status-msg');
+
+      const origImg = document.getElementById('ic-orig-img');
+      const origSize = document.getElementById('ic-orig-size');
+      const origDim = document.getElementById('ic-orig-dim');
+      const origType = document.getElementById('ic-orig-type');
+
+      const compImg = document.getElementById('ic-comp-img');
+      const compSize = document.getElementById('ic-comp-size');
+      const compDim = document.getElementById('ic-comp-dim');
+      const compSaved = document.getElementById('ic-comp-saved');
+      const compFormatTag = document.getElementById('ic-comp-format-tag');
+
+      const downloadBtn = document.getElementById('ic-download-btn');
+      const previewBtn = document.getElementById('ic-preview-btn');
+      const copyBtn = document.getElementById('ic-copy-btn');
+      const resetBtn = document.getElementById('ic-reset-btn');
+
+      let loadedImage = null;
+      let rawFile = null;
+      let currentBlob = null;
+      let currentBlobUrl = null;
+      let originalBlobUrl = null;
+      let activePreset = '2mb';
+      let isCompressing = false;
+      let debounceTimer = null;
+
+      function formatBytes(bytes) {
+        if (!bytes || bytes === 0) return '0 بايت';
+        const k = 1024;
+        const sizes = ['بايت', 'ك.ب', 'م.ب', 'ج.ب'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+      }
+
+      function handleFile(file) {
+        if (!file || !file.type.startsWith('image/')) {
+          statusMsg.style.display = 'block';
+          statusMsg.className = 'state-error';
+          statusMsg.textContent = 'يرجى اختيار ملف صورة صالح (JPEG, PNG, WebP, AVIF).';
+          return;
+        }
+
+        rawFile = file;
+        if (originalBlobUrl) URL.revokeObjectURL(originalBlobUrl);
+        originalBlobUrl = URL.createObjectURL(file);
+
+        const img = new Image();
+        img.onload = function () {
+          loadedImage = img;
+
+          // Populate Original Info
+          origImg.src = originalBlobUrl;
+          origSize.textContent = formatBytes(file.size);
+          origDim.textContent = img.naturalWidth + ' × ' + img.naturalHeight + ' px';
+          let ext = (file.type.split('/')[1] || 'IMAGE').toUpperCase();
+          origType.textContent = ext;
+
+          // Show workspace
+          workspace.style.display = 'flex';
+          dropzone.style.display = 'none';
+
+          // Trigger auto-compression
+          scheduleCompress();
+        };
+        img.onerror = function () {
+          statusMsg.style.display = 'block';
+          statusMsg.className = 'state-error';
+          statusMsg.textContent = 'تعذر قراءة الصورة. يرجى تجربة ملف آخر.';
+        };
+        img.src = originalBlobUrl;
+      }
+
+      function scheduleCompress() {
+        if (debounceTimer) clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(compressImage, 80);
+      }
+
+      async function compressImage() {
+        if (!loadedImage || isCompressing) return;
+        isCompressing = true;
+        processingEl.style.display = 'flex';
+        statusMsg.style.display = 'none';
+
+        try {
+          let mime = formatSelect.value || 'image/jpeg';
+          let maxDim = parseInt(maxDimSelect.value, 10) || 0;
+
+          let nw = loadedImage.naturalWidth;
+          let nh = loadedImage.naturalHeight;
+
+          // Apply dimension caps if specified
+          if (maxDim > 0 && (nw > maxDim || nh > maxDim)) {
+            if (nw >= nh) {
+              nh = Math.round((nh * maxDim) / nw);
+              nw = maxDim;
+            } else {
+              nw = Math.round((nw * maxDim) / nh);
+              nh = maxDim;
+            }
+          }
+
+          const canvas = document.createElement('canvas');
+          canvas.width = nw;
+          canvas.height = nh;
+          const ctx = canvas.getContext('2d');
+
+          // Handle transparency for JPEG
+          if (mime === 'image/jpeg') {
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, nw, nh);
+          }
+          ctx.drawImage(loadedImage, 0, 0, nw, nh);
+
+          const getBlob = function (q) {
+            return new Promise(function (resolve) {
+              canvas.toBlob(resolve, mime, q);
+            });
+          };
+
+          let finalBlob = null;
+          let finalQuality = parseFloat(qualitySlider.value) / 100;
+
+          if (activePreset === 'custom') {
+            finalBlob = await getBlob(finalQuality);
+          } else {
+            // Target sizing in bytes
+            const targetMap = {
+              '2mb': 1.85 * 1024 * 1024,
+              '1mb': 920 * 1024,
+              '500kb': 460 * 1024,
+              '200kb': 185 * 1024
+            };
+            const targetBytes = targetMap[activePreset] || (1.85 * 1024 * 1024);
+
+            // Fast Binary Search for target size
+            let low = 0.12, high = 0.96, bestBlob = null, bestQ = 0.85;
+
+            for (let iter = 0; iter < 6; iter++) {
+              let mid = (low + high) / 2;
+              let b = await getBlob(mid);
+              if (b && b.size <= targetBytes) {
+                bestBlob = b;
+                bestQ = mid;
+                low = mid;
+              } else {
+                high = mid;
+              }
+            }
+
+            // If still exceeding target (e.g. huge resolution on 200kb), downscale canvas
+            if (!bestBlob || bestBlob.size > targetBytes) {
+              let scales = [0.85, 0.70, 0.55, 0.40];
+              for (let s = 0; s < scales.length; s++) {
+                let sc = scales[s];
+                let scW = Math.round(nw * sc);
+                let scH = Math.round(nh * sc);
+                canvas.width = scW;
+                canvas.height = scH;
+                if (mime === 'image/jpeg') {
+                  ctx.fillStyle = '#ffffff';
+                  ctx.fillRect(0, 0, scW, scH);
+                }
+                ctx.drawImage(loadedImage, 0, 0, scW, scH);
+
+                let b = await getBlob(0.75);
+                if (b && b.size <= targetBytes) {
+                  bestBlob = b;
+                  bestQ = 0.75;
+                  nw = scW;
+                  nh = scH;
+                  break;
+                }
+                let bLow = await getBlob(0.45);
+                if (bLow && bLow.size <= targetBytes) {
+                  bestBlob = bLow;
+                  bestQ = 0.45;
+                  nw = scW;
+                  nh = scH;
+                  break;
+                }
+              }
+            }
+
+            finalBlob = bestBlob || await getBlob(0.3);
+            finalQuality = bestQ;
+
+            // Reflect on slider
+            qualitySlider.value = Math.round(finalQuality * 100);
+            qualityVal.textContent = Math.round(finalQuality * 100) + '%';
+          }
+
+          // Revoke prior compressed blob URL
+          if (currentBlobUrl) URL.revokeObjectURL(currentBlobUrl);
+          currentBlob = finalBlob;
+          currentBlobUrl = URL.createObjectURL(finalBlob);
+
+          // Update UI
+          compImg.src = currentBlobUrl;
+          compSize.textContent = formatBytes(finalBlob.size);
+          compDim.textContent = nw + ' × ' + nh + ' px';
+
+          let outExt = mime === 'image/webp' ? 'webp' : (mime === 'image/png' ? 'png' : 'jpg');
+          compFormatTag.textContent = outExt.toUpperCase();
+
+          let origBytes = rawFile.size;
+          let newBytes = finalBlob.size;
+          let savedPct = Math.round(((origBytes - newBytes) / origBytes) * 100);
+
+          if (savedPct > 0) {
+            compSaved.textContent = 'وفرت ' + savedPct + '% 🔥';
+            compSaved.style.display = 'inline-flex';
+          } else {
+            compSaved.textContent = 'أعلى دقة';
+            compSaved.style.display = 'inline-flex';
+          }
+
+          // Build download filename
+          let base = rawFile.name || 'image';
+          let dotIdx = base.lastIndexOf('.');
+          let cleanName = dotIdx > 0 ? base.slice(0, dotIdx) : base;
+          let outFileName = cleanName + '_compressed.' + outExt;
+
+          downloadBtn.href = currentBlobUrl;
+          downloadBtn.download = outFileName;
+          previewBtn.href = currentBlobUrl;
+
+          statusMsg.style.display = 'block';
+          statusMsg.className = 'state-success';
+          statusMsg.textContent = '✓ اكتمل الضغط بنجاح — الحجم الجديد: ' + formatBytes(newBytes) + ' (الحجم الأصلي: ' + formatBytes(origBytes) + ')';
+
+        } catch (err) {
+          statusMsg.style.display = 'block';
+          statusMsg.className = 'state-error';
+          statusMsg.textContent = 'حدث خطأ أثناء معالجة الصورة: ' + (err && err.message || err);
+        } finally {
+          processingEl.style.display = 'none';
+          isCompressing = false;
+        }
+      }
+
+      // Dropzone interactions
+      dropzone.addEventListener('click', function () {
+        fileInput.click();
+      });
+
+      fileInput.addEventListener('change', function () {
+        if (fileInput.files && fileInput.files[0]) {
+          handleFile(fileInput.files[0]);
+        }
+      });
+
+      dropzone.addEventListener('dragover', function (e) {
+        e.preventDefault();
+        dropzone.classList.add('dragover');
+      });
+
+      dropzone.addEventListener('dragleave', function (e) {
+        e.preventDefault();
+        dropzone.classList.remove('dragover');
+      });
+
+      dropzone.addEventListener('drop', function (e) {
+        e.preventDefault();
+        dropzone.classList.remove('dragover');
+        if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0]) {
+          handleFile(e.dataTransfer.files[0]);
+        }
+      });
+
+      // Global paste support for clipboard images (Ctrl+V)
+      window.addEventListener('paste', function (e) {
+        const toolView = document.getElementById('tool-view');
+        if (toolView && !toolView.hidden) {
+          const items = (e.clipboardData || (e.originalEvent && e.originalEvent.clipboardData))?.items;
+          if (items) {
+            for (let i = 0; i < items.length; i++) {
+              if (items[i].type && items[i].type.indexOf('image') !== -1) {
+                const f = items[i].getAsFile();
+                if (f) {
+                  handleFile(f);
+                  break;
+                }
+              }
+            }
+          }
+        }
+      });
+
+      // Preset Button clicks
+      presetBtns.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          presetBtns.forEach(function (b) { b.classList.remove('active'); });
+          btn.classList.add('active');
+          activePreset = btn.dataset.preset;
+
+          if (activePreset === 'custom') {
+            customPanel.style.display = 'grid';
+          } else {
+            customPanel.style.display = 'none';
+          }
+          scheduleCompress();
+        });
+      });
+
+      // Slider & options changes
+      qualitySlider.addEventListener('input', function () {
+        qualityVal.textContent = qualitySlider.value + '%';
+        scheduleCompress();
+      });
+
+      maxDimSelect.addEventListener('change', scheduleCompress);
+      formatSelect.addEventListener('change', scheduleCompress);
+
+      // Copy to clipboard
+      copyBtn.addEventListener('click', async function () {
+        if (!currentBlob) return;
+        try {
+          if (navigator.clipboard && window.ClipboardItem) {
+            // Standard requires PNG for image clipboard
+            const c = document.createElement('canvas');
+            c.width = compImg.naturalWidth;
+            c.height = compImg.naturalHeight;
+            c.getContext('2d').drawImage(compImg, 0, 0);
+            c.toBlob(async function (pngBlob) {
+              if (pngBlob) {
+                await navigator.clipboard.write([
+                  new ClipboardItem({ 'image/png': pngBlob })
+                ]);
+                const oldText = copyBtn.innerHTML;
+                copyBtn.innerHTML = '<span>✓ تم النسخ للحافظة!</span>';
+                setTimeout(function () { copyBtn.innerHTML = oldText; }, 2000);
+              }
+            }, 'image/png');
+          } else {
+            downloadBtn.click();
+          }
+        } catch (e) {
+          downloadBtn.click();
+        }
+      });
+
+      // Reset
+      resetBtn.addEventListener('click', function () {
+        loadedImage = null;
+        rawFile = null;
+        if (currentBlobUrl) URL.revokeObjectURL(currentBlobUrl);
+        if (originalBlobUrl) URL.revokeObjectURL(originalBlobUrl);
+        currentBlobUrl = null;
+        originalBlobUrl = null;
+        fileInput.value = '';
+        workspace.style.display = 'none';
+        dropzone.style.display = 'flex';
+        statusMsg.style.display = 'none';
+      });
+    }
   }
 
 };
