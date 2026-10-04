@@ -1,382 +1,405 @@
 <!DOCTYPE html>
 <html lang="ar" dir="ltr">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>شاهر إسماعيل | TECH — أدوات تقنية</title>
-<meta name="description" content="شاهر إسماعيل | TECH — بورتال أدوات تقنية سريعة وعملية. كل المعالجة تتم محلياً في متصفحك.">
-<meta name="theme-color" content="#0a0b0b">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>شاهر إسماعيل | TECH — أدوات تقنية</title>
+  <meta name="description"
+    content="شاهر إسماعيل | TECH — بورتال أدوات تقنية سريعة وعملية. كل المعالجة تتم محلياً في متصفحك.">
+  <meta name="theme-color" content="#0a0b0b">
 
-<!-- Google Fonts: Changa (headline), Cairo (body), Inter (en), JetBrains Mono -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Changa:wght@700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <!-- Google Fonts: Changa (headline), Cairo (body), Inter (en), JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Changa:wght@700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
 
-<link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<!-- ═══════════════════════════════════════════════════════════════════════
+  <!-- ═══════════════════════════════════════════════════════════════════════
      GOLDEN GEOMETRIC FRAME — thin gold border around viewport
      ═══════════════════════════════════════════════════════════════════════ -->
-<div class="golden-frame" aria-hidden="true"></div>
+  <div class="golden-frame" aria-hidden="true"></div>
 
-<!-- ═══════════════════════════════════════════════════════════════════════
+  <!-- ═══════════════════════════════════════════════════════════════════════
      BOKEH CIRCLES — soft out-of-focus light orbs
      ═══════════════════════════════════════════════════════════════════════ -->
-<div class="bokeh-container" aria-hidden="true">
-  <div class="bokeh"></div>
-  <div class="bokeh"></div>
-  <div class="bokeh"></div>
-  <div class="bokeh"></div>
-</div>
+  <div class="bokeh-container" aria-hidden="true">
+    <div class="bokeh"></div>
+    <div class="bokeh"></div>
+    <div class="bokeh"></div>
+    <div class="bokeh"></div>
+  </div>
 
-<!-- ═══════════════════════════════════════════════════════════════════════
+  <!-- ═══════════════════════════════════════════════════════════════════════
      DUST PARTICLES — microscopic particles in tungsten light path
      ═══════════════════════════════════════════════════════════════════════ -->
-<div class="dust-container" aria-hidden="true">
-  <div class="dust"></div>
-  <div class="dust"></div>
-  <div class="dust"></div>
-  <div class="dust"></div>
-  <div class="dust"></div>
-  <div class="dust"></div>
-  <div class="dust"></div>
-  <div class="dust"></div>
-  <div class="dust"></div>
-  <div class="dust"></div>
-</div>
+  <div class="dust-container" aria-hidden="true">
+    <div class="dust"></div>
+    <div class="dust"></div>
+    <div class="dust"></div>
+    <div class="dust"></div>
+    <div class="dust"></div>
+    <div class="dust"></div>
+    <div class="dust"></div>
+    <div class="dust"></div>
+    <div class="dust"></div>
+    <div class="dust"></div>
+  </div>
 
-<!-- ═══════════════════════════════════════════════════════════════════════
+  <!-- ═══════════════════════════════════════════════════════════════════════
      HEADER — Cinematic studio header with Arabic branding
      ═══════════════════════════════════════════════════════════════════════ -->
-<header class="portal-header">
-  <div class="header-inner">
-    <a class="brand" href="#" id="brand-link">
-      <span class="brand-mark">⌁</span>
-      <span class="brand-name">
-        <span class="brand-ar">شاهر إسماعيل</span>
-        <span class="brand-separator"> | </span>
-        <span class="brand-accent">TECH</span>
-      </span>
-    </a>
-    <div class="search-wrap">
-      <input id="portal-search" class="form-control" type="search" placeholder="🔍 ابحث عن أداة…" autocomplete="off">
+  <header class="portal-header">
+    <div class="header-inner">
+      <a class="brand" href="#" id="brand-link">
+        <span class="brand-mark">⌁</span>
+        <span class="brand-name">
+          <span class="brand-ar">شاهر إسماعيل</span>
+          <span class="brand-separator"> | </span>
+          <span class="brand-accent">TECH</span>
+        </span>
+      </a>
+      <div class="search-wrap">
+        <input id="portal-search" class="form-control" type="search" placeholder="🔍 ابحث عن أداة…" autocomplete="off">
+      </div>
     </div>
-  </div>
 
-  <!-- Sub-Ribbon: Dark Teal gradient bar -->
-  <div class="sub-ribbon">
-    <div class="sub-ribbon-inner">
-      <span class="sub-ribbon-label">Tools Portal</span>
-      <span>أدوات تقنية سريعة — كل المعالجة تتم في متصفحك</span>
+    <!-- Sub-Ribbon: Dark Teal gradient bar -->
+    <div class="sub-ribbon">
+      <div class="sub-ribbon-inner">
+        <span class="sub-ribbon-label">Tools Portal</span>
+        <span>أدوات تقنية سريعة — كل المعالجة تتم في متصفحك</span>
+      </div>
     </div>
-  </div>
 
-  <nav id="category-chips" class="category-chips" aria-label="Tool categories"></nav>
-</header>
+    <nav id="category-chips" class="category-chips" aria-label="Tool categories"></nav>
+  </header>
 
-<!-- ═══════════════════════════════════════════════════════════════════════
+  <!-- ═══════════════════════════════════════════════════════════════════════
      INTRO SECTION — Cinematic welcome
      ═══════════════════════════════════════════════════════════════════════ -->
-<section class="portal-intro">
-  <h1>
-    أدوات <span class="gold-text">تقنية</span> عملية
-  </h1>
-  <p class="subtitle">
-    كل أداة تعمل مباشرة في متصفحك — بدون تسجيل، بدون سيرفر.
-    <br>اختر أداة وابدأ فوراً.
-  </p>
+  <section class="portal-intro">
+    <h1>
+      أدوات <span class="gold-text">تقنية</span> عملية
+    </h1>
+    <p class="subtitle">
+      كل أداة تعمل مباشرة في متصفحك — بدون تسجيل، بدون سيرفر.
+      <br>اختر أداة وابدأ فوراً.
+    </p>
 
-  <!-- Action Flow: 3-step capsules -->
-  <div class="action-flow">
-    <div class="action-step">
-      <span class="action-step-num">1</span>
-      <span>اختر الأداة</span>
+    <!-- Action Flow: 3-step capsules -->
+    <div class="action-flow">
+      <div class="action-step">
+        <span class="action-step-num">1</span>
+        <span>اختر الأداة</span>
+      </div>
+      <span class="action-arrow">→</span>
+      <div class="action-step">
+        <span class="action-step-num">2</span>
+        <span>أدخل البيانات</span>
+      </div>
+      <span class="action-arrow">→</span>
+      <div class="action-step">
+        <span class="action-step-num">3</span>
+        <span>احصل على النتيجة</span>
+      </div>
     </div>
-    <span class="action-arrow">→</span>
-    <div class="action-step">
-      <span class="action-step-num">2</span>
-      <span>أدخل البيانات</span>
-    </div>
-    <span class="action-arrow">→</span>
-    <div class="action-step">
-      <span class="action-step-num">3</span>
-      <span>احصل على النتيجة</span>
-    </div>
-  </div>
 
-  <!-- Sticky Note: Golden Tip -->
-  <div class="sticky-note">
-    <div class="sticky-note-title">💡 السر الخفي</div>
-    اضغط <kbd style="background:#e0d88e;border:1px solid #c5b86a;border-radius:3px;padding:1px 5px;font-size:11px;color:#333;font-family:inherit;">/ </kbd> في أي وقت للبحث السريع عن أداة!
-  </div>
-</section>
+    <!-- Sticky Note: Golden Tip -->
+    <div class="sticky-note">
+      <div class="sticky-note-title">💡 السر الخفي</div>
+      اضغط <kbd
+        style="background:#e0d88e;border:1px solid #c5b86a;border-radius:3px;padding:1px 5px;font-size:11px;color:#333;font-family:inherit;">/
+      </kbd> في أي وقت للبحث السريع عن أداة!
+    </div>
+  </section>
 
-<!-- ═══════════════════════════════════════════════════════════════════════
+  <!-- ═══════════════════════════════════════════════════════════════════════
      MAIN — Tool Grid
      ═══════════════════════════════════════════════════════════════════════ -->
-<main id="portal-main" class="portal-main">
-  <div id="tools-grid" class="tools-grid"></div>
-  <p id="no-results" class="no-results" hidden>لا توجد أدوات مطابقة للبحث.</p>
-</main>
+  <main id="portal-main" class="portal-main">
+    <div id="tools-grid" class="tools-grid"></div>
+    <p id="no-results" class="no-results" hidden>لا توجد أدوات مطابقة للبحث.</p>
+  </main>
 
-<!-- ═══════════════════════════════════════════════════════════════════════
+  <!-- ═══════════════════════════════════════════════════════════════════════
      TOOL WORKSPACE — Single tool is injected here
      ═══════════════════════════════════════════════════════════════════════ -->
-<section id="tool-view" class="tool-view" hidden aria-label="Active tool">
-  <div class="tool-view-inner">
-    <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:18px; flex-wrap:wrap;">
-      <button id="tool-close" class="tool-close" aria-label="Back to all tools" style="margin-bottom:0;">← كل الأدوات</button>
-      <button id="tool-share" class="btn-ghost" type="button" style="padding:6px 14px; font-size:12.5px; border-radius:999px;">🔗 نسخ رابط الأداة</button>
+  <section id="tool-view" class="tool-view" hidden aria-label="Active tool">
+    <div class="tool-view-inner">
+      <div
+        style="display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:18px; flex-wrap:wrap;">
+        <button id="tool-close" class="tool-close" aria-label="Back to all tools" style="margin-bottom:0;">← كل
+          الأدوات</button>
+        <button id="tool-share" class="btn-ghost" type="button"
+          style="padding:6px 14px; font-size:12.5px; border-radius:999px;">🔗 نسخ رابط الأداة</button>
+      </div>
+      <div class="tool-head">
+        <h2 id="tool-title"></h2>
+        <p id="tool-desc"></p>
+        <span id="tool-category" class="chip"></span>
+      </div>
+      <div id="tool-body" class="tool-body"></div>
     </div>
-    <div class="tool-head">
-      <h2 id="tool-title"></h2>
-      <p id="tool-desc"></p>
-      <span id="tool-category" class="chip"></span>
-    </div>
-    <div id="tool-body" class="tool-body"></div>
-  </div>
-</section>
+  </section>
 
-<!-- ═══════════════════════════════════════════════════════════════════════
+  <!-- ═══════════════════════════════════════════════════════════════════════
      FOOTER — Permanent branding + social icons
      ═══════════════════════════════════════════════════════════════════════ -->
-<footer class="portal-footer">
-  <!-- Brand Signature -->
-  <div class="footer-brand">
-    <span>شاهر إسماعيل</span>
-    <span class="footer-sep">|</span>
-    <span class="footer-tech">TECH</span>
-  </div>
+  <footer class="portal-footer">
+    <!-- Brand Signature -->
+    <div class="footer-brand">
+      <span>شاهر إسماعيل</span>
+      <span class="footer-sep">|</span>
+      <span class="footer-tech">TECH</span>
+    </div>
 
-  <!-- Social Icons -->
-  <div class="social-icons">
-    <!-- Facebook -->
-    <a href="#" class="social-icon" aria-label="Facebook" title="Facebook">
-      <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-    </a>
-    <!-- Instagram -->
-    <a href="#" class="social-icon" aria-label="Instagram" title="Instagram">
-      <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
-    </a>
-    <!-- TikTok -->
-    <a href="#" class="social-icon" aria-label="TikTok" title="TikTok">
-      <svg viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
-    </a>
-    <!-- YouTube -->
-    <a href="#" class="social-icon" aria-label="YouTube" title="YouTube">
-      <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-    </a>
-  </div>
+    <!-- Social Icons -->
+    <div class="social-icons">
+      <!-- Facebook -->
+      <a href="#" class="social-icon" aria-label="Facebook" title="Facebook">
+        <svg viewBox="0 0 24 24">
+          <path
+            d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+        </svg>
+      </a>
+      <!-- Instagram -->
+      <a href="#" class="social-icon" aria-label="Instagram" title="Instagram">
+        <svg viewBox="0 0 24 24">
+          <path
+            d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" />
+        </svg>
+      </a>
+      <!-- TikTok -->
+      <a href="#" class="social-icon" aria-label="TikTok" title="TikTok">
+        <svg viewBox="0 0 24 24">
+          <path
+            d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z" />
+        </svg>
+      </a>
+      <!-- YouTube -->
+      <a href="#" class="social-icon" aria-label="YouTube" title="YouTube">
+        <svg viewBox="0 0 24 24">
+          <path
+            d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+        </svg>
+      </a>
+    </div>
 
-  <!-- Tools Count -->
-  <span class="footer-tools-count"><b id="tool-count">0</b> أداة متاحة</span>
+    <!-- Tools Count -->
+    <span class="footer-tools-count"><b id="tool-count">0</b> أداة متاحة</span>
 
-  <!-- Note -->
-  <span class="footer-note">كل المعالجة تتم محلياً في متصفحك ما لم تُذكر الأداة خلاف ذلك.</span>
-</footer>
+    <!-- Note -->
+    <span class="footer-note">كل المعالجة تتم محلياً في متصفحك ما لم تُذكر الأداة خلاف ذلك.</span>
+  </footer>
 
-<!-- ═══════════════════════════════════════════════════════════════════════
+  <!-- ═══════════════════════════════════════════════════════════════════════
      SCRIPTS
      ═══════════════════════════════════════════════════════════════════════ -->
-<script src="tools.js"></script>
-<script>
-/* =========================================================================
-   SHAHER TECH TOOLS — MASTER PORTAL BOOTSTRAP
-   Contract: tools are declared in tools.js as `toolsDB` and rendered here.
-   Do NOT rename toolsDB. Do NOT change the tool contract.
-   ========================================================================= */
-(function () {
-  'use strict';
+  <script src="tools.js"></script>
+  <script>
+    /* =========================================================================
+       SHAHER TECH TOOLS — MASTER PORTAL BOOTSTRAP
+       Contract: tools are declared in tools.js as `toolsDB` and rendered here.
+       Do NOT rename toolsDB. Do NOT change the tool contract.
+       ========================================================================= */
+    (function () {
+      'use strict';
 
-  const grid      = document.getElementById('tools-grid');
-  const search    = document.getElementById('portal-search');
-  const chips     = document.getElementById('category-chips');
-  const view      = document.getElementById('tool-view');
-  const viewBody  = document.getElementById('tool-body');
-  const viewTitle = document.getElementById('tool-title');
-  const viewDesc  = document.getElementById('tool-desc');
-  const viewCat   = document.getElementById('tool-category');
-  const closeBtn  = document.getElementById('tool-close');
-  const shareBtn  = document.getElementById('tool-share');
-  const noResults = document.getElementById('no-results');
-  const toolCount = document.getElementById('tool-count');
+      const grid = document.getElementById('tools-grid');
+      const search = document.getElementById('portal-search');
+      const chips = document.getElementById('category-chips');
+      const view = document.getElementById('tool-view');
+      const viewBody = document.getElementById('tool-body');
+      const viewTitle = document.getElementById('tool-title');
+      const viewDesc = document.getElementById('tool-desc');
+      const viewCat = document.getElementById('tool-category');
+      const closeBtn = document.getElementById('tool-close');
+      const shareBtn = document.getElementById('tool-share');
+      const noResults = document.getElementById('no-results');
+      const toolCount = document.getElementById('tool-count');
 
-  if (typeof toolsDB !== 'object' || toolsDB === null) {
-    grid.innerHTML = '<p class="no-results">toolsDB is missing or broken.</p>';
-    return;
-  }
-
-  const entries = Object.entries(toolsDB);
-  const categories = ['All', ...new Set(entries.map(([, t]) => t.category))];
-  let activeCategory = 'All';
-  let activeTool = null;
-
-  document.title = 'شاهر إسماعيل | TECH · ' + entries.length + ' أداة';
-  toolCount.textContent = entries.length;
-
-  // ---- category chips -------------------------------------------------
-  categories.forEach(function (cat) {
-    const chip = document.createElement('button');
-    chip.className = 'chip' + (cat === 'All' ? ' chip-active' : '');
-    chip.textContent = cat === 'All' ? 'الكل' : cat;
-    chip.dataset.category = cat;
-    chip.addEventListener('click', function () {
-      activeCategory = cat;
-      chips.querySelectorAll('.chip').forEach(function (c) { c.classList.remove('chip-active'); });
-      chip.classList.add('chip-active');
-      renderGrid();
-    });
-    chips.appendChild(chip);
-  });
-
-  // ---- grid -----------------------------------------------------------
-  function renderGrid() {
-    const q = search.value.trim().toLowerCase();
-    grid.innerHTML = '';
-    let shown = 0;
-
-    entries.forEach(function ([id, tool]) {
-      if (activeCategory !== 'All' && tool.category !== activeCategory) return;
-      if (q) {
-        const hay = (id + ' ' + tool.title + ' ' + tool.category + ' ' + (tool.desc || '')).toLowerCase();
-        if (!hay.includes(q)) return;
+      if (typeof toolsDB !== 'object' || toolsDB === null) {
+        grid.innerHTML = '<p class="no-results">toolsDB is missing or broken.</p>';
+        return;
       }
-      shown++;
 
-      const card = document.createElement('button');
-      card.className = 'tool-card';
-      card.type = 'button';
-      card.dataset.toolId = id;
-      card.innerHTML =
-        '<span class="tool-card-top"><span class="tool-emoji">' + (tool.emoji || '🛠') + '</span>' +
-        '<span class="tool-category-tag">' + tool.category + '</span></span>' +
-        '<span class="tool-card-title">' + tool.title + '</span>' +
-        '<span class="tool-card-desc">' + (tool.desc || '') + '</span>';
+      const entries = Object.entries(toolsDB);
+      const categories = ['All', ...new Set(entries.map(([, t]) => t.category))];
+      let activeCategory = 'All';
+      let activeTool = null;
 
-      card.addEventListener('click', function () { openTool(id); });
-      grid.appendChild(card);
-    });
+      document.title = 'شاهر إسماعيل | TECH · ' + entries.length + ' أداة';
+      toolCount.textContent = entries.length;
 
-    noResults.hidden = shown !== 0;
-  }
+      // ---- category chips -------------------------------------------------
+      categories.forEach(function (cat) {
+        const chip = document.createElement('button');
+        chip.className = 'chip' + (cat === 'All' ? ' chip-active' : '');
+        chip.textContent = cat === 'All' ? 'الكل' : cat;
+        chip.dataset.category = cat;
+        chip.addEventListener('click', function () {
+          activeCategory = cat;
+          chips.querySelectorAll('.chip').forEach(function (c) { c.classList.remove('chip-active'); });
+          chip.classList.add('chip-active');
+          renderGrid();
+        });
+        chips.appendChild(chip);
+      });
 
-  // ---- slug / alias resolver -----------------------------------------
-  function findToolId(slug) {
-    if (!slug) return null;
-    slug = String(slug).toLowerCase().trim();
-    if (toolsDB[slug]) return slug;
-    for (const [id, t] of Object.entries(toolsDB)) {
-      if (t.slug && t.slug.toLowerCase() === slug) return id;
-      if (Array.isArray(t.aliases)) {
-        for (const a of t.aliases) {
-          if (String(a).toLowerCase() === slug) return id;
+      // ---- grid -----------------------------------------------------------
+      function renderGrid() {
+        const q = search.value.trim().toLowerCase();
+        grid.innerHTML = '';
+        let shown = 0;
+
+        entries.forEach(function ([id, tool]) {
+          if (activeCategory !== 'All' && tool.category !== activeCategory) return;
+          if (q) {
+            const hay = (id + ' ' + tool.title + ' ' + tool.category + ' ' + (tool.desc || '')).toLowerCase();
+            if (!hay.includes(q)) return;
+          }
+          shown++;
+
+          const card = document.createElement('button');
+          card.className = 'tool-card';
+          card.type = 'button';
+          card.dataset.toolId = id;
+          card.innerHTML =
+            '<span class="tool-card-top"><span class="tool-emoji">' + (tool.emoji || '🛠') + '</span>' +
+            '<span class="tool-category-tag">' + tool.category + '</span></span>' +
+            '<span class="tool-card-title">' + tool.title + '</span>' +
+            '<span class="tool-card-desc">' + (tool.desc || '') + '</span>';
+
+          card.addEventListener('click', function () { openTool(id); });
+          grid.appendChild(card);
+        });
+
+        noResults.hidden = shown !== 0;
+      }
+
+      // ---- slug / alias resolver -----------------------------------------
+      function findToolId(slug) {
+        if (!slug) return null;
+        slug = String(slug).toLowerCase().trim();
+        if (toolsDB[slug]) return slug;
+        for (const [id, t] of Object.entries(toolsDB)) {
+          if (t.slug && t.slug.toLowerCase() === slug) return id;
+          if (Array.isArray(t.aliases)) {
+            for (const a of t.aliases) {
+              if (String(a).toLowerCase() === slug) return id;
+            }
+          }
+          if (id.toLowerCase() === slug) return id;
+        }
+        return null;
+      }
+
+      // ---- open a tool ----------------------------------------------------
+      function openTool(id, updateUrl) {
+        if (typeof updateUrl === 'undefined') updateUrl = true;
+        const tool = toolsDB[id];
+        if (!tool) return;
+        activeTool = id;
+
+        viewTitle.textContent = tool.title;
+        viewDesc.textContent = tool.desc || '';
+        viewCat.textContent = tool.category;
+
+        viewBody.innerHTML = '';
+        if (typeof tool.html === 'string') viewBody.innerHTML = tool.html;
+
+        view.hidden = false;
+        document.body.classList.add('tool-open');
+        window.scrollTo({ top: 0, behavior: 'instant' });
+
+        if (updateUrl) {
+          const slug = tool.slug || id;
+          const newUrl = '/' + encodeURIComponent(slug);
+          history.pushState({ tool: id }, '', newUrl);
+          document.title = tool.title + ' — شاهر إسماعيل | TECH';
+        }
+
+        if (typeof tool.init === 'function') {
+          try { tool.init(); }
+          catch (err) {
+            viewBody.insertAdjacentHTML('beforeend',
+              '<p class="state-error">⚠ This tool failed to initialise: ' + String(err && err.message || err) + '</p>');
+          }
         }
       }
-      if (id.toLowerCase() === slug) return id;
-    }
-    return null;
-  }
 
-  // ---- open a tool ----------------------------------------------------
-  function openTool(id, updateUrl) {
-    if (typeof updateUrl === 'undefined') updateUrl = true;
-    const tool = toolsDB[id];
-    if (!tool) return;
-    activeTool = id;
+      function closeTool(updateUrl) {
+        if (typeof updateUrl === 'undefined') updateUrl = true;
+        activeTool = null;
+        view.hidden = true;
+        document.body.classList.remove('tool-open');
+        viewBody.innerHTML = '';
 
-    viewTitle.textContent = tool.title;
-    viewDesc.textContent = tool.desc || '';
-    viewCat.textContent = tool.category;
-
-    viewBody.innerHTML = '';
-    if (typeof tool.html === 'string') viewBody.innerHTML = tool.html;
-
-    view.hidden = false;
-    document.body.classList.add('tool-open');
-    window.scrollTo({ top: 0, behavior: 'instant' });
-
-    if (updateUrl) {
-      const slug = tool.slug || id;
-      const newUrl = '/' + encodeURIComponent(slug);
-      history.pushState({ tool: id }, '', newUrl);
-      document.title = tool.title + ' — شاهر إسماعيل | TECH';
-    }
-
-    if (typeof tool.init === 'function') {
-      try { tool.init(); }
-      catch (err) {
-        viewBody.insertAdjacentHTML('beforeend',
-          '<p class="state-error">⚠ This tool failed to initialise: ' + String(err && err.message || err) + '</p>');
+        if (updateUrl) {
+          history.pushState(null, '', '/');
+          document.title = 'شاهر إسماعيل | TECH · ' + entries.length + ' أداة';
+        }
       }
-    }
-  }
 
-  function closeTool(updateUrl) {
-    if (typeof updateUrl === 'undefined') updateUrl = true;
-    activeTool = null;
-    view.hidden = true;
-    document.body.classList.remove('tool-open');
-    viewBody.innerHTML = '';
-
-    if (updateUrl) {
-      history.pushState(null, '', '/');
-      document.title = 'شاهر إسماعيل | TECH · ' + entries.length + ' أداة';
-    }
-  }
-
-  closeBtn.addEventListener('click', function () { closeTool(true); });
-  document.getElementById('brand-link').addEventListener('click', function (e) {
-    e.preventDefault(); closeTool(true);
-  });
-
-  if (shareBtn) {
-    shareBtn.addEventListener('click', function () {
-      if (!activeTool) return;
-      const tool = toolsDB[activeTool];
-      const slug = (tool && tool.slug) || activeTool;
-      const shareUrl = window.location.origin + '/' + encodeURIComponent(slug);
-      navigator.clipboard.writeText(shareUrl).then(function () {
-        const orig = shareBtn.textContent;
-        shareBtn.textContent = '✓ تم نسخ الرابط!';
-        setTimeout(function () { shareBtn.textContent = orig; }, 2000);
-      }).catch(function () {
-        prompt('انسخ رابط الأداة المباشر:', shareUrl);
+      closeBtn.addEventListener('click', function () { closeTool(true); });
+      document.getElementById('brand-link').addEventListener('click', function (e) {
+        e.preventDefault(); closeTool(true);
       });
-    });
-  }
 
-  window.addEventListener('popstate', function () {
-    checkUrlTool();
-  });
+      if (shareBtn) {
+        shareBtn.addEventListener('click', function () {
+          if (!activeTool) return;
+          const tool = toolsDB[activeTool];
+          const slug = (tool && tool.slug) || activeTool;
+          const shareUrl = window.location.origin + '/' + encodeURIComponent(slug);
+          navigator.clipboard.writeText(shareUrl).then(function () {
+            const orig = shareBtn.textContent;
+            shareBtn.textContent = '✓ تم نسخ الرابط!';
+            setTimeout(function () { shareBtn.textContent = orig; }, 2000);
+          }).catch(function () {
+            prompt('انسخ رابط الأداة المباشر:', shareUrl);
+          });
+        });
+      }
 
-  function checkUrlTool() {
-    let rawPath = window.location.pathname.replace(/^\/+|\/+$/g, '');
-    let matchedId = findToolId(rawPath);
+      window.addEventListener('popstate', function () {
+        checkUrlTool();
+      });
 
-    if (!matchedId) {
-      const params = new URLSearchParams(window.location.search);
-      const queryParam = params.get('tool') || (window.location.hash ? window.location.hash.replace('#', '') : null);
-      if (queryParam) matchedId = findToolId(queryParam);
-    }
+      function checkUrlTool() {
+        let rawPath = window.location.pathname.replace(/^\/+|\/+$/g, '');
+        let matchedId = findToolId(rawPath);
 
-    if (matchedId) {
-      openTool(matchedId, false);
-    } else if (activeTool) {
-      closeTool(false);
-    }
-  }
+        if (!matchedId) {
+          const params = new URLSearchParams(window.location.search);
+          const queryParam = params.get('tool') || (window.location.hash ? window.location.hash.replace('#', '') : null);
+          if (queryParam) matchedId = findToolId(queryParam);
+        }
 
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape' && activeTool) closeTool(true);
-    if (e.key === '/' && document.activeElement !== search) { e.preventDefault(); search.focus(); }
-  });
-  search.addEventListener('input', renderGrid);
+        if (matchedId) {
+          openTool(matchedId, false);
+        } else if (activeTool) {
+          closeTool(false);
+        }
+      }
 
-  renderGrid();
-  checkUrlTool();
-})();
-</script>
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && activeTool) closeTool(true);
+        if (e.key === '/' && document.activeElement !== search) { e.preventDefault(); search.focus(); }
+      });
+      search.addEventListener('input', renderGrid);
+
+      renderGrid();
+      checkUrlTool();
+    })();
+  </script>
 </body>
+
 </html>
