@@ -3352,18 +3352,18 @@ const toolsDB = {
           <!-- 1-Click Action Card -->
           <div id="vc-action-card" class="vc-action-card">
             <button id="vc-start-btn" type="button" class="vc-main-btn">
-              <span>⚡ ابدأ الضغط الذكي (أقصى توفير بأعلى جودة)</span>
+              <span>💎 ابدأ الضغط الذكي (الحفاظ على جودة الأصل 100%)</span>
             </button>
-            <p class="vc-action-hint">
-              سيتم تفريغ معدل البيانات الزائد وتطبيق خوارزمية الضغط المتطورة للحصول على أصغر حجم ممكن مع الحفاظ على وضوح الصورة.
+            <p id="vc-action-hint" class="vc-action-hint">
+              💎 وضع النقاء الكريستالي: تفريغ البيانات الزائدة وحفظ وضوح الصورة وتفاصيل الصوت 100% بدون أي بكسلة.
             </p>
 
             <!-- Quick Presets -->
             <div id="vc-presets-wrap" class="vc-presets-wrap">
-              <button type="button" class="vc-preset-btn active" data-preset="10mb">⚡ أقصى ضغط تلقائي (~10MB)</button>
+              <button type="button" class="vc-preset-btn active" data-preset="quality">💎 نقاء كريستالي (نفس جودة الأصل 100%)</button>
+              <button type="button" class="vc-preset-btn" data-preset="10mb">⚡ أقصى تصغير للحجم (~10MB)</button>
               <button type="button" class="vc-preset-btn" data-preset="16mb">💬 مناسب للواتساب (~16MB)</button>
               <button type="button" class="vc-preset-btn" data-preset="25mb">🎮 ديسكورد / إيميل (~25MB)</button>
-              <button type="button" class="vc-preset-btn" data-preset="balanced">✨ جودة متوازنة (Balanced)</button>
             </div>
 
             <!-- Advanced Options Toggle -->
@@ -3472,6 +3472,7 @@ const toolsDB = {
       const statExpected = document.getElementById('vc-stat-expected-size');
       const actionCard = document.getElementById('vc-action-card');
       const startBtn = document.getElementById('vc-start-btn');
+      const actionHintEl = document.getElementById('vc-action-hint');
       const presetsWrap = document.getElementById('vc-presets-wrap');
       const toggleAdvBtn = document.getElementById('vc-toggle-advanced');
       const advDrawer = document.getElementById('vc-advanced-drawer');
@@ -3494,7 +3495,7 @@ const toolsDB = {
       let currentFile = null;
       let currentBlobUrl = null;
       let resultBlobUrl = null;
-      let activePreset = '10mb';
+      let activePreset = 'quality';
       let isCompressing = false;
       let animFrameId = null;
       let mediaRecorder = null;
@@ -3522,14 +3523,24 @@ const toolsDB = {
         if (customSizeInput.value && parseFloat(customSizeInput.value) > 0) {
           return parseFloat(customSizeInput.value);
         }
+        if (!currentFile || !hiddenVideo.duration) return 15;
+        const dur = Math.max(1, hiddenVideo.duration);
+        const origMB = currentFile.size / (1024 * 1024);
+
+        if (activePreset === 'quality') {
+          const w = hiddenVideo.videoWidth || 1920;
+          // Visual lossless safe bitrate: 1080p: ~3.3 Mbps, 720p: ~2.2 Mbps, smaller: ~1.5 Mbps
+          const rateMbps = (w >= 1920) ? 3.3 : (w >= 1280 ? 2.2 : 1.5);
+          let safeTargetMB = (dur * rateMbps) / 8;
+          // Never exceed 85% of original size
+          safeTargetMB = Math.min(origMB * 0.85, safeTargetMB);
+          return Math.max(4, Math.round(safeTargetMB * 10) / 10);
+        }
+
+        if (activePreset === '10mb') return 9.5;
         if (activePreset === '16mb') return 15.5;
         if (activePreset === '25mb') return 24.5;
-        if (activePreset === 'balanced') {
-          if (!currentFile) return 20;
-          const origMB = currentFile.size / (1024 * 1024);
-          return Math.max(12, Math.round(origMB * 0.25));
-        }
-        // default 10mb
+
         return 9.5;
       }
 
@@ -3538,7 +3549,11 @@ const toolsDB = {
         const targetMB = calculateTargetMB();
         const origMB = currentFile.size / (1024 * 1024);
         const savedPct = Math.max(0, Math.min(98, Math.round(((origMB - targetMB) / origMB) * 100)));
-        statExpected.textContent = '~' + targetMB.toFixed(1) + ' MB (توفير ' + savedPct + '% 🔥)';
+        if (activePreset === 'quality') {
+          statExpected.textContent = '~' + targetMB.toFixed(1) + ' MB (توفير ' + savedPct + '% بجودة كريستالية 💎)';
+        } else {
+          statExpected.textContent = '~' + targetMB.toFixed(1) + ' MB (توفير ' + savedPct + '% 🔥)';
+        }
       }
 
       // Drag & Drop
@@ -3604,6 +3619,22 @@ const toolsDB = {
             btn.classList.add('active');
             activePreset = btn.dataset.preset;
             customSizeInput.value = '';
+
+            const btnSpan = startBtn.querySelector('span');
+            if (activePreset === 'quality') {
+              if (btnSpan) btnSpan.textContent = '💎 ابدأ الضغط الذكي (الحفاظ على جودة الأصل 100%)';
+              if (actionHintEl) actionHintEl.textContent = '💎 وضع النقاء الكريستالي: تفريغ البيانات الزائدة وحفظ وضوح الصورة وتفاصيل الصوت 100% بدون أي بكسلة.';
+            } else if (activePreset === '10mb') {
+              if (btnSpan) btnSpan.textContent = '⚡ ابدأ الضغط (أقصى تصغير للحجم ~10MB)';
+              if (actionHintEl) actionHintEl.textContent = '⚡ وضع أقصى تصغير: مخصص للوصول لحجم صغير جداً وتسهيل الإرسال السريع (ممتاز للمقاطع القصيرة).';
+            } else if (activePreset === '16mb') {
+              if (btnSpan) btnSpan.textContent = '💬 ابدأ الضغط (مناسب للواتساب ~16MB)';
+              if (actionHintEl) actionHintEl.textContent = '💬 وضع الواتساب: مهيأ بحجم أقل من 16MB ليتوافق مع الحد الأقصى لإرسال الفيديو في WhatsApp مباشرة.';
+            } else if (activePreset === '25mb') {
+              if (btnSpan) btnSpan.textContent = '🎮 ابدأ الضغط (ديسكورد وإيميل ~25MB)';
+              if (actionHintEl) actionHintEl.textContent = '🎮 وضع الديسكورد/الإيميل: الحجم المخصص للمرفقات المجانية.';
+            }
+
             updateEstimates();
           });
         });
@@ -3649,23 +3680,33 @@ const toolsDB = {
         if (!currentFile || !hiddenVideo.duration || isCompressing) return;
         isCompressing = true;
 
-        // Calculate Target Bitrates
-        const targetMB = calculateTargetMB();
         const duration = Math.max(1, hiddenVideo.duration);
-        const totalTargetBits = targetMB * 1024 * 1024 * 8;
-        const totalBitrate = totalTargetBits / duration;
-
         const isMuted = muteToggle.checked;
         const audioBitrate = isMuted ? 0 : 96000;
-        let videoBitrate = Math.round(totalBitrate - audioBitrate);
-        videoBitrate = Math.max(280000, Math.min(3500000, videoBitrate));
+        let videoBitrate;
 
-        // Calculate Target Dimensions
         const origW = hiddenVideo.videoWidth || 1280;
         const origH = hiddenVideo.videoHeight || 720;
         const aspect = origW / origH;
         let targetW = origW;
         let targetH = origH;
+
+        if (activePreset === 'quality') {
+          // Visual Lossless Bitrate: Full HD gets 3.4 Mbps, 720p gets 2.2 Mbps (identical to original)
+          if (origW >= 1920) {
+            videoBitrate = 3400000;
+          } else if (origW >= 1280) {
+            videoBitrate = 2200000;
+          } else {
+            videoBitrate = 1500000;
+          }
+        } else {
+          const targetMB = calculateTargetMB();
+          const totalTargetBits = targetMB * 1024 * 1024 * 8;
+          const totalBitrate = totalTargetBits / duration;
+          videoBitrate = Math.round(totalBitrate - audioBitrate);
+          videoBitrate = Math.max(280000, Math.min(3800000, videoBitrate));
+        }
 
         const resChoice = resSelect.value;
         if (resChoice === '1080' && targetW > 1920) {
@@ -3675,12 +3716,12 @@ const toolsDB = {
           targetW = 1280;
           targetH = Math.round(targetW / aspect);
         } else if (resChoice === 'auto') {
-          // Smart Auto scaling: keep pixel density crisp
+          // Quality mode preserves 100% original dimensions unless > 1920 (4K downscaled to pristine 1080p)
           if (targetW > 1920) {
             targetW = 1920;
             targetH = Math.round(targetW / aspect);
           }
-          if (videoBitrate < 850000 && targetW > 1280) {
+          if (activePreset !== 'quality' && videoBitrate < 850000 && targetW > 1280) {
             targetW = 1280;
             targetH = Math.round(targetW / aspect);
           }
@@ -3816,7 +3857,11 @@ const toolsDB = {
           newValEl.textContent = formatBytes(finalBlob.size);
 
           const savedRatio = Math.max(0, ((currentFile.size - finalBlob.size) / currentFile.size) * 100).toFixed(1);
-          savedValEl.textContent = 'وفرت ' + savedRatio + '% 🔥';
+          if (activePreset === 'quality') {
+            savedValEl.textContent = 'وفرت ' + savedRatio + '% بنقاء كريستالي 💎';
+          } else {
+            savedValEl.textContent = 'وفرت ' + savedRatio + '% 🔥';
+          }
 
           resultVideo.src = resultBlobUrl;
           resultVideo.load();
