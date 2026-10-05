@@ -2905,6 +2905,974 @@ const toolsDB = {
         statusMsg.style.display = 'none';
       });
     }
+  },
+
+  /* ───────────────────────── VIDEO COMPRESSOR ───────────────────────── */
+
+  videoCompressorTool: {
+    emoji: '🎬',
+    title: 'مُصغر الفيديوهات الذكي (Smart Video Compressor)',
+    slug: 'video-compress',
+    aliases: ['video', 'vcomp', 'compress-video', 'mp4'],
+    category: 'Video',
+    desc: 'الحل السحري: قلل حجم أي فيديو لأقصى حد (~10MB وأقل) بضغطة زر واحدة مع الحفاظ على أعلى جودة ونقاء وبدون أي تعقيد.',
+    html: `
+      <style>
+        .vc-wrap {
+          display: flex;
+          flex-direction: column;
+          gap: 16px;
+          max-width: 760px;
+          margin: 0 auto;
+        }
+
+        /* ── Dropzone ── */
+        .vc-dropzone {
+          border: 2px dashed rgba(200, 149, 46, 0.4);
+          background: rgba(22, 27, 24, 0.6);
+          border-radius: var(--radius);
+          padding: 38px 20px;
+          text-align: center;
+          cursor: pointer;
+          transition: all 0.25s ease;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          gap: 10px;
+        }
+        .vc-dropzone:hover {
+          border-color: var(--gold);
+          background: rgba(26, 74, 66, 0.25);
+          box-shadow: 0 0 24px rgba(200, 149, 46, 0.15);
+        }
+        .vc-dropzone.dragover {
+          border-color: var(--gold-bright);
+          background: rgba(200, 149, 46, 0.15);
+          transform: scale(1.01);
+        }
+        .vc-drop-icon {
+          font-size: 46px;
+          line-height: 1;
+          filter: drop-shadow(0 2px 8px rgba(0,0,0,0.4));
+        }
+        .vc-drop-title {
+          font-family: var(--font-headline);
+          font-size: 18px;
+          font-weight: 700;
+          color: #fff;
+        }
+        .vc-drop-subtitle {
+          font-size: 13px;
+          color: var(--beige-soft);
+          max-width: 480px;
+          line-height: 1.5;
+        }
+
+        /* ── Workspace ── */
+        .vc-workspace {
+          display: none;
+          flex-direction: column;
+          gap: 18px;
+        }
+
+        /* ── Video Info Banner ── */
+        .vc-info-card {
+          background: var(--card);
+          border: 1px solid var(--border);
+          border-radius: var(--radius);
+          padding: 16px 20px;
+          display: flex;
+          flex-direction: column;
+          gap: 14px;
+          box-shadow: var(--shadow-card);
+        }
+        .vc-info-header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 12px;
+          flex-wrap: wrap;
+          border-bottom: 1px solid rgba(255,255,255,0.06);
+          padding-bottom: 12px;
+        }
+        .vc-file-name {
+          font-family: var(--mono);
+          font-size: 13.5px;
+          color: var(--gold-bright);
+          word-break: break-all;
+          display: flex;
+          align-items: center;
+          gap: 6px;
+        }
+        .vc-stats-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+          gap: 10px;
+        }
+        .vc-stat-box {
+          background: rgba(0, 0, 0, 0.25);
+          border: 1px solid rgba(255, 255, 255, 0.05);
+          border-radius: var(--radius-sm);
+          padding: 10px 12px;
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+        }
+        .vc-stat-label {
+          font-size: 11px;
+          color: var(--beige-muted);
+          font-weight: 600;
+        }
+        .vc-stat-val {
+          font-family: var(--mono);
+          font-size: 15px;
+          font-weight: 700;
+          color: #fff;
+        }
+        .vc-stat-box.highlight {
+          border-color: rgba(200, 149, 46, 0.4);
+          background: rgba(200, 149, 46, 0.08);
+        }
+        .vc-stat-box.highlight .vc-stat-val {
+          color: var(--gold-bright);
+        }
+
+        /* ── 1-Click Action Card ── */
+        .vc-action-card {
+          background: linear-gradient(135deg, rgba(26, 74, 66, 0.25) 0%, rgba(22, 27, 24, 0.85) 100%);
+          border: 1px solid rgba(200, 149, 46, 0.35);
+          border-radius: var(--radius);
+          padding: 24px 20px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 14px;
+          text-align: center;
+          box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4), 0 0 30px rgba(200, 149, 46, 0.06);
+        }
+        .vc-main-btn {
+          font-family: var(--font-headline);
+          font-size: 16.5px;
+          font-weight: 700;
+          padding: 15px 34px;
+          border-radius: 999px;
+          cursor: pointer;
+          background: linear-gradient(135deg, var(--gold-bright) 0%, var(--gold) 50%, var(--amber) 100%);
+          color: #0a0b0b;
+          border: none;
+          box-shadow: 0 4px 20px rgba(200, 149, 46, 0.4), 0 0 30px rgba(230, 184, 77, 0.2);
+          display: inline-flex;
+          align-items: center;
+          gap: 10px;
+          transition: all 0.25s ease;
+        }
+        .vc-main-btn:hover {
+          transform: translateY(-2px) scale(1.02);
+          box-shadow: 0 8px 30px rgba(200, 149, 46, 0.55), 0 0 45px rgba(230, 184, 77, 0.3);
+          filter: brightness(1.08);
+        }
+        .vc-main-btn:active {
+          transform: translateY(1px);
+        }
+        .vc-action-hint {
+          font-size: 12.5px;
+          color: var(--beige-soft);
+          line-height: 1.5;
+        }
+
+        /* ── Quick Presets (Pills) ── */
+        .vc-presets-wrap {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          flex-wrap: wrap;
+          margin-top: 4px;
+        }
+        .vc-preset-btn {
+          background: rgba(0,0,0,0.3);
+          border: 1px solid var(--border);
+          color: var(--beige);
+          border-radius: 999px;
+          padding: 6px 14px;
+          font-size: 12px;
+          cursor: pointer;
+          transition: all 0.2s ease;
+        }
+        .vc-preset-btn:hover {
+          border-color: var(--gold);
+          color: #fff;
+        }
+        .vc-preset-btn.active {
+          background: rgba(200, 149, 46, 0.18);
+          border-color: var(--gold-bright);
+          color: var(--gold-bright);
+          font-weight: 700;
+        }
+
+        /* ── Advanced Options Drawer ── */
+        .vc-toggle-link {
+          font-size: 12px;
+          color: var(--beige-muted);
+          background: none;
+          border: none;
+          cursor: pointer;
+          text-decoration: underline;
+          transition: color 0.2s;
+        }
+        .vc-toggle-link:hover {
+          color: var(--gold);
+        }
+        .vc-advanced-drawer {
+          display: none;
+          background: rgba(0, 0, 0, 0.25);
+          border: 1px dashed var(--border);
+          border-radius: var(--radius-sm);
+          padding: 14px 16px;
+          width: 100%;
+          margin-top: 6px;
+          text-align: right;
+        }
+        .vc-adv-row {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 12px;
+          flex-wrap: wrap;
+          margin-bottom: 10px;
+        }
+        .vc-adv-row:last-child {
+          margin-bottom: 0;
+        }
+
+        /* ── Live Processing View ── */
+        .vc-processing-view {
+          display: none;
+          background: var(--card);
+          border: 1px solid rgba(200, 149, 46, 0.4);
+          border-radius: var(--radius);
+          padding: 24px;
+          flex-direction: column;
+          align-items: center;
+          gap: 18px;
+          text-align: center;
+          box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+        }
+        .vc-screen-wrap {
+          position: relative;
+          max-width: 480px;
+          width: 100%;
+          aspect-ratio: 16/9;
+          background: #000;
+          border-radius: var(--radius-sm);
+          overflow: hidden;
+          border: 1px solid rgba(200, 149, 46, 0.3);
+          box-shadow: 0 4px 18px rgba(0,0,0,0.6);
+        }
+        .vc-screen-canvas {
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+          display: block;
+        }
+        .vc-scanner-line {
+          position: absolute;
+          top: 0; left: 0; right: 0;
+          height: 3px;
+          background: linear-gradient(90deg, transparent, var(--gold-bright), transparent);
+          box-shadow: 0 0 12px var(--gold-bright);
+          animation: vcScan 2s ease-in-out infinite alternate;
+          pointer-events: none;
+        }
+        @keyframes vcScan {
+          0% { top: 0%; opacity: 0.7; }
+          100% { top: 96%; opacity: 1; }
+        }
+        .vc-progress-track {
+          width: 100%;
+          max-width: 520px;
+          height: 12px;
+          background: rgba(0,0,0,0.5);
+          border-radius: 999px;
+          overflow: hidden;
+          border: 1px solid rgba(255,255,255,0.08);
+          position: relative;
+        }
+        .vc-progress-bar {
+          width: 0%;
+          height: 100%;
+          background: linear-gradient(90deg, var(--gold) 0%, var(--gold-bright) 100%);
+          box-shadow: 0 0 14px rgba(230, 184, 77, 0.5);
+          transition: width 0.2s linear;
+        }
+        .vc-processing-status {
+          font-size: 14px;
+          color: #fff;
+          font-weight: 600;
+        }
+        .vc-processing-eta {
+          font-family: var(--mono);
+          font-size: 13px;
+          color: var(--gold);
+        }
+
+        /* ── Result View ── */
+        .vc-result-view {
+          display: none;
+          background: var(--card);
+          border: 1px solid rgba(109, 184, 122, 0.4);
+          border-radius: var(--radius);
+          padding: 24px;
+          flex-direction: column;
+          gap: 20px;
+          box-shadow: 0 8px 32px rgba(0,0,0,0.5), 0 0 30px rgba(109, 184, 122, 0.1);
+        }
+        .vc-success-banner {
+          background: rgba(109, 184, 122, 0.12);
+          border: 1px solid rgba(109, 184, 122, 0.3);
+          border-radius: var(--radius-sm);
+          padding: 12px 16px;
+          text-align: center;
+          color: var(--success);
+          font-size: 15px;
+          font-weight: 700;
+        }
+        .vc-comparison-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 12px;
+        }
+        @media (max-width: 560px) {
+          .vc-comparison-grid {
+            grid-template-columns: 1fr;
+          }
+        }
+        .vc-comp-card {
+          background: rgba(0,0,0,0.25);
+          border: 1px solid var(--border);
+          border-radius: var(--radius-sm);
+          padding: 14px;
+          text-align: center;
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+        }
+        .vc-comp-card.saved {
+          border-color: rgba(109, 184, 122, 0.5);
+          background: rgba(109, 184, 122, 0.08);
+        }
+        .vc-comp-card.new {
+          border-color: rgba(200, 149, 46, 0.5);
+          background: rgba(200, 149, 46, 0.08);
+        }
+        .vc-comp-label {
+          font-size: 11.5px;
+          color: var(--beige-muted);
+        }
+        .vc-comp-val {
+          font-family: var(--mono);
+          font-size: 18px;
+          font-weight: 700;
+          color: #fff;
+        }
+        .vc-comp-card.saved .vc-comp-val {
+          color: var(--success);
+        }
+        .vc-comp-card.new .vc-comp-val {
+          color: var(--gold-bright);
+        }
+        .vc-player-wrap {
+          width: 100%;
+          max-width: 520px;
+          margin: 0 auto;
+          border-radius: var(--radius-sm);
+          overflow: hidden;
+          background: #000;
+          border: 1px solid var(--border);
+        }
+        .vc-result-video {
+          width: 100%;
+          display: block;
+          max-height: 320px;
+        }
+        .vc-download-actions {
+          display: flex;
+          justify-content: center;
+          gap: 12px;
+          flex-wrap: wrap;
+          margin-top: 6px;
+        }
+      </style>
+
+      <div class="vc-wrap">
+        <!-- Hidden video and canvas used for client-side processing -->
+        <video id="vc-hidden-video" style="display:none;" playsinline preload="auto"></video>
+        <canvas id="vc-render-canvas" style="display:none;"></canvas>
+
+        <!-- Dropzone -->
+        <div id="vc-dropzone" class="vc-dropzone" role="button" tabindex="0" aria-label="اختر أو اسحب ملف الفيديو هنا">
+          <input id="vc-file-input" type="file" accept="video/*" style="display:none;">
+          <span class="vc-drop-icon">🎬</span>
+          <span class="vc-drop-title">اسحب وأفلت الفيديو هنا، أو اضغط للاختيار</span>
+          <span class="vc-drop-subtitle">
+            يدعم MP4, WebM, MOV, MKV — بدون رفع لأي سيرفر، كل المعالجة مشفرة ومحلية داخل جهازك 100%.
+          </span>
+        </div>
+
+        <!-- Main Workspace -->
+        <div id="vc-workspace" class="vc-workspace">
+          
+          <!-- Video Information Banner -->
+          <div class="vc-info-card">
+            <div class="vc-info-header">
+              <span id="vc-file-name" class="vc-file-name">📹 video.mp4</span>
+              <button id="vc-change-file-btn" class="btn-ghost" type="button" style="padding:4px 10px; font-size:12px;">تغيير الفيديو</button>
+            </div>
+            <div class="vc-stats-grid">
+              <div class="vc-stat-box">
+                <span class="vc-stat-label">الحجم الأصلي</span>
+                <span id="vc-stat-orig-size" class="vc-stat-val">--</span>
+              </div>
+              <div class="vc-stat-box">
+                <span class="vc-stat-label">المدة</span>
+                <span id="vc-stat-duration" class="vc-stat-val">--</span>
+              </div>
+              <div class="vc-stat-box">
+                <span class="vc-stat-label">الأبعاد</span>
+                <span id="vc-stat-res" class="vc-stat-val">--</span>
+              </div>
+              <div class="vc-stat-box highlight">
+                <span class="vc-stat-label">الحجم المتوقع للضغط 🔥</span>
+                <span id="vc-stat-expected-size" class="vc-stat-val">~9.5 MB</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 1-Click Action Card -->
+          <div id="vc-action-card" class="vc-action-card">
+            <button id="vc-start-btn" type="button" class="vc-main-btn">
+              <span>⚡ ابدأ الضغط الذكي (أقصى توفير بأعلى جودة)</span>
+            </button>
+            <p class="vc-action-hint">
+              سيتم تفريغ معدل البيانات الزائد وتطبيق خوارزمية الضغط المتطورة للحصول على أصغر حجم ممكن مع الحفاظ على وضوح الصورة.
+            </p>
+
+            <!-- Quick Presets -->
+            <div class="vc-presets-wrap">
+              <button type="button" class="vc-preset-btn active" data-preset="10mb">⚡ أقصى ضغط تلقائي (~10MB)</button>
+              <button type="button" class="vc-preset-btn" data-preset="16mb">💬 مناسب للواتساب (~16MB)</button>
+              <button type="button" class="vc-preset-btn" data-preset="25mb">🎮 ديسكورد / إيميل (~25MB)</button>
+              <button type="button" class="vc-preset-btn" data-preset="balanced">✨ جودة متوازنة (Balanced)</button>
+            </div>
+
+            <!-- Advanced Options Toggle -->
+            <button id="vc-toggle-advanced" type="button" class="vc-toggle-link">⚙️ خيارات متقدمة إضافية (اختياري)</button>
+
+            <!-- Advanced Drawer -->
+            <div id="vc-advanced-drawer" class="vc-advanced-drawer">
+              <div class="vc-adv-row">
+                <label style="font-size:12.5px; color:var(--beige);">أبعاد الدقة الناتجة:</label>
+                <select id="vc-res-select" class="form-control" style="max-width:210px; padding:4px 8px; font-size:12px;">
+                  <option value="auto" selected>تلقائي ذكي (مستحسن لنقاء الصورة)</option>
+                  <option value="1080">Full HD (1080p)</option>
+                  <option value="720">HD (720p)</option>
+                  <option value="original">نفس الأبعاد الأصلية دون تغيير</option>
+                </select>
+              </div>
+              <div class="vc-adv-row">
+                <label style="font-size:12.5px; color:var(--beige);">حجم مخصص مستهدف (MB):</label>
+                <input id="vc-custom-size-input" class="form-control" type="number" min="1" max="500" placeholder="مثلاً: 10" style="max-width:120px; padding:4px 8px; font-size:12px;">
+              </div>
+              <div class="vc-adv-row" style="justify-content:flex-start;">
+                <label style="display:inline-flex; align-items:center; gap:8px; font-size:12.5px; cursor:pointer;">
+                  <input id="vc-mute-toggle" type="checkbox">
+                  <span>كتم الصوت تماماً (يوفر مساحة إضافية)</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Live Processing View -->
+          <div id="vc-processing-view" class="vc-processing-view">
+            <span class="vc-processing-status">⚡ جارِ ضغط الفيديو بالخوارزمية الذكية محلياً...</span>
+            
+            <!-- Live Screen View -->
+            <div class="vc-screen-wrap">
+              <canvas id="vc-preview-canvas" class="vc-screen-canvas"></canvas>
+              <div class="vc-scanner-line"></div>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="vc-progress-track">
+              <div id="vc-progress-bar" class="vc-progress-bar"></div>
+            </div>
+
+            <div style="display:flex; justify-content:space-between; width:100%; max-width:520px; font-size:13px;">
+              <span id="vc-progress-pct" style="font-weight:700; color:var(--gold-bright);">0%</span>
+              <span id="vc-processing-eta" class="vc-processing-eta">جارِ الحساب...</span>
+            </div>
+
+            <button id="vc-cancel-btn" type="button" class="btn-ghost" style="color:var(--error); border-color:rgba(199,90,90,0.3); font-size:12px; padding:6px 16px;">
+              ✕ إلغاء المعالجة
+            </button>
+          </div>
+
+          <!-- Result View -->
+          <div id="vc-result-view" class="vc-result-view">
+            <div class="vc-success-banner">
+              🎉 تم ضغط الفيديو بنجاح بأعلى توفير مع الحفاظ على نقاء الجودة!
+            </div>
+
+            <div class="vc-comparison-grid">
+              <div class="vc-comp-card">
+                <span class="vc-comp-label">الحجم الأصلي</span>
+                <span id="vc-orig-val" class="vc-comp-val">--</span>
+              </div>
+              <div class="vc-comp-card new">
+                <span class="vc-comp-label">الحجم بعد الضغط</span>
+                <span id="vc-new-val" class="vc-comp-val">--</span>
+              </div>
+              <div class="vc-comp-card saved">
+                <span class="vc-comp-label">نسبة التوفير 🔥</span>
+                <span id="vc-saved-val" class="vc-comp-val">--</span>
+              </div>
+            </div>
+
+            <!-- Player to verify quality -->
+            <div class="vc-player-wrap">
+              <video id="vc-result-video" class="vc-result-video" controls playsinline></video>
+            </div>
+
+            <div class="vc-download-actions">
+              <a id="vc-download-btn" class="btn-action vc-main-btn" href="#" download="compressed_video.mp4" style="text-decoration:none;">
+                ⬇️ تحميل الفيديو المضغوط
+              </a>
+              <button id="vc-reset-btn" type="button" class="btn-ghost" style="padding:12px 24px; font-size:14px;">
+                🔄 ضغط فيديو آخر
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    `,
+    init: function () {
+      const dropzone = document.getElementById('vc-dropzone');
+      const fileInput = document.getElementById('vc-file-input');
+      const workspace = document.getElementById('vc-workspace');
+      const hiddenVideo = document.getElementById('vc-hidden-video');
+      const renderCanvas = document.getElementById('vc-render-canvas');
+      const previewCanvas = document.getElementById('vc-preview-canvas');
+      const fileNameEl = document.getElementById('vc-file-name');
+      const changeFileBtn = document.getElementById('vc-change-file-btn');
+      const statOrigSize = document.getElementById('vc-stat-orig-size');
+      const statDuration = document.getElementById('vc-stat-duration');
+      const statRes = document.getElementById('vc-stat-res');
+      const statExpected = document.getElementById('vc-stat-expected-size');
+      const actionCard = document.getElementById('vc-action-card');
+      const startBtn = document.getElementById('vc-start-btn');
+      const presetsWrap = document.getElementById('vc-presets-wrap');
+      const toggleAdvBtn = document.getElementById('vc-toggle-advanced');
+      const advDrawer = document.getElementById('vc-advanced-drawer');
+      const resSelect = document.getElementById('vc-res-select');
+      const customSizeInput = document.getElementById('vc-custom-size-input');
+      const muteToggle = document.getElementById('vc-mute-toggle');
+      const processingView = document.getElementById('vc-processing-view');
+      const progressBar = document.getElementById('vc-progress-bar');
+      const progressPct = document.getElementById('vc-progress-pct');
+      const progressEta = document.getElementById('vc-processing-eta');
+      const cancelBtn = document.getElementById('vc-cancel-btn');
+      const resultView = document.getElementById('vc-result-view');
+      const origValEl = document.getElementById('vc-orig-val');
+      const newValEl = document.getElementById('vc-new-val');
+      const savedValEl = document.getElementById('vc-saved-val');
+      const resultVideo = document.getElementById('vc-result-video');
+      const downloadBtn = document.getElementById('vc-download-btn');
+      const resetBtn = document.getElementById('vc-reset-btn');
+
+      let currentFile = null;
+      let currentBlobUrl = null;
+      let resultBlobUrl = null;
+      let activePreset = '10mb';
+      let isCompressing = false;
+      let animFrameId = null;
+      let mediaRecorder = null;
+      let recordedChunks = [];
+      let audioCtx = null;
+      let audioSourceNode = null;
+      let audioDestNode = null;
+
+      function formatBytes(bytes) {
+        if (!bytes || bytes === 0) return '0 B';
+        const k = 1024;
+        const sizes = ['B', 'KB', 'MB', 'GB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return (bytes / Math.pow(k, i)).toFixed(1) + ' ' + sizes[i];
+      }
+
+      function formatTime(secs) {
+        if (!secs || isNaN(secs)) return '00:00';
+        const m = Math.floor(secs / 60);
+        const s = Math.floor(secs % 60);
+        return (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s;
+      }
+
+      function calculateTargetMB() {
+        if (customSizeInput.value && parseFloat(customSizeInput.value) > 0) {
+          return parseFloat(customSizeInput.value);
+        }
+        if (activePreset === '16mb') return 15.5;
+        if (activePreset === '25mb') return 24.5;
+        if (activePreset === 'balanced') {
+          if (!currentFile) return 20;
+          const origMB = currentFile.size / (1024 * 1024);
+          return Math.max(12, Math.round(origMB * 0.25));
+        }
+        // default 10mb
+        return 9.5;
+      }
+
+      function updateEstimates() {
+        if (!currentFile || !hiddenVideo.duration) return;
+        const targetMB = calculateTargetMB();
+        const origMB = currentFile.size / (1024 * 1024);
+        const savedPct = Math.max(0, Math.min(98, Math.round(((origMB - targetMB) / origMB) * 100)));
+        statExpected.textContent = '~' + targetMB.toFixed(1) + ' MB (توفير ' + savedPct + '% 🔥)';
+      }
+
+      // Drag & Drop
+      dropzone.addEventListener('click', function () { fileInput.click(); });
+      dropzone.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fileInput.click(); }
+      });
+      changeFileBtn.addEventListener('click', function () { fileInput.click(); });
+
+      ['dragenter', 'dragover'].forEach(function (evt) {
+        dropzone.addEventListener(evt, function (e) {
+          e.preventDefault();
+          dropzone.classList.add('dragover');
+        });
+      });
+      ['dragleave', 'drop'].forEach(function (evt) {
+        dropzone.addEventListener(evt, function (e) {
+          e.preventDefault();
+          dropzone.classList.remove('dragover');
+        });
+      });
+      dropzone.addEventListener('drop', function (e) {
+        const file = e.dataTransfer && e.dataTransfer.files ? e.dataTransfer.files[0] : null;
+        if (file && file.type.startsWith('video/')) handleVideoFile(file);
+      });
+      fileInput.addEventListener('change', function () {
+        if (fileInput.files && fileInput.files[0]) handleVideoFile(fileInput.files[0]);
+      });
+
+      function handleVideoFile(file) {
+        currentFile = file;
+        fileNameEl.textContent = '📹 ' + file.name;
+        statOrigSize.textContent = formatBytes(file.size);
+
+        if (currentBlobUrl) URL.revokeObjectURL(currentBlobUrl);
+        currentBlobUrl = URL.createObjectURL(file);
+
+        hiddenVideo.src = currentBlobUrl;
+        hiddenVideo.load();
+
+        hiddenVideo.onloadedmetadata = function () {
+          statDuration.textContent = formatTime(hiddenVideo.duration);
+          statRes.textContent = hiddenVideo.videoWidth + ' × ' + hiddenVideo.videoHeight;
+          updateEstimates();
+
+          dropzone.style.display = 'none';
+          workspace.style.display = 'flex';
+          actionCard.style.display = 'flex';
+          processingView.style.display = 'none';
+          resultView.style.display = 'none';
+        };
+
+        hiddenVideo.onerror = function () {
+          alert('تعذر تشغيل هذا الملف في المتصفح. تأكد من أن الفيديو بتنسيق قياسي مثل MP4 أو WebM أو MOV.');
+        };
+      }
+
+      // Presets handling
+      presetsWrap.querySelectorAll('.vc-preset-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          presetsWrap.querySelectorAll('.vc-preset-btn').forEach(function (b) { b.classList.remove('active'); });
+          btn.classList.add('active');
+          activePreset = btn.dataset.preset;
+          customSizeInput.value = '';
+          updateEstimates();
+        });
+      });
+
+      customSizeInput.addEventListener('input', function () {
+        presetsWrap.querySelectorAll('.vc-preset-btn').forEach(function (b) { b.classList.remove('active'); });
+        updateEstimates();
+      });
+
+      // Advanced options toggle
+      toggleAdvBtn.addEventListener('click', function () {
+        const isHidden = advDrawer.style.display === 'none' || advDrawer.style.display === '';
+        advDrawer.style.display = isHidden ? 'block' : 'none';
+        toggleAdvBtn.textContent = isHidden ? '▲ إخفاء الخيارات المتقدمة' : '⚙️ خيارات متقدمة إضافية (اختياري)';
+      });
+
+      resSelect.addEventListener('change', updateEstimates);
+      muteToggle.addEventListener('change', updateEstimates);
+
+      function getBestVideoMime() {
+        const types = [
+          'video/mp4;codecs=avc1.42E01E,mp4a.40.2',
+          'video/mp4;codecs=avc1,mp4a',
+          'video/mp4',
+          'video/webm;codecs=vp9,opus',
+          'video/webm;codecs=vp8,opus',
+          'video/webm;codecs=h264,opus',
+          'video/webm'
+        ];
+        for (const t of types) {
+          if (typeof MediaRecorder !== 'undefined' && MediaRecorder.isTypeSupported && MediaRecorder.isTypeSupported(t)) {
+            return t;
+          }
+        }
+        return '';
+      }
+
+      // Start Compression
+      startBtn.addEventListener('click', async function () {
+        if (!currentFile || !hiddenVideo.duration || isCompressing) return;
+        isCompressing = true;
+
+        // Calculate Target Bitrates
+        const targetMB = calculateTargetMB();
+        const duration = Math.max(1, hiddenVideo.duration);
+        const totalTargetBits = targetMB * 1024 * 1024 * 8;
+        const totalBitrate = totalTargetBits / duration;
+
+        const isMuted = muteToggle.checked;
+        const audioBitrate = isMuted ? 0 : 96000;
+        let videoBitrate = Math.round(totalBitrate - audioBitrate);
+        videoBitrate = Math.max(280000, Math.min(3500000, videoBitrate));
+
+        // Calculate Target Dimensions
+        const origW = hiddenVideo.videoWidth || 1280;
+        const origH = hiddenVideo.videoHeight || 720;
+        const aspect = origW / origH;
+        let targetW = origW;
+        let targetH = origH;
+
+        const resChoice = resSelect.value;
+        if (resChoice === '1080' && targetW > 1920) {
+          targetW = 1920;
+          targetH = Math.round(targetW / aspect);
+        } else if (resChoice === '720' && targetW > 1280) {
+          targetW = 1280;
+          targetH = Math.round(targetW / aspect);
+        } else if (resChoice === 'auto') {
+          // Smart Auto scaling: keep pixel density crisp
+          if (targetW > 1920) {
+            targetW = 1920;
+            targetH = Math.round(targetW / aspect);
+          }
+          if (videoBitrate < 850000 && targetW > 1280) {
+            targetW = 1280;
+            targetH = Math.round(targetW / aspect);
+          }
+        }
+        // Ensure even numbers for encoders
+        targetW = Math.round(targetW / 2) * 2;
+        targetH = Math.round(targetH / 2) * 2;
+
+        renderCanvas.width = targetW;
+        renderCanvas.height = targetH;
+        previewCanvas.width = targetW;
+        previewCanvas.height = targetH;
+
+        const renderCtx = renderCanvas.getContext('2d', { alpha: false });
+        const previewCtx = previewCanvas.getContext('2d', { alpha: false });
+
+        // Setup Audio Track
+        let audioTrack = null;
+        if (!isMuted) {
+          try {
+            if (!audioCtx || audioCtx.state === 'closed') {
+              audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioCtx.state === 'suspended') {
+              await audioCtx.resume();
+            }
+            if (!audioSourceNode) {
+              audioSourceNode = audioCtx.createMediaElementSource(hiddenVideo);
+              audioDestNode = audioCtx.createMediaStreamDestination();
+              audioSourceNode.connect(audioDestNode);
+            }
+            const aTracks = audioDestNode.stream.getAudioTracks();
+            if (aTracks.length > 0) audioTrack = aTracks[0];
+          } catch (e) {
+            console.warn('Audio routing notice:', e);
+            try {
+              const stream = hiddenVideo.captureStream ? hiddenVideo.captureStream() : (hiddenVideo.mozCaptureStream ? hiddenVideo.mozCaptureStream() : null);
+              if (stream && stream.getAudioTracks().length > 0) audioTrack = stream.getAudioTracks()[0];
+            } catch (err) {}
+          }
+        }
+
+        // Setup Canvas Stream
+        const canvasStream = renderCanvas.captureStream ? renderCanvas.captureStream(30) : null;
+        if (!canvasStream) {
+          alert('متصفحك لا يدعم تسجيل مقاطع الفيديو عبر captureStream.');
+          isCompressing = false;
+          return;
+        }
+
+        const tracks = [...canvasStream.getVideoTracks()];
+        if (audioTrack) tracks.push(audioTrack);
+        const combinedStream = new MediaStream(tracks);
+
+        const mime = getBestVideoMime();
+        const options = { videoBitsPerSecond: videoBitrate };
+        if (audioBitrate > 0) options.audioBitsPerSecond = audioBitrate;
+        if (mime) options.mimeType = mime;
+
+        recordedChunks = [];
+        try {
+          mediaRecorder = new MediaRecorder(combinedStream, options);
+        } catch (e) {
+          mediaRecorder = new MediaRecorder(combinedStream);
+        }
+
+        mediaRecorder.ondataavailable = function (e) {
+          if (e.data && e.data.size > 0) recordedChunks.push(e.data);
+        };
+
+        // UI transitions
+        actionCard.style.display = 'none';
+        processingView.style.display = 'flex';
+        resultView.style.display = 'none';
+        progressBar.style.width = '0%';
+        progressPct.textContent = '0%';
+        progressEta.textContent = 'متبقي تقريباً: ' + formatTime(duration);
+
+        // Frame rendering loop
+        hiddenVideo.currentTime = 0;
+        let isDrawing = true;
+
+        function renderFrame() {
+          if (!isDrawing) return;
+          if (!hiddenVideo.paused && !hiddenVideo.ended) {
+            renderCtx.drawImage(hiddenVideo, 0, 0, targetW, targetH);
+            previewCtx.drawImage(hiddenVideo, 0, 0, targetW, targetH);
+          }
+          animFrameId = requestAnimationFrame(renderFrame);
+        }
+
+        function onTimeUpdate() {
+          if (!isCompressing) return;
+          const cur = hiddenVideo.currentTime;
+          const dur = hiddenVideo.duration || 1;
+          const pct = Math.min(99, Math.round((cur / dur) * 100));
+          progressBar.style.width = pct + '%';
+          progressPct.textContent = pct + '%';
+          const rem = Math.max(0, Math.round(dur - cur));
+          progressEta.textContent = 'متبقي تقريباً: ' + formatTime(rem);
+        }
+
+        function onEnded() {
+          if (!isCompressing) return;
+          isDrawing = false;
+          if (animFrameId) cancelAnimationFrame(animFrameId);
+          progressBar.style.width = '100%';
+          progressPct.textContent = '100%';
+          progressEta.textContent = 'جارِ حفظ وتجهيز الملف المضغوط...';
+
+          setTimeout(function () {
+            if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+              mediaRecorder.stop();
+            }
+          }, 300);
+        }
+
+        hiddenVideo.addEventListener('timeupdate', onTimeUpdate);
+        hiddenVideo.addEventListener('ended', onEnded, { once: true });
+
+        mediaRecorder.onstop = function () {
+          isCompressing = false;
+          hiddenVideo.removeEventListener('timeupdate', onTimeUpdate);
+
+          const outMime = (mediaRecorder.mimeType && mediaRecorder.mimeType.length) ? mediaRecorder.mimeType : (mime || 'video/webm');
+          const finalBlob = new Blob(recordedChunks, { type: outMime });
+
+          // Present Results
+          if (resultBlobUrl) URL.revokeObjectURL(resultBlobUrl);
+          resultBlobUrl = URL.createObjectURL(finalBlob);
+
+          origValEl.textContent = formatBytes(currentFile.size);
+          newValEl.textContent = formatBytes(finalBlob.size);
+
+          const savedRatio = Math.max(0, ((currentFile.size - finalBlob.size) / currentFile.size) * 100).toFixed(1);
+          savedValEl.textContent = 'وفرت ' + savedRatio + '% 🔥';
+
+          resultVideo.src = resultBlobUrl;
+          resultVideo.load();
+
+          // Prepare download filename
+          const cleanName = currentFile.name.replace(/\\.[^.]+$/, '');
+          const isMp4 = outMime.toLowerCase().includes('mp4');
+          const ext = isMp4 ? '.mp4' : '.webm';
+          downloadBtn.href = resultBlobUrl;
+          downloadBtn.download = cleanName + '_compressed' + ext;
+
+          processingView.style.display = 'none';
+          resultView.style.display = 'flex';
+        };
+
+        // Start Recording & Playback
+        mediaRecorder.start(200);
+        isDrawing = true;
+        renderFrame();
+
+        try {
+          await hiddenVideo.play();
+        } catch (playErr) {
+          alert('تعذر بدء تشغيل الفيديو. يرجى الضغط مرة أخرى للمحاولة.');
+          cancelCompression();
+        }
+      });
+
+      function cancelCompression() {
+        isCompressing = false;
+        if (animFrameId) cancelAnimationFrame(animFrameId);
+        try {
+          hiddenVideo.pause();
+          hiddenVideo.currentTime = 0;
+        } catch (e) {}
+        if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+          mediaRecorder.stop();
+        }
+        recordedChunks = [];
+        processingView.style.display = 'none';
+        actionCard.style.display = 'flex';
+      }
+
+      cancelBtn.addEventListener('click', cancelCompression);
+
+      // Reset
+      resetBtn.addEventListener('click', function () {
+        cancelCompression();
+        currentFile = null;
+        if (currentBlobUrl) URL.revokeObjectURL(currentBlobUrl);
+        if (resultBlobUrl) URL.revokeObjectURL(resultBlobUrl);
+        currentBlobUrl = null;
+        resultBlobUrl = null;
+        fileInput.value = '';
+        resultVideo.pause();
+        resultVideo.src = '';
+        workspace.style.display = 'none';
+        dropzone.style.display = 'flex';
+      });
+    }
   }
 
 };
