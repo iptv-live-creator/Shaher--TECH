@@ -3597,18 +3597,22 @@ const toolsDB = {
       }
 
       // Presets handling
-      presetsWrap.querySelectorAll('.vc-preset-btn').forEach(function (btn) {
-        btn.addEventListener('click', function () {
-          presetsWrap.querySelectorAll('.vc-preset-btn').forEach(function (b) { b.classList.remove('active'); });
-          btn.classList.add('active');
-          activePreset = btn.dataset.preset;
-          customSizeInput.value = '';
-          updateEstimates();
+      if (presetsWrap) {
+        presetsWrap.querySelectorAll('.vc-preset-btn').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            presetsWrap.querySelectorAll('.vc-preset-btn').forEach(function (b) { b.classList.remove('active'); });
+            btn.classList.add('active');
+            activePreset = btn.dataset.preset;
+            customSizeInput.value = '';
+            updateEstimates();
+          });
         });
-      });
+      }
 
       customSizeInput.addEventListener('input', function () {
-        presetsWrap.querySelectorAll('.vc-preset-btn').forEach(function (b) { b.classList.remove('active'); });
+        if (presetsWrap) {
+          presetsWrap.querySelectorAll('.vc-preset-btn').forEach(function (b) { b.classList.remove('active'); });
+        }
         updateEstimates();
       });
 
