@@ -3359,7 +3359,7 @@ const toolsDB = {
             </p>
 
             <!-- Quick Presets -->
-            <div class="vc-presets-wrap">
+            <div id="vc-presets-wrap" class="vc-presets-wrap">
               <button type="button" class="vc-preset-btn active" data-preset="10mb">⚡ أقصى ضغط تلقائي (~10MB)</button>
               <button type="button" class="vc-preset-btn" data-preset="16mb">💬 مناسب للواتساب (~16MB)</button>
               <button type="button" class="vc-preset-btn" data-preset="25mb">🎮 ديسكورد / إيميل (~25MB)</button>
