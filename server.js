@@ -106,6 +106,64 @@ app.get('/api/health', function (req, res) {
   });
 });
 
+
+// ---- per-route SEO meta --------------------------------------------------
+// Serves tool routes with title/description/canonical/OG already set in the
+// RAW HTML (mirrors the client-side updateMeta in public/index.html), so
+// crawlers and link previews get per-tool metadata without executing JS.
+// When adding a tool: add it here AND to toolsDB AND TOOL_ROUTES AND sitemap.
+const SITE_ORIGIN = 'https://shaher-tech.vercel.app';
+const ROUTE_META = {
+  'whatsapp': { title: 'WhatsApp Direct Link', desc: 'Open a WhatsApp chat with any number without saving it to your contacts.' },
+  'prompt': { title: 'Multi-AI Prompt Architect', desc: 'حوّل فكرتك البسيطة إلى برومبت احترافي جاهز للنسخ إلى ChatGPT أو Gemini أو Claude.' },
+  'qeteya': { title: 'مُقسم الفواتير الذكي', desc: 'احسب نصيب كل فرد في فاتورة الأكل أو القهوة، وولد رسالة واتساب شيك بإنستاباي وفودافون كاش فوراً.' },
+  'pdf': { title: 'دمج ملفات الـ PDF', desc: 'اجمع ورتب عدة ملفات PDF في ملف واحد بضغطة زر وبخصوصية 100% بدون رفعها لأي سيرفر.' },
+  'compress': { title: 'مُصغر الصور الذكي (Image Compressor)', desc: 'حل مشكلة "حجم الملف كبير جداً": قلل حجم أي صورة لأقل من 2MB أو الحجم المطلوب بضغطة زر مع الحفاظ على أعلى جودة وخصوصية 100%.' },
+  'video-compress': { title: 'مُصغر الفيديوهات الذكي (Smart Video Compressor)', desc: 'الحل السحري: قلل حجم أي فيديو لأقصى حد (~10MB وأقل) بضغطة زر واحدة مع الحفاظ على أعلى جودة ونقاء وبدون أي تعقيد.' },
+  'images-to-pdf': { title: 'تحويل الصور إلى ملف PDF (Images to PDF)', desc: 'حوّل صور الأوراق والمستندات لملف PDF واحد جاهز للإرسال — رتّب واحذف بضغطة، وكل المعالجة في متصفحك بدون رفع لأي سيرفر.' },
+  'qr': { title: 'إنشاء رمز QR (QR Code)', desc: 'حوّل أي لينك أو نص لرمز QR واضح جاهز للتحميل والمشاركة — بضغطة واحدة، وبدون رفع أي حاجة لأي سيرفر.' }
+};
+const ALIAS_TO_SLUG = {
+  'wa': 'whatsapp', '1': 'whatsapp',
+  'prompts': 'prompt', 'ai': 'prompt', '2': 'prompt',
+  'split': 'qeteya', 'bill': 'qeteya', 'hesab': 'qeteya', 'qsmha': 'qeteya', '3': 'qeteya',
+  'merge': 'pdf', 'pdfmerge': 'pdf', 'pdf-merge': 'pdf', '4': 'pdf',
+  'image': 'compress', 'img': 'compress', 'resize': 'compress',
+  'video': 'video-compress', 'vcomp': 'video-compress', 'compress-video': 'video-compress', 'mp4': 'video-compress',
+  'img2pdf': 'images-to-pdf', 'topdf': 'images-to-pdf', 'scan': 'images-to-pdf', '7': 'images-to-pdf',
+  'qrcode': 'qr', 'barcode': 'qr', '8': 'qr'
+};
+let INDEX_HTML_CACHE = null;
+function escapeHtmlAttr(v) {
+  return String(v).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+function setTagAttr(html, id, attr, val) {
+  const re = new RegExp('(<(?:meta|link)\\b[^>]*id="' + id + '"[^>]*\\b' + attr + '=")[^"]*(")');
+  return html.replace(re, function (m, p1, p2) { return p1 + val + p2; });
+}
+function servedIndexHtml(slug) {
+  if (!INDEX_HTML_CACHE) {
+    try {
+      INDEX_HTML_CACHE = fs.readFileSync(path.join(__dirname, 'public', 'index.html'), 'utf8');
+    } catch (e) {
+      return null;
+    }
+  }
+  const meta = slug ? ROUTE_META[slug] : null;
+  if (!meta) return INDEX_HTML_CACHE;
+  const title = escapeHtmlAttr(meta.title + ' — Shaher Tech | شاهر تك');
+  const desc = escapeHtmlAttr(meta.desc);
+  const url = SITE_ORIGIN + '/' + slug;
+  let html = INDEX_HTML_CACHE;
+  html = html.replace(/<title>[\s\S]*?<\/title>/, function () { return '<title>' + title + '</title>'; });
+  html = setTagAttr(html, 'meta-description', 'content', desc);
+  html = setTagAttr(html, 'meta-og-title', 'content', title);
+  html = setTagAttr(html, 'meta-og-description', 'content', desc);
+  html = setTagAttr(html, 'meta-og-url', 'content', url);
+  html = setTagAttr(html, 'meta-canonical', 'href', url);
+  return html;
+}
+
 // ---- SPA fallback -------------------------------------------------------
 // Known client-side tool routes (slugs + aliases from public/tools.js).
 // Unknown paths must return a REAL 404, not the SPA (soft-404 harms SEO).
@@ -130,6 +188,12 @@ app.get('*', function (req, res) {
   }
   const seg = req.path.replace(/^\/+|\/+$/g, '');
   if (seg === '' || TOOL_ROUTES.has(seg)) {
+    const slug = seg === '' ? null : (ROUTE_META[seg] ? seg : (ALIAS_TO_SLUG[seg] || null));
+    const injected = servedIndexHtml(slug);
+    if (injected) {
+      res.setHeader('Content-Type', 'text/html; charset=utf-8');
+      return res.send(injected);
+    }
     const publicIndex = path.join(__dirname, 'public', 'index.html');
     if (fs.existsSync(publicIndex)) {
       return res.sendFile(publicIndex);
