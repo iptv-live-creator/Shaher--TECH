@@ -114,7 +114,7 @@ app.get('/api/health', function (req, res) {
 // When adding a tool: add it here AND to toolsDB AND TOOL_ROUTES AND sitemap.
 const SITE_ORIGIN = 'https://shaher-tech.vercel.app';
 const ROUTE_META = {
-  'whatsapp': { title: 'WhatsApp Direct Link', desc: 'Open a WhatsApp chat with any number without saving it to your contacts.' },
+  'whatsapp': { title: 'رابط واتساب مباشر (WhatsApp Direct Link)', desc: 'افتح محادثة واتساب مع أي رقم بدون ما تحفظه في جهات اتصالك — اكتب الرقم وابدأ الشات فوراً.' },
   'prompt': { title: 'Multi-AI Prompt Architect', desc: 'حوّل فكرتك البسيطة إلى برومبت احترافي جاهز للنسخ إلى ChatGPT أو Gemini أو Claude.' },
   'qeteya': { title: 'مُقسم الفواتير الذكي', desc: 'احسب نصيب كل فرد في فاتورة الأكل أو القهوة، وولد رسالة واتساب شيك بإنستاباي وفودافون كاش فوراً.' },
   'pdf': { title: 'دمج ملفات الـ PDF', desc: 'اجمع ورتب عدة ملفات PDF في ملف واحد بضغطة زر وبخصوصية 100% بدون رفعها لأي سيرفر.' },
@@ -161,6 +161,23 @@ function servedIndexHtml(slug) {
   html = setTagAttr(html, 'meta-og-description', 'content', desc);
   html = setTagAttr(html, 'meta-og-url', 'content', url);
   html = setTagAttr(html, 'meta-canonical', 'href', url);
+  // Per-tool JSON-LD so each tool page identifies its own entity to crawlers
+  // (the homepage WebSite/ItemList graph stays as-is on every route).
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    'name': meta.title,
+    'description': meta.desc,
+    'url': url,
+    'inLanguage': 'ar',
+    'applicationCategory': 'UtilitiesApplication',
+    'operatingSystem': 'Any',
+    'isAccessibleForFree': true,
+    'offers': { '@type': 'Offer', 'price': '0', 'priceCurrency': 'USD' },
+    'isPartOf': { '@type': 'WebSite', 'name': 'Shaher Tech', 'alternateName': 'شاهر تك', 'url': SITE_ORIGIN + '/' }
+  };
+  const jsonLdTag = '<script type="application/ld+json">' + JSON.stringify(jsonLd).replace(/<\//g, '<\\/') + '</' + 'script>';
+  html = html.replace('</head>', '  ' + jsonLdTag + '\n</head>');
   return html;
 }
 
