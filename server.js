@@ -107,6 +107,18 @@ app.get('/api/health', function (req, res) {
 });
 
 // ---- SPA fallback -------------------------------------------------------
+// Known client-side tool routes (slugs + aliases from public/tools.js).
+// Unknown paths must return a REAL 404, not the SPA (soft-404 harms SEO).
+const TOOL_ROUTES = new Set([
+  'whatsapp', 'wa', '1',
+  'prompt', 'prompts', 'ai', '2',
+  'qeteya', 'split', 'bill', 'hesab', 'qsmha', '3',
+  'pdf', 'merge', 'pdfmerge', 'pdf-merge', '4',
+  'compress', 'image', 'img', 'resize',
+  'video-compress', 'video', 'vcomp', 'compress-video', 'mp4',
+  'images-to-pdf', 'img2pdf', 'topdf', 'scan', '7',
+  'qr', 'qrcode', 'barcode', '8'
+]);
 app.get('*', function (req, res) {
   const publicCandidate = path.join(__dirname, 'public', req.path);
   if (fs.existsSync(publicCandidate) && fs.statSync(publicCandidate).isFile()) {
@@ -116,11 +128,15 @@ app.get('*', function (req, res) {
   if (fs.existsSync(candidate) && fs.statSync(candidate).isFile()) {
     return res.sendFile(candidate);
   }
-  const publicIndex = path.join(__dirname, 'public', 'index.html');
-  if (fs.existsSync(publicIndex)) {
-    return res.sendFile(publicIndex);
+  const seg = req.path.replace(/^\/+|\/+$/g, '');
+  if (seg === '' || TOOL_ROUTES.has(seg)) {
+    const publicIndex = path.join(__dirname, 'public', 'index.html');
+    if (fs.existsSync(publicIndex)) {
+      return res.sendFile(publicIndex);
+    }
+    return res.sendFile(path.join(__dirname, 'index.html'));
   }
-  res.sendFile(path.join(__dirname, 'index.html'));
+  res.status(404).send('<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><meta name="robots" content="noindex"><title>404 — الصفحة مش موجودة | Shaher Tech</title></head><body style="font-family:sans-serif;background:#0a0b0b;color:#e8e6e3;display:flex;min-height:100vh;align-items:center;justify-content:center;text-align:center"><div><h1>404</h1><p>الصفحة دي مش موجودة.</p><p><a href="/" style="color:#d4af37">ارجع لكل الأدوات</a></p></div></body></html>');
 });
 
 if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
