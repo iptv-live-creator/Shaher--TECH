@@ -97,11 +97,11 @@ const toolsDB = {
 
   whatsappLinkTool: {
     emoji: '💬',
-    title: 'WhatsApp Direct Link',
+    title: 'رابط واتساب مباشر (WhatsApp Direct Link)',
     slug: 'whatsapp',
     aliases: ['wa', '1'],
     category: 'Social Media',
-    desc: 'Open a WhatsApp chat with any number without saving it to your contacts.',
+    desc: 'افتح محادثة واتساب مع أي رقم بدون ما تحفظه في جهات اتصالك — اكتب الرقم وابدأ الشات فوراً.',
     html: `
       <label class="label-hint">Country code</label>
       <select id="wl-country" class="form-control"></select>
@@ -2153,7 +2153,7 @@ const toolsDB = {
     emoji: '🗜️',
     title: 'مُصغر الصور الذكي (Image Compressor)',
     slug: 'compress',
-    aliases: ['image', 'img', 'resize', '3'],
+    aliases: ['image', 'img', 'resize'],
     category: 'Image',
     desc: 'حل مشكلة "حجم الملف كبير جداً": قلل حجم أي صورة لأقل من 2MB أو الحجم المطلوب بضغطة زر مع الحفاظ على أعلى جودة وخصوصية 100%.',
     html: `
@@ -2457,7 +2457,7 @@ const toolsDB = {
                 <option value="0">بدون تغيير (الأبعاد الأصلية)</option>
                 <option value="1920" selected>Full HD (1920 بكسل)</option>
                 <option value="1280">HD (1280 بكسل)</option>
-                <option value="800">صغير (800 بكسل - لصور البروفايل)</option>
+                <option value="800" dir="auto">صغير (800 بكسل - لصور البروفايل)</option>
               </select>
             </div>
 
