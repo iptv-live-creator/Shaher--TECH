@@ -3595,6 +3595,7 @@ const toolsDB = {
         hiddenVideo.load();
 
         hiddenVideo.onloadedmetadata = function () {
+          clearTimeout(hiddenVideo._metaTimer);
           statDuration.textContent = formatTime(hiddenVideo.duration);
           statRes.textContent = hiddenVideo.videoWidth + ' × ' + hiddenVideo.videoHeight;
           updateEstimates();
@@ -3609,6 +3610,14 @@ const toolsDB = {
         hiddenVideo.onerror = function () {
           alert('تعذر تشغيل هذا الملف في المتصفح. تأكد من أن الفيديو بتنسيق قياسي مثل MP4 أو WebM أو MOV.');
         };
+
+        // بعض المتصفحات توقف تحميل الميتاداتا بدون خطأ — وضّح للمستخدم بدل الانتظار الصامت.
+        clearTimeout(hiddenVideo._metaTimer);
+        hiddenVideo._metaTimer = setTimeout(function () {
+          if (hiddenVideo.readyState === 0 && !hiddenVideo.duration) {
+            alert('الفيديو لسه بيحمّل ببطء أو المتصفح مش قادر يقراه. لو ما ظهرتش المدة والجودة خلال ثواني، جرّب ملف MP4 (H.264) قياسي أو متصفح كروم.');
+          }
+        }, 15000);
       }
 
       // Presets handling
@@ -3677,7 +3686,12 @@ const toolsDB = {
 
       // Start Compression
       startBtn.addEventListener('click', async function () {
-        if (!currentFile || !hiddenVideo.duration || isCompressing) return;
+        if (isCompressing) return;
+        if (!currentFile) return;
+        if (!hiddenVideo.duration) {
+          alert('الفيديو لسه بيحمّل أو تعذر قراءته في المتصفح. استنى لحظة، ولو استمرت المشكلة جرّب ملف MP4 (H.264) قياسي.');
+          return;
+        }
         isCompressing = true;
 
         const duration = Math.max(1, hiddenVideo.duration);
