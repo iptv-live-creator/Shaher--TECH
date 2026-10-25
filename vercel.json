@@ -5,7 +5,7 @@
       "destination": "/api"
     },
     {
-      "source": "/:tool(1|2|3|4|7|8|ai|barcode|bill|compress|compress-video|hesab|image|images-to-pdf|img|img2pdf|merge|mp4|pdf|pdf-merge|pdfmerge|prompt|prompts|qeteya|qr|qrcode|qsmha|resize|scan|split|topdf|vcomp|video|video-compress|wa|whatsapp)",
+      "source": "/((?!api|.*\\..*).*)$",
       "destination": "/index.html"
     }
   ]
