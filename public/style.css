@@ -1222,3 +1222,16 @@ img.result-img {
   .portal-intro h1 { font-size: 21px; }
   .action-step { font-size: 12px; }
 }
+
+/* ─────────────────────────────────────────────────────────────────────────
+   BIDI — Mixed Arabic/Latin text: each display element picks its paragraph
+   direction from its first strong character (site root stays dir=ltr for
+   layout). Covers all tool-generated content + grid cards. New tools are
+   covered automatically inside #tool-body; give standalone elements
+   dir="auto" instead of inline direction styles.
+   ───────────────────────────────────────────────────────────────────────── */
+#tool-body :not(input):not(textarea):not(select):not(option):not(script):not(style),
+.tool-card-title,
+.tool-card-desc {
+  unicode-bidi: plaintext;
+}
