@@ -13,11 +13,11 @@
 :root {
   /* ─── Core Palette ─── */
   --bg:              #0a0b0b;
-  --bg-soft:         #0f1210;
-  --bg-studio:       #111412;
-  --card:            #161b18;
-  --card-hover:      #1c2420;
-  --border:          #2a3530;
+  --bg-soft:         #100e0b;
+  --bg-studio:       #14110c;
+  --card:            #17140f;
+  --card-hover:      #211c14;
+  --border:          #32291c;
   --border-warm:     #3a3225;
 
   /* ─── Brand Colors ─── */
@@ -1234,4 +1234,4 @@ img.result-img {
 .tool-card-title,
 .tool-card-desc {
   unicode-bidi: plaintext;
-}
+   }
