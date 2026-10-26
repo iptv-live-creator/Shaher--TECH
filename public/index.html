@@ -99,7 +99,14 @@ img{display:block}
 .fan i{width:54px;height:54px;border-radius:15px;margin-left:-24px;transform:rotate(calc(var(--r)*1deg));background:var(--c);box-shadow:0 6px 14px #0008}
 .tp{position:absolute;inset:60px 0 0;background:#14161a;border-radius:16px 16px 0 0;padding:12px 16px;color:#fff;border-top:1px solid #c8952e44}
 .tp b{font:700 17px WahbaSans,Cairo}.chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
-.chips span{font-size:9px;color:var(--beige-m);border:1px solid #c8952e2a;padding:2px 7px;border-radius:99px}
+.chips span{font-size:9px;color:var(--beige-m);border:1px solid #c8952e2a;padding:2px 7px;border-radius:99px;cursor:pointer;transition:background .2s,color .2s,border-color .2s}
+.chips span:hover{background:var(--gold);color:#111;border-color:var(--gold)}
+.card{cursor:pointer}
+.dock button{background:var(--gold);color:#111;border:0;border-radius:99px;padding:4px 12px;font:700 11px WahbaSans,Cairo;cursor:pointer}
+.li{cursor:pointer}
+.li::after{content:'\2190';margin-inline-start:auto;color:var(--gold-b);font-size:.7em;opacity:0;transition:opacity .3s}
+.li.on::after{opacity:.85}
+.lhead{font-size:13px;font-weight:700;color:var(--gold-b);direction:rtl;text-align:right}
 .st{position:relative;background:#fff;transition:background-color .6s}
 .pin{position:sticky;top:0;height:100svh;display:grid;place-items:center;overflow:hidden;padding:60px 24px;text-align:center}
 .big{font-weight:700;font-size:clamp(24px,4.2vw,52px);line-height:1.7;max-width:min(820px,92vw)}
@@ -136,18 +143,18 @@ footer{color:var(--beige-m);text-align:center;padding:34px;font:600 12px WahbaSa
 
 <body>
 <div id="land" dir="rtl">
-<nav class="dock" aria-label="روابط"><i data-t="الأدوات" style="background:#e6b84d"></i><i data-t="المميزات" style="background:#c8952e"></i><i data-t="القصة" style="background:#2e8a76"></i><i data-t="جرّب" style="background:#d4c5a9"></i><i data-t="الرئيسية" style="background:#6db87a"></i><b id="dock-brand">TECH</b></nav>
+<nav class="dock" aria-label="روابط"><i data-t="الأدوات" style="background:#e6b84d"></i><i data-t="المميزات" style="background:#c8952e"></i><i data-t="القصة" style="background:#2e8a76"></i><i data-t="جرّب" style="background:#d4c5a9"></i><i data-t="الرئيسية" style="background:#6db87a"></i><button id="dock-tools" type="button">الأدوات</button><b id="dock-brand">TECH</b></nav>
 
 <header class="hero" id="hero">
  <div class="box"><h1 class="n1">شاهر</h1><h1 class="n2">تـــك</h1>
   <div class="pw"><img src="15-portrait-user.png" alt=""></div>
   <button class="cta" id="hero-go">جرّب الأدوات<s>←</s></button></div>
  <div class="cards">
-  <div class="card"><div class="bk"></div><div class="paper">دمج PDF وتحويل الصور</div><div class="fr"><b>ملفاتك جاهزة</b><small>ادمج ملفات PDF أو حوّل صورك لملف واحد.</small></div></div>
-  <div class="card"><div class="bk"></div><div class="paper">تصغير الصور والفيديو</div><div class="fr"><b>تصغير الملفات</b><small>تصغير الصور والفيديو من غير برامج.</small></div></div>
-  <div class="card"><div class="bk"></div><div class="paper d">واتساب ورموز QR</div><div class="fr"><b>روابط فورية</b><small>رابط واتساب مباشر ورمز QR لأي لينك.</small></div></div>
+  <div class="card" data-open-tool="pdfMergeTool"><div class="bk"></div><div class="paper">دمج PDF وتحويل الصور</div><div class="fr"><b>ملفاتك جاهزة</b><small>ادمج ملفات PDF أو حوّل صورك لملف واحد.</small></div></div>
+  <div class="card" data-open-tool="imageCompressorTool"><div class="bk"></div><div class="paper">تصغير الصور والفيديو</div><div class="fr"><b>تصغير الملفات</b><small>تصغير الصور والفيديو من غير برامج.</small></div></div>
+  <div class="card" data-open-tool="whatsappLinkTool"><div class="bk"></div><div class="paper d">واتساب ورموز QR</div><div class="fr"><b>روابط فورية</b><small>رابط واتساب مباشر ورمز QR لأي لينك.</small></div></div>
   <div class="tc"><div class="fan"><i style="--c:#0d2e28;--r:-8"></i><i style="--c:#1a4a42;--r:-4"></i><i style="--c:#a07824;--r:0"></i><i style="--c:#333322;--r:4"></i><i style="--c:#c8952e;--r:8"></i><i style="--c:#e6b84d;--r:12"></i></div>
-   <div class="tp"><b>٩ أدوات، كلها مجانية.</b><div class="chips"><span>PDF</span><span>صور</span><span>فيديو</span><span>QR</span><span>واتساب</span><span>فواتير</span><span>AI</span><span>روابط</span><span>حسابات</span></div></div></div>
+   <div class="tp"><b>٩ أدوات، كلها مجانية.</b><div class="chips"><span data-open-tool="pdfMergeTool">PDF</span><span data-open-tool="imageCompressorTool">صور</span><span data-open-tool="videoCompressorTool">فيديو</span><span data-open-tool="qrMakerTool">QR</span><span data-open-tool="whatsappLinkTool">واتساب</span><span data-open-tool="billSplitterTool">فواتير</span><span data-open-tool="aiPromptArchitectTool">AI</span><span data-open-tool="whatsappLinkTool">روابط</span><span data-open-tool="percentageTool">حسابات</span></div></div></div>
  </div>
 </header>
 
@@ -162,6 +169,7 @@ footer{color:var(--beige-m);text-align:center;padding:34px;font:600 12px WahbaSa
 
 <section class="st" id="s3" style="height:300vh"><div class="pin">
  <div class="list" id="list" style="opacity:0">
+  <div class="lhead">اختار أداة وابدأ فورًا</div>
   <div class="li" data-tool="pdfMergeTool"><img src="9-file.png" alt=""><span>دمج ملفات PDF<small>اجمع ملفاتك ورتّبها في ملف واحد</small></span></div>
   <div class="li" data-tool="imageToPdfTool"><img src="13-picture.png" alt=""><span>تحويل الصور إلى PDF<small>حوّل صورك إلى ملف PDF</small></span></div>
   <div class="li" data-tool="videoCompressorTool"><img src="8-camera.png" alt=""><span>مصغّر الفيديو<small>أداة تصغير حجم الفيديو</small></span></div>
@@ -224,7 +232,9 @@ function run(){
  if(rm)return;var vh=innerHeight;
  fl.forEach(function(e){var r=e.parentNode.getBoundingClientRect(),d=r.top+r.height/2-vh/2,s=parseFloat(e.dataset.s);e.style.transform='translateY('+d*s+'px) rotate('+d*s*.1+'deg)'});
 }
-var _dock=['s3','row','s2','k','hero'];[].forEach.call(document.querySelectorAll('.dock i'),function(e,i){e.style.cursor='pointer';e.addEventListener('click',function(){var t=document.getElementById(_dock[i]);if(t)t.scrollIntoView({behavior:'smooth'})})});
+window.goTools=function(e){if(e)e.preventDefault();var t=document.getElementById('s3');if(t)window.scrollTo({top:t.offsetTop+(t.offsetHeight-innerHeight)*.85,behavior:'smooth'})};
+var _dock=['s3','row','s2','k','hero'];[].forEach.call(document.querySelectorAll('.dock i'),function(e,i){e.style.cursor='pointer';e.addEventListener('click',function(){if(_dock[i]==='s3'){window.goTools();return}var t=document.getElementById(_dock[i]);if(t)t.scrollIntoView({behavior:'smooth'})})});
+var _dt=document.getElementById('dock-tools');if(_dt)_dt.addEventListener('click',window.goTools);
 var _m=location.hash.match(/y=(\d+)/);if(_m)setTimeout(function(){scrollTo(0,+_m[1])},350);
 var tk=false;addEventListener('scroll',function(){if(!tk){tk=true;requestAnimationFrame(function(){tk=false;run()})}},{passive:true});addEventListener('resize',run);run();
 })();
@@ -250,9 +260,12 @@ document.title = 'Shaher Tech | \u0634\u0627\u0647\u0631 \u062a\u0643 \u2014 \u0
   el.addEventListener('click', function () { openTool(el.getAttribute('data-tool')); });
 });
 /* CTA scrolls */
-function scrollTools(e) { if (e) e.preventDefault(); var t = document.getElementById('s3'); if (t) t.scrollIntoView({ behavior: 'smooth' }); }
-var heroGo = document.getElementById('hero-go'); if (heroGo) heroGo.addEventListener('click', scrollTools);
-var kGo = document.getElementById('k-go'); if (kGo) kGo.addEventListener('click', scrollTools);
+var heroGo = document.getElementById('hero-go'); if (heroGo) heroGo.addEventListener('click', window.goTools);
+var kGo = document.getElementById('k-go'); if (kGo) kGo.addEventListener('click', window.goTools);
+/* hero chips and cards open tools directly */
+[].forEach.call(document.querySelectorAll('[data-open-tool]'), function (el) {
+  el.addEventListener('click', function () { openTool(el.getAttribute('data-open-tool')); });
+});
 var dockBrand = document.getElementById('dock-brand'); if (dockBrand) { dockBrand.style.cursor = 'pointer'; dockBrand.addEventListener('click', function () { if (activeTool) closeTool(true); window.scrollTo({ top: 0, behavior: 'smooth' }); }); }
 
 function findToolId(slug) {
