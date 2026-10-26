@@ -15,7 +15,7 @@ toolsDB.percentageTool = {
       .pct-box h3 { font-family:var(--font-headline); color:var(--gold-bright); font-size:17px; margin-bottom:10px; }
       .pct-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
       .pct-grid .full { grid-column:1/-1; }
-      .pct-out { margin-top:12px; padding:14px; border-radius:var(--radius); background:linear-gradient(135deg, rgba(26,74,66,0.5), rgba(200,149,46,0.12)); border:1px solid rgba(200,149,46,0.35); font-weight:700; font-size:17px; display:none; }
+      .pct-out { margin-top:12px; padding:14px; border-radius:var(--radius); background:linear-gradient(135deg, rgba(200,149,46,0.16), rgba(200,149,46,0.05)); border:1px solid rgba(200,149,46,0.35); font-weight:700; font-size:17px; display:none; }
       .pct-out b { color:var(--gold-bright); }
       .pct-out small { display:block; color:var(--beige-muted); font-weight:600; font-size:12px; margin-top:4px; }
       @media(max-width:600px){ .pct-grid { grid-template-columns:1fr; } }
