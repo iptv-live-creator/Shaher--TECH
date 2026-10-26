@@ -55,9 +55,9 @@
   --shadow-glow:     0 0 30px rgba(200, 149, 46, .12), 0 0 60px rgba(200, 149, 46, .05);
 
   /* ─── Typography ─── */
-  --font-ar:         "Cairo", "Changa", "Tajawal", sans-serif;
-  --font-headline:   "Changa", "Cairo", sans-serif;
-  --font-en:         "Inter", "Segoe UI", system-ui, sans-serif;
+  --font-ar:         "WahbaSans", "Cairo", "Changa", "Tajawal", sans-serif;
+  --font-headline:   "WahbaSans", "Changa", "Cairo", sans-serif;
+  --font-en:         "WahbaSans", "Inter", "Segoe UI", system-ui, sans-serif;
   --font:            var(--font-ar);
   --mono:            "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
 
