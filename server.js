@@ -121,7 +121,8 @@ const ROUTE_META = {
   'compress': { title: 'مُصغر الصور الذكي (Image Compressor)', desc: 'حل مشكلة "حجم الملف كبير جداً": قلل حجم أي صورة لأقل من 2MB أو الحجم المطلوب بضغطة زر مع الحفاظ على أعلى جودة وخصوصية 100%.' },
   'video-compress': { title: 'مُصغر الفيديوهات الذكي (Smart Video Compressor)', desc: 'الحل السحري: قلل حجم أي فيديو لأقصى حد (~10MB وأقل) بضغطة زر واحدة مع الحفاظ على أعلى جودة ونقاء وبدون أي تعقيد.' },
   'images-to-pdf': { title: 'تحويل الصور إلى ملف PDF (Images to PDF)', desc: 'حوّل صور الأوراق والمستندات لملف PDF واحد جاهز للإرسال — رتّب واحذف بضغطة، وكل المعالجة في متصفحك بدون رفع لأي سيرفر.' },
-  'qr': { title: 'إنشاء رمز QR (QR Code)', desc: 'حوّل أي لينك أو نص لرمز QR واضح جاهز للتحميل والمشاركة — بضغطة واحدة، وبدون رفع أي حاجة لأي سيرفر.' }
+  'qr': { title: 'إنشاء رمز QR (QR Code)', desc: 'حوّل أي لينك أو نص لرمز QR واضح جاهز للتحميل والمشاركة — بضغطة واحدة، وبدون رفع أي حاجة لأي سيرفر.' },
+  'percentage': { title: 'حاسبة النسبة والخصم (Percentage Calculator)', desc: 'احسب قيمة أي نسبة من رقم، أو نسبة رقم من رقم، أو سعر منتج بعد الخصم — بضغطة واحدة ومن غير أي حسابات.' }
 };
 const ALIAS_TO_SLUG = {
   'wa': 'whatsapp', '1': 'whatsapp',
@@ -131,7 +132,8 @@ const ALIAS_TO_SLUG = {
   'image': 'compress', 'img': 'compress', 'resize': 'compress',
   'video': 'video-compress', 'vcomp': 'video-compress', 'compress-video': 'video-compress', 'mp4': 'video-compress',
   'img2pdf': 'images-to-pdf', 'topdf': 'images-to-pdf', 'scan': 'images-to-pdf', '7': 'images-to-pdf',
-  'qrcode': 'qr', 'barcode': 'qr', '8': 'qr'
+  'qrcode': 'qr', 'barcode': 'qr', '8': 'qr',
+  'percent': 'percentage', 'nesba': 'percentage', 'khasm': 'percentage', 'discount': 'percentage', '9': 'percentage'
 };
 let INDEX_HTML_CACHE = null;
 function escapeHtmlAttr(v) {
@@ -192,7 +194,8 @@ const TOOL_ROUTES = new Set([
   'compress', 'image', 'img', 'resize',
   'video-compress', 'video', 'vcomp', 'compress-video', 'mp4',
   'images-to-pdf', 'img2pdf', 'topdf', 'scan', '7',
-  'qr', 'qrcode', 'barcode', '8'
+  'qr', 'qrcode', 'barcode', '8',
+  'percentage', 'percent', 'nesba', 'khasm', 'discount', '9'
 ]);
 app.get('*', function (req, res) {
   const publicCandidate = path.join(__dirname, 'public', req.path);
