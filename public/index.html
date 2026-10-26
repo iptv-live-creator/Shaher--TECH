@@ -84,7 +84,7 @@ img{display:block}
 .pw img{height:100%;width:auto;filter:brightness(.92) saturate(1.03);-webkit-mask-image:linear-gradient(90deg,transparent,#000 30%,#000 70%,transparent),linear-gradient(180deg,transparent,#000 16%);-webkit-mask-composite:source-in;mask-image:linear-gradient(90deg,transparent,#000 30%,#000 70%,transparent),linear-gradient(180deg,transparent,#000 16%);mask-composite:intersect}
 .cta{position:absolute;bottom:16px;left:50%;transform:translateX(-34%);background:var(--gold);color:#111;border:0;border-radius:99px;padding:6px 14px 6px 8px;font:700 12px WahbaSans,Cairo;display:flex;gap:7px;align-items:center;flex-direction:row-reverse;cursor:pointer}
 .cta s{width:18px;height:18px;border-radius:50%;background:#111;color:var(--gold-b);display:grid;place-items:center;text-decoration:none;font-size:10px}
-.cards{display:grid;grid-template-columns:repeat(3,1fr) 1.25fr;gap:10px;direction:rtl}
+.cards{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;direction:rtl}
 .card{position:relative;height:170px;margin-top:20px;border-radius:0 0 18px 18px}
 .card .bk{position:absolute;inset:0;border-radius:16px;background:linear-gradient(120deg,#f7f8f9,#cfd4d9 45%,#f1f2f4 70%,#dfe3e6)}
 .card .bk:before{content:"";position:absolute;top:-18px;right:0;width:62%;height:30px;border-radius:16px 22px 0 0;background:linear-gradient(120deg,var(--gold-b),var(--gold))}
@@ -102,6 +102,11 @@ img{display:block}
 .chips span{font-size:9px;color:var(--beige-m);border:1px solid #c8952e2a;padding:2px 7px;border-radius:99px;cursor:pointer;transition:background .2s,color .2s,border-color .2s}
 .chips span:hover{background:var(--gold);color:#111;border-color:var(--gold)}
 .card{cursor:pointer}
+.tf .fr{gap:5px;align-items:flex-start;padding-bottom:12px}
+.tf .fr b{font-size:16px;line-height:1.35}
+.tf .fr small{font-size:10px}
+.ci{width:26px;height:26px;border-radius:7px;object-fit:contain}
+.card:focus-visible{outline:2px solid var(--gold-b);outline-offset:2px}
 .dock button{background:var(--gold);color:#111;border:0;border-radius:99px;padding:4px 12px;font:700 11px WahbaSans,Cairo;cursor:pointer}
 .li{cursor:pointer}
 .li::after{content:'\2190';margin-inline-start:auto;color:var(--gold-b);font-size:.7em;opacity:0;transition:opacity .3s}
@@ -149,10 +154,16 @@ footer{color:var(--beige-m);text-align:center;padding:34px;font:600 12px WahbaSa
  <div class="box"><h1 class="n1">شاهر</h1><h1 class="n2">تـــك</h1>
   <div class="pw"><img src="15-portrait-user.png" alt=""></div>
   <button class="cta" id="hero-go">جرّب الأدوات<s>←</s></button></div>
- <div class="cards">
-  <div class="card" data-open-tool="pdfMergeTool"><div class="bk"></div><div class="paper">دمج PDF وتحويل الصور</div><div class="fr"><b>ملفاتك جاهزة</b><small>ادمج ملفات PDF أو حوّل صورك لملف واحد.</small></div></div>
-  <div class="card" data-open-tool="imageCompressorTool"><div class="bk"></div><div class="paper">تصغير الصور والفيديو</div><div class="fr"><b>تصغير الملفات</b><small>تصغير الصور والفيديو من غير برامج.</small></div></div>
-  <div class="card" data-open-tool="whatsappLinkTool"><div class="bk"></div><div class="paper d">واتساب ورموز QR</div><div class="fr"><b>روابط فورية</b><small>رابط واتساب مباشر ورمز QR لأي لينك.</small></div></div>
+ <div class="cards" id="folders">
+  <div class="card tf" data-open-tool="whatsappLinkTool"><div class="bk"></div><div class="paper">واتساب</div><div class="fr"><img class="ci" src="11-link.png" alt=""><b>رابط واتساب مباشر</b><small>افتح شات برسالة جاهزة</small></div></div>
+  <div class="card tf" data-open-tool="qrMakerTool"><div class="bk"></div><div class="paper">QR</div><div class="fr"><span class="bd ci">QR</span><b>إنشاء رمز QR</b><small>أنشئ رمز QR لأي لينك</small></div></div>
+  <div class="card tf" data-open-tool="imageCompressorTool"><div class="bk"></div><div class="paper d">تصغير صور</div><div class="fr"><img class="ci" src="10-flash.png" alt=""><b>مصغّر الصور</b><small>صغّر حجم صورتك لأي حجم</small></div></div>
+  <div class="card tf" data-open-tool="pdfMergeTool"><div class="bk"></div><div class="paper">دمج PDF</div><div class="fr"><img class="ci" src="9-file.png" alt=""><b>دمج ملفات PDF</b><small>اجمع ملفاتك في ملف واحد</small></div></div>
+  <div class="card tf" data-open-tool="imageToPdfTool"><div class="bk"></div><div class="paper">صور لـ PDF</div><div class="fr"><img class="ci" src="13-picture.png" alt=""><b>تحويل الصور إلى PDF</b><small>حوّل صورك لملف PDF</small></div></div>
+  <div class="card tf" data-open-tool="videoCompressorTool"><div class="bk"></div><div class="paper d">فيديو</div><div class="fr"><img class="ci" src="8-camera.png" alt=""><b>مصغّر الفيديو</b><small>صغّر حجم الفيديو</small></div></div>
+  <div class="card tf" data-open-tool="billSplitterTool"><div class="bk"></div><div class="paper">فواتير</div><div class="fr"><span class="bd ci">فو</span><b>مقسّم الفواتير</b><small>قسّم الحساب على أصحابك</small></div></div>
+  <div class="card tf" data-open-tool="aiPromptArchitectTool"><div class="bk"></div><div class="paper">برومبت AI</div><div class="fr"><img class="ci" src="14-star.png" alt=""><b>مهندس برومبت AI</b><small>جهّز برومبتك لأي أداة ذكاء اصطناعي</small></div></div>
+  <div class="card tf" data-open-tool="percentageTool"><div class="bk"></div><div class="paper d">نسبة وخصم</div><div class="fr"><span class="bd ci">٪</span><b>حاسبة النسبة والخصم</b><small>النسبة والسعر بعد الخصم</small></div></div>
   <div class="tc"><div class="fan"><i style="--c:#0d2e28;--r:-8"></i><i style="--c:#1a4a42;--r:-4"></i><i style="--c:#a07824;--r:0"></i><i style="--c:#333322;--r:4"></i><i style="--c:#c8952e;--r:8"></i><i style="--c:#e6b84d;--r:12"></i></div>
    <div class="tp"><b>٩ أدوات، كلها مجانية.</b><div class="chips"><span data-open-tool="pdfMergeTool">PDF</span><span data-open-tool="imageCompressorTool">صور</span><span data-open-tool="videoCompressorTool">فيديو</span><span data-open-tool="qrMakerTool">QR</span><span data-open-tool="whatsappLinkTool">واتساب</span><span data-open-tool="billSplitterTool">فواتير</span><span data-open-tool="aiPromptArchitectTool">AI</span><span data-open-tool="whatsappLinkTool">روابط</span><span data-open-tool="percentageTool">حسابات</span></div></div></div>
  </div>
@@ -232,7 +243,7 @@ function run(){
  if(rm)return;var vh=innerHeight;
  fl.forEach(function(e){var r=e.parentNode.getBoundingClientRect(),d=r.top+r.height/2-vh/2,s=parseFloat(e.dataset.s);e.style.transform='translateY('+d*s+'px) rotate('+d*s*.1+'deg)'});
 }
-window.goTools=function(e){if(e)e.preventDefault();var t=document.getElementById('s3');if(t)window.scrollTo({top:t.offsetTop+(t.offsetHeight-innerHeight)*.85,behavior:'smooth'})};
+window.goTools=function(e){if(e)e.preventDefault();var t=document.getElementById('folders')||document.getElementById('s3');if(t)t.scrollIntoView({behavior:'smooth',block:'start'})};
 var _dock=['s3','row','s2','k','hero'];[].forEach.call(document.querySelectorAll('.dock i'),function(e,i){e.style.cursor='pointer';e.addEventListener('click',function(){if(_dock[i]==='s3'){window.goTools();return}var t=document.getElementById(_dock[i]);if(t)t.scrollIntoView({behavior:'smooth'})})});
 var _dt=document.getElementById('dock-tools');if(_dt)_dt.addEventListener('click',window.goTools);
 var _m=location.hash.match(/y=(\d+)/);if(_m)setTimeout(function(){scrollTo(0,+_m[1])},350);
