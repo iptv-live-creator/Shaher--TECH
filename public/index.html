@@ -342,9 +342,9 @@ function openTool(id, updateUrl) {
   if (id === 'videoCompressorTool' && !(typeof localStorage !== 'undefined' && localStorage.getItem('vc_test'))) {
     activeTool = id;
     viewTitle.textContent = tool.title;
-    viewDesc.textContent = tool.desc || '';
+    viewDesc.textContent = 'متوقف مؤقتًا للصيانة.';
     viewCat.textContent = tool.category;
-    viewBody.innerHTML = '<div class="mnt-note">مصغّر الفيديو تحت الإصلاح مؤقتًا بعد ما ظهر عطل أثناء الاختبار. هيرجع يشتغل قريب — جرّب باقي الأدوات.</div>';
+    viewBody.innerHTML = '<div class="mnt-note">مصغّر الفيديو تحت الإصلاح مؤقتًا بعد ما ظهر عطل أثناء الاختبار. جرّب باقي الأدوات.</div>';
     view.hidden = false;
     document.body.classList.add('tool-open');
     window.scrollTo({ top: 0, behavior: 'instant' });
