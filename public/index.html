@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Shaher Tech | شاهر تك — أدوات تقنية مجانية اون لاين</title>
   <meta name="description" id="meta-description"
-    content="أدوات تقنية مجانية تعمل في متصفحك بدون تسجيل وبدون سيرفر: تحويل الصور إلى PDF، دمج ملفات PDF، تصغير الصور والفيديوهات، إنشاء رمز QR، رابط واتساب مباشر، مقسم الفواتير، وصانع برومبت ذكي.">
+    content="أدوات تقنية مجانية تعمل في متصفحك بدون تسجيل وبدون سيرفر: تحويل الصور إلى PDF، دمج ملفات PDF، تصغير الصور والفيديوهات، إنشاء رمز QR، رابط واتساب مباشر، مقسم الفواتير، وصانع برومبت ذكي، وحاسبة النسبة والخصم.">
   <meta name="theme-color" content="#0a0b0b">
   <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
   <link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png">
@@ -22,7 +22,7 @@
   <meta property="og:site_name" content="Shaher Tech | شاهر تك">
   <meta property="og:title" id="meta-og-title" content="Shaher Tech | شاهر تك — أدوات تقنية مجانية اون لاين">
   <meta property="og:description" id="meta-og-description"
-    content="أدوات تقنية مجانية تعمل في متصفحك بدون تسجيل وبدون سيرفر: تحويل الصور إلى PDF، دمج ملفات PDF، تصغير الصور والفيديوهات، إنشاء رمز QR، رابط واتساب مباشر.">
+    content="أدوات تقنية مجانية تعمل في متصفحك بدون تسجيل وبدون سيرفر: تحويل الصور إلى PDF، دمج ملفات PDF، تصغير الصور والفيديوهات، إنشاء رمز QR، رابط واتساب مباشر، مقسم الفواتير، صانع برومبت ذكي، وحاسبة النسبة والخصم.">
   <meta property="og:url" id="meta-og-url" content="https://shaher-tech.vercel.app/">
   <meta property="og:locale" content="ar_AR">
   <meta name="twitter:card" content="summary_large_image">
@@ -49,7 +49,8 @@
           { "@type": "ListItem", "position": 5, "name": "مُصغر الصور الذكي (Image Compressor)", "url": "https://shaher-tech.vercel.app/compress" },
           { "@type": "ListItem", "position": 6, "name": "مُصغر الفيديوهات الذكي (Smart Video Compressor)", "url": "https://shaher-tech.vercel.app/video-compress" },
           { "@type": "ListItem", "position": 7, "name": "تحويل الصور إلى ملف PDF (Images to PDF)", "url": "https://shaher-tech.vercel.app/images-to-pdf" },
-          { "@type": "ListItem", "position": 8, "name": "إنشاء رمز QR (QR Code)", "url": "https://shaher-tech.vercel.app/qr" }
+          { "@type": "ListItem", "position": 8, "name": "إنشاء رمز QR (QR Code)", "url": "https://shaher-tech.vercel.app/qr" },
+          { "@type": "ListItem", "position": 9, "name": "حاسبة النسبة والخصم (Percentage Calculator)", "url": "https://shaher-tech.vercel.app/percentage" }
         ]
       }
     ]
@@ -60,125 +61,133 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Changa:wght@700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Changa:wght@700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
     rel="stylesheet">
 
   <link rel="stylesheet" href="style.css">
+<style>@font-face{font-family:'WahbaSans';src:url('16-wahba-sans-regular.ttf') format('truetype');font-weight:400;font-display:swap}
+@font-face{font-family:'WahbaSans';src:url('17-wahba-sans-bold.ttf') format('truetype');font-weight:700;font-display:swap}</style>
+<style>:root{color-scheme:dark;--bg:#0a0b0b;--card:#161b18;--studio:#111412;--gold:#c8952e;--gold-b:#e6b84d;--amber:#d4a234;--beige:#d4c5a9;--beige-m:#8a7d68;--teal:#1a4a42;--ink:#141310}
+*{box-sizing:border-box;margin:0}
+body{background:var(--bg);font-family:WahbaSans,Cairo,"Noto Naskh Arabic",Tahoma,sans-serif;color:var(--ink);overflow-x:hidden}
+img{display:block}
+.dock{position:fixed;top:env(safe-area-inset-top,0px);left:50%;transform:translateX(-50%);z-index:30;display:flex;gap:9px;align-items:center;background:#000;padding:8px 16px 9px;border-radius:0 0 16px 16px;direction:ltr}
+.dock i{width:17px;height:17px;border-radius:5px;position:relative}
+.dock i:hover:after{content:attr(data-t);position:absolute;top:26px;left:50%;transform:translateX(-50%);background:#111;color:var(--beige);font:600 10px WahbaSans,Cairo;padding:3px 8px;border-radius:99px;white-space:nowrap}
+.dock b{color:var(--gold-b);font:600 9px WahbaSans,Inter;letter-spacing:.08em}
+.hero{padding:6px;min-height:100svh;display:grid;grid-template-rows:1fr auto;gap:10px}
+.box{position:relative;border-radius:18px;overflow:hidden;min-height:58svh;background:radial-gradient(80% 90% at 75% 30%,#5a4416,transparent 70%),linear-gradient(100deg,#0a0b0b,#161209 60%,#2e2310)}
+.box h1{position:absolute;font-family:Cairo,sans-serif;font-weight:800;z-index:2;line-height:1;font-size:clamp(54px,9.8vw,150px);white-space:nowrap}
+.n1{right:4%;top:22%;color:var(--beige)}
+.n2{left:4%;top:44%;color:var(--gold-b)}
+.pw{position:absolute;left:47%;bottom:0;transform:translateX(-50%);height:98%}
+.pw img{height:100%;width:auto;filter:brightness(.92) saturate(1.03);-webkit-mask-image:linear-gradient(90deg,transparent,#000 30%,#000 70%,transparent),linear-gradient(180deg,transparent,#000 16%);-webkit-mask-composite:source-in;mask-image:linear-gradient(90deg,transparent,#000 30%,#000 70%,transparent),linear-gradient(180deg,transparent,#000 16%);mask-composite:intersect}
+.cta{position:absolute;bottom:16px;left:50%;transform:translateX(-34%);background:var(--gold);color:#111;border:0;border-radius:99px;padding:6px 14px 6px 8px;font:700 12px WahbaSans,Cairo;display:flex;gap:7px;align-items:center;flex-direction:row-reverse;cursor:pointer}
+.cta s{width:18px;height:18px;border-radius:50%;background:#111;color:var(--gold-b);display:grid;place-items:center;text-decoration:none;font-size:10px}
+.cards{display:grid;grid-template-columns:repeat(3,1fr) 1.25fr;gap:10px;direction:rtl}
+.card{position:relative;height:170px;margin-top:20px;border-radius:0 0 18px 18px}
+.card .bk{position:absolute;inset:0;border-radius:16px;background:linear-gradient(120deg,#f7f8f9,#cfd4d9 45%,#f1f2f4 70%,#dfe3e6)}
+.card .bk:before{content:"";position:absolute;top:-18px;right:0;width:62%;height:30px;border-radius:16px 22px 0 0;background:linear-gradient(120deg,var(--gold-b),var(--gold))}
+.paper{position:absolute;right:6%;left:6%;top:14px;height:60px;background:#fff;border-radius:10px 10px 0 0;font:700 12px WahbaSans,Cairo;color:#333;padding:8px 12px;transition:transform .35s}
+.paper.d{background:var(--studio);color:var(--beige)}
+.card:hover .paper{transform:translateY(-14px)}
+.fr{position:absolute;inset:34px 0 0;border-radius:14px 14px 16px 16px;background:linear-gradient(#ffffffcc,#f2f3f4);backdrop-filter:blur(8px);padding:0 16px 14px;display:flex;flex-direction:column;justify-content:flex-end}
+.fr b{font-family:WahbaSans,'Noto Naskh Arabic',Cairo,serif;font-size:22px;font-weight:600;color:#161616}
+.fr small{font:600 11px WahbaSans,Cairo;color:var(--beige-m);margin-top:2px}
+.tc{margin-top:20px;height:170px;position:relative;border-radius:18px;background:var(--studio);border:1px solid #c8952e33;overflow:hidden}
+.fan{position:absolute;top:14px;right:26px;direction:ltr;display:flex}
+.fan i{width:54px;height:54px;border-radius:15px;margin-left:-24px;transform:rotate(calc(var(--r)*1deg));background:var(--c);box-shadow:0 6px 14px #0008}
+.tp{position:absolute;inset:60px 0 0;background:#14161a;border-radius:16px 16px 0 0;padding:12px 16px;color:#fff;border-top:1px solid #c8952e44}
+.tp b{font:700 17px WahbaSans,Cairo}.chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+.chips span{font-size:9px;color:var(--beige-m);border:1px solid #c8952e2a;padding:2px 7px;border-radius:99px}
+.st{position:relative;background:#fff;transition:background-color .6s}
+.pin{position:sticky;top:0;height:100svh;display:grid;place-items:center;overflow:hidden;padding:60px 24px;text-align:center}
+.big{font-weight:700;font-size:clamp(24px,4.2vw,52px);line-height:1.7;max-width:min(820px,92vw)}
+.w{opacity:.18}.ph{white-space:nowrap}
+.big img{display:inline-block;height:1.4em;width:1.4em;object-fit:contain;padding:.16em;border-radius:28%;vertical-align:-.3em;margin-inline:.18em;box-shadow:0 .12em .32em rgba(10,12,12,.28),inset 0 .07em .12em rgba(255,255,255,.55)}img.i1{background:linear-gradient(145deg,#3c3c36,#131315)}img.i2{background:linear-gradient(145deg,#f0c95e,#a8791c)}img.i3{background:linear-gradient(145deg,#35a48b,#12443a)}img.i4{background:linear-gradient(145deg,#ddd0b0,#94825a)}
+.abs{position:absolute;inset:60px 24px;display:grid;place-items:center;transition:opacity .3s}
+.four{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;max-width:1000px;width:100%;direction:rtl}
+.four img{width:min(120px,22vw);margin:0 auto 12px;border-radius:24%}
+.four b{font:700 16px WahbaSans,Cairo;display:block;color:#161616}
+.four p{font-size:11px;font-weight:600;color:#777;line-height:1.7;margin-top:6px}
+.list{display:grid;gap:22px;direction:ltr;width:min(420px,86%);justify-self:left;margin-left:7%}
+.li span{direction:rtl;text-align:left}
+.li{display:flex;gap:12px;align-items:center;font-weight:700;font-size:clamp(18px,2.6vw,28px);color:#f5edd8;opacity:.35;transition:opacity .4s,text-shadow .4s}
+.li small{display:block;font-size:11px;font-weight:600;color:#9a927e}
+.li.on{opacity:1;text-shadow:0 0 18px #e6b84d88}
+.li img{width:32px;height:32px;border-radius:9px}
+.bd{width:32px;height:32px;border-radius:9px;background:var(--card);color:var(--gold-b);display:grid;place-items:center;font-size:15px;border:1px solid #c8952e55;flex:none}
+.wh{display:grid;gap:26px;justify-items:start;direction:ltr;width:min(640px,90%);left:7%;right:auto}
+.wh div{display:flex;gap:clamp(24px,7vw,80px);align-items:center;font-family:Cairo;font-weight:700;font-size:clamp(38px,7vw,78px);color:var(--fg,#fff);transition:color .5s}
+.wh img{width:clamp(70px,13vw,110px);border-radius:26%}
+.k{min-height:100svh;display:grid;place-items:center;position:relative;overflow:hidden;background:var(--bg);text-align:center}
+.k h2{font-family:WahbaSans,Cairo,sans-serif;font-weight:700;font-size:clamp(40px,7vw,84px);line-height:1.4;color:var(--beige)}
+.gy{position:relative}.gy:after{content:"";position:absolute;left:50%;bottom:.02em;width:.13em;height:.13em;border-radius:50%;background:var(--gold-b);transform:translateX(-50%)}
+.k p{font-weight:700;font-size:clamp(22px,3.6vw,42px);margin-top:6px;color:var(--beige-m)}
+.k .lk{margin-top:20px;color:var(--gold-b);font:600 16px WahbaSans,Inter,Cairo;direction:ltr;display:inline-flex;gap:8px;align-items:center;text-decoration:none;cursor:pointer}
+.k .btn{margin-top:16px;background:var(--gold);color:#111;border-radius:99px;padding:14px 38px;font:700 17px WahbaSans,Cairo;display:inline-block;text-decoration:none;cursor:pointer}
+.fl{position:absolute;width:var(--z,70px);border-radius:24%;will-change:transform}
+footer{color:var(--beige-m);text-align:center;padding:34px;font:600 12px WahbaSans,Cairo;border-top:1px solid #c8952e22}
+@media(max-width:760px){.cards{grid-template-columns:1fr 1fr}.tc{grid-column:1/-1;order:-1}.four{grid-template-columns:1fr 1fr}.pw{height:72%}.n1{top:12%}.n2{top:62%}}
+@media(max-width:760px){.big{font-size:6.6vw;max-width:94vw;line-height:1.8}.k h2{font-size:15vw}.k p{font-size:6.6vw;padding:0 5vw;box-sizing:border-box}.box h1{font-size:22vw}.n1{top:7%}.n2{top:62%}.four b{font-size:4.4vw}.four p{font-size:3.1vw}.li{font-size:5.6vw}.li small{font-size:3vw}.wh div{font-size:13vw}.wh img{width:24vw}.fl{--z:12vw!important}.fl4{top:auto!important;bottom:22%!important}}
+@media (prefers-reduced-motion:reduce){.fl{transform:none!important}}</style>
+<style>#tool-view{color:var(--beige)}</style>
 </head>
 
 <body>
+<div id="land" dir="rtl">
+<nav class="dock" aria-label="روابط"><i data-t="الأدوات" style="background:#e6b84d"></i><i data-t="المميزات" style="background:#c8952e"></i><i data-t="القصة" style="background:#2e8a76"></i><i data-t="جرّب" style="background:#d4c5a9"></i><i data-t="الرئيسية" style="background:#6db87a"></i><b id="dock-brand">TECH</b></nav>
 
-  <!-- ═══════════════════════════════════════════════════════════════════════
-     GOLDEN GEOMETRIC FRAME — thin gold border around viewport
-     ═══════════════════════════════════════════════════════════════════════ -->
-  <div class="golden-frame" aria-hidden="true"></div>
+<header class="hero" id="hero">
+ <div class="box"><h1 class="n1">شاهر</h1><h1 class="n2">تـــك</h1>
+  <div class="pw"><img src="15-portrait-user.png" alt=""></div>
+  <button class="cta" id="hero-go">جرّب الأدوات<s>←</s></button></div>
+ <div class="cards">
+  <div class="card"><div class="bk"></div><div class="paper">دمج PDF وتحويل الصور</div><div class="fr"><b>ملفاتك جاهزة</b><small>ادمج ملفات PDF أو حوّل صورك لملف واحد.</small></div></div>
+  <div class="card"><div class="bk"></div><div class="paper">تصغير الصور والفيديو</div><div class="fr"><b>تصغير الملفات</b><small>تصغير الصور والفيديو من غير برامج.</small></div></div>
+  <div class="card"><div class="bk"></div><div class="paper d">واتساب ورموز QR</div><div class="fr"><b>روابط فورية</b><small>رابط واتساب مباشر ورمز QR لأي لينك.</small></div></div>
+  <div class="tc"><div class="fan"><i style="--c:#0d2e28;--r:-8"></i><i style="--c:#1a4a42;--r:-4"></i><i style="--c:#a07824;--r:0"></i><i style="--c:#333322;--r:4"></i><i style="--c:#c8952e;--r:8"></i><i style="--c:#e6b84d;--r:12"></i></div>
+   <div class="tp"><b>٩ أدوات، كلها مجانية.</b><div class="chips"><span>PDF</span><span>صور</span><span>فيديو</span><span>QR</span><span>واتساب</span><span>فواتير</span><span>AI</span><span>روابط</span><span>حسابات</span></div></div></div>
+ </div>
+</header>
 
-  <!-- ═══════════════════════════════════════════════════════════════════════
-     BOKEH CIRCLES — soft out-of-focus light orbs
-     ═══════════════════════════════════════════════════════════════════════ -->
-  <div class="bokeh-container" aria-hidden="true">
-    <div class="bokeh"></div>
-    <div class="bokeh"></div>
-    <div class="bokeh"></div>
-    <div class="bokeh"></div>
-  </div>
+<section class="st" id="s2" style="height:420vh"><div class="pin">
+ <p class="big" id="txt"><span class="w">في</span> <span class="w">شاهر</span> <span class="ph"><span class="w">تك</span> <span class="w"><img class="i1" src="10-flash.png" alt=""></span></span> <span class="w">بنعمل</span> <span class="w">أدوات</span> <span class="w">تقنية</span> <span class="ph"><span class="w">عملية</span> <span class="w"><img class="i2" src="9-file.png" alt=""></span></span> <span class="w">بتشتغل</span> <span class="w">في</span> <span class="ph"><span class="w">متصفحك</span> <span class="w"><img class="i3" src="14-star.png" alt=""></span></span> <span class="w">من</span> <span class="w">غير</span> <span class="ph"><span class="w">تسجيل</span> <span class="w"><img class="i4" src="12-lock.png" alt=""></span></span> <span class="w">ومن</span> <span class="w">غير</span> <span class="w">أي</span> <span class="w">سيرفر.</span></p>
+ <div class="abs" id="row" style="opacity:0"><div class="four">
+  <div><img src="9-file.png" alt=""><b>ملفات مرتبة.</b><p>دمج ملفات PDF وتحويل الصور لملف واحد جاهز للمشاركة.</p></div>
+  <div><img src="13-picture.png" alt=""><b>تصغير الملفات.</b><p>أدوات تصغير الصور والفيديو من المتصفح.</p></div>
+  <div><img src="11-link.png" alt=""><b>تواصل أسرع.</b><p>رابط واتساب مباشر ورمز QR لأي لينك في ثواني.</p></div>
+  <div><img src="14-star.png" alt=""><b>برومبت أذكى.</b><p>مهندس البرومبت يجهّز طلبك لأي أداة ذكاء اصطناعي.</p></div></div></div>
+</div></section>
 
-  <!-- ═══════════════════════════════════════════════════════════════════════
-     DUST PARTICLES — microscopic particles in tungsten light path
-     ═══════════════════════════════════════════════════════════════════════ -->
-  <div class="dust-container" aria-hidden="true">
-    <div class="dust"></div>
-    <div class="dust"></div>
-    <div class="dust"></div>
-    <div class="dust"></div>
-    <div class="dust"></div>
-    <div class="dust"></div>
-    <div class="dust"></div>
-    <div class="dust"></div>
-    <div class="dust"></div>
-    <div class="dust"></div>
-  </div>
+<section class="st" id="s3" style="height:300vh"><div class="pin">
+ <div class="list" id="list" style="opacity:0">
+  <div class="li" data-tool="pdfMergeTool"><img src="9-file.png" alt=""><span>دمج ملفات PDF<small>اجمع ملفاتك ورتّبها في ملف واحد</small></span></div>
+  <div class="li" data-tool="imageToPdfTool"><img src="13-picture.png" alt=""><span>تحويل الصور إلى PDF<small>حوّل صورك إلى ملف PDF</small></span></div>
+  <div class="li" data-tool="videoCompressorTool"><img src="8-camera.png" alt=""><span>مصغّر الفيديو<small>أداة تصغير حجم الفيديو</small></span></div>
+  <div class="li" data-tool="imageCompressorTool"><img src="10-flash.png" alt=""><span>مصغّر الصور<small>أداة تصغير حجم الصور</small></span></div>
+  <div class="li" data-tool="qrMakerTool"><span class="bd">QR</span><span>إنشاء رمز QR<small>أنشئ رمز QR لأي لينك</small></span></div>
+  <div class="li" data-tool="whatsappLinkTool"><img src="11-link.png" alt=""><span>رابط واتساب مباشر<small>افتح شات برسالة جاهزة</small></span></div>
+  <div class="li" data-tool="billSplitterTool"><span class="bd">فو</span><span>مقسّم الفواتير<small>قسّم الحساب على أصحابك</small></span></div>
+  <div class="li" data-tool="aiPromptArchitectTool"><img src="14-star.png" alt=""><span>مهندس برومبت AI<small>جهّز برومبتك لأي أداة ذكاء اصطناعي</small></span></div> <div class="li" data-tool="percentageTool"><span class="bd">٪</span><span>حاسبة النسبة والخصم<small>قيمة النسبة، نسبة رقم من رقم، والسعر بعد الخصم</small></span></div></div>
+</div></section>
 
-  <!-- ═══════════════════════════════════════════════════════════════════════
-     HEADER — Cinematic studio header with Arabic branding
-     ═══════════════════════════════════════════════════════════════════════ -->
-  <header class="portal-header">
-    <div class="header-inner">
-      <a class="brand" href="#" id="brand-link">
-        <span class="brand-mark">⌁</span>
-        <span class="brand-name">
-          <span class="brand-ar">شاهر إسماعيل</span>
-          <span class="brand-separator"> | </span>
-          <span class="brand-accent">TECH</span>
-        </span>
-      </a>
-      <div class="search-wrap">
-        <input id="portal-search" class="form-control" type="search" placeholder="🔍 ابحث عن أداة…" autocomplete="off">
-      </div>
-    </div>
+<section class="k" id="k">
+ <img class="fl" data-s=".2" style="--z:64px;top:10%;left:6%" src="9-file.png" alt="">
+ <img class="fl" data-s="-.14" style="--z:54px;top:12%;left:30%" src="11-link.png" alt="">
+ <img class="fl" data-s=".1" style="--z:60px;top:10%;right:8%" src="13-picture.png" alt="">
+ <img class="fl fl4" data-s="-.2" style="--z:50px;top:44%;left:3%" src="8-camera.png" alt="">
+ <img class="fl" data-s=".25" style="--z:56px;bottom:12%;right:6%" src="14-star.png" alt="">
+ <img class="fl" data-s="-.1" style="--z:48px;bottom:10%;left:12%" src="10-flash.png" alt="">
+ <div><h2>جرّب دلوقت<span class="gy">ي</span></h2><p>مجاناً، من المتصفح، من غير تسجيل.</p>
+ <a class="lk" href="https://shaher-tech.vercel.app">shaher-tech.vercel.app <span>↗</span></a><br>
+ <a class="btn" id="k-go" href="#s3">افتح شاهر تك</a></div>
+</section>
 
-    <!-- Sub-Ribbon: Dark Teal gradient bar -->
-    <div class="sub-ribbon">
-      <div class="sub-ribbon-inner">
-        <span class="sub-ribbon-label">Tools Portal</span>
-        <span>أدوات تقنية سريعة — كل المعالجة تتم في متصفحك</span>
-      </div>
-    </div>
+<footer>شاهر إسماعيل | TECH</footer>
+</div>
 
-    <nav id="category-chips" class="category-chips" aria-label="Tool categories"></nav>
-  </header>
-
-  <!-- ═══════════════════════════════════════════════════════════════════════
-     INTRO SECTION — Cinematic welcome
-     ═══════════════════════════════════════════════════════════════════════ -->
-  <section class="portal-intro">
-    <h1>
-      أدوات <span class="gold-text">تقنية</span> عملية
-    </h1>
-    <p class="subtitle">
-      كل أداة تعمل مباشرة في متصفحك — بدون تسجيل، بدون سيرفر.
-      <br>اختر أداة وابدأ فوراً.
-    </p>
-
-    <!-- Action Flow: 3-step capsules -->
-    <div class="action-flow">
-      <div class="action-step">
-        <span class="action-step-num">1</span>
-        <span>اختر الأداة</span>
-      </div>
-      <span class="action-arrow">→</span>
-      <div class="action-step">
-        <span class="action-step-num">2</span>
-        <span>أدخل البيانات</span>
-      </div>
-      <span class="action-arrow">→</span>
-      <div class="action-step">
-        <span class="action-step-num">3</span>
-        <span>احصل على النتيجة</span>
-      </div>
-    </div>
-
-    <!-- Sticky Note: Golden Tip -->
-    <div class="sticky-note">
-      <div class="sticky-note-title">💡 السر الخفي</div>
-      اضغط <kbd
-        style="background:#e0d88e;border:1px solid #c5b86a;border-radius:3px;padding:1px 5px;font-size:11px;color:#333;font-family:inherit;">/
-      </kbd> في أي وقت للبحث السريع عن أداة!
-    </div>
-  </section>
-
-  <!-- ═══════════════════════════════════════════════════════════════════════
-     MAIN — Tool Grid
-     ═══════════════════════════════════════════════════════════════════════ -->
-  <main id="portal-main" class="portal-main">
-    <div id="tools-grid" class="tools-grid"></div>
-    <p id="no-results" class="no-results" hidden>لا توجد أدوات مطابقة للبحث.</p>
-  </main>
-
-  <!-- ═══════════════════════════════════════════════════════════════════════
-     TOOL WORKSPACE — Single tool is injected here
-     ═══════════════════════════════════════════════════════════════════════ -->
-  <section id="tool-view" class="tool-view" hidden aria-label="Active tool">
+<section id="tool-view" class="tool-view" hidden aria-label="Active tool">
     <div class="tool-view-inner">
       <div
         style="display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:18px; flex-wrap:wrap;">
@@ -196,305 +205,192 @@
     </div>
   </section>
 
-  <!-- ═══════════════════════════════════════════════════════════════════════
-     FOOTER — Permanent branding + social icons
-     ═══════════════════════════════════════════════════════════════════════ -->
-  <footer class="portal-footer">
-    <!-- Brand Signature -->
-    <div class="footer-brand">
-      <span>شاهر إسماعيل</span>
-      <span class="footer-sep">|</span>
-      <span class="footer-tech">TECH</span>
-    </div>
+<script src="tools.js"></script>
+<script src="tools-extra.js"></script>
+<script>
+(function(){
+var $=function(i){return document.getElementById(i)},cl=function(v){return Math.max(0,Math.min(1,v))};
+function pr(el){var r=el.getBoundingClientRect();return cl(-r.top/(r.height-innerHeight))}
+var s2=$('s2'),s3=$('s3'),ws=[].slice.call(document.querySelectorAll('#txt .w')),li=[].slice.call(document.querySelectorAll('.li')),fl=[].slice.call(document.querySelectorAll('.fl')),fi=[].slice.call(document.querySelectorAll('#row img')),so=[[-150,10,10],[-25,40,-12],[-25,45,14],[355,95,-10]];
+var rm=matchMedia('(prefers-reduced-motion:reduce)').matches;
+function run(){
+ var p=pr(s2),k=cl(p/.5),t=cl((p-.6)/.1),t0=cl((p-.54)/.05);
+ ws.forEach(function(e,i){e.style.opacity=.18+.82*cl(k*ws.length-i)});
+ $('txt').style.opacity=1-t0;$('row').style.opacity=cl(t*2);fi.forEach(function(e,i){var u=1-t,o=so[i];e.style.transform='translate('+o[0]*u+'px,'+o[1]*u+'px) rotate('+o[2]*u+'deg) scale('+(.55+.45*t)+')'});[].forEach.call(document.querySelectorAll('#row b,#row p'),function(e){e.style.opacity=cl((t-.6)*2.5)});
+ p=pr(s3);
+ s3.style.backgroundColor=p<.03?'#fff':'#0a0b0b';
+ $('list').style.opacity=p>.04?1:0;
+ var n=Math.floor(cl((p-.04)/.76)*(li.length-.01));li.forEach(function(e,i){e.classList.toggle('on',i<=n)});
+ if(rm)return;var vh=innerHeight;
+ fl.forEach(function(e){var r=e.parentNode.getBoundingClientRect(),d=r.top+r.height/2-vh/2,s=parseFloat(e.dataset.s);e.style.transform='translateY('+d*s+'px) rotate('+d*s*.1+'deg)'});
+}
+var _dock=['s3','row','s2','k','hero'];[].forEach.call(document.querySelectorAll('.dock i'),function(e,i){e.style.cursor='pointer';e.addEventListener('click',function(){var t=document.getElementById(_dock[i]);if(t)t.scrollIntoView({behavior:'smooth'})})});
+var _m=location.hash.match(/y=(\d+)/);if(_m)setTimeout(function(){scrollTo(0,+_m[1])},350);
+var tk=false;addEventListener('scroll',function(){if(!tk){tk=true;requestAnimationFrame(function(){tk=false;run()})}},{passive:true});addEventListener('resize',run);run();
+})();
+</script>
+<script>
+(function () {
+'use strict';
+var view = document.getElementById('tool-view');
+var viewBody = document.getElementById('tool-body');
+var viewTitle = document.getElementById('tool-title');
+var viewDesc = document.getElementById('tool-desc');
+var viewCat = document.getElementById('tool-category');
+var closeBtn = document.getElementById('tool-close');
+var shareBtn = document.getElementById('tool-share');
+if (typeof toolsDB !== 'object' || toolsDB === null) return;
+var entries = Object.entries(toolsDB);
+var activeTool = null;
+document.title = 'Shaher Tech | \u0634\u0627\u0647\u0631 \u062a\u0643 \u2014 \u0623\u062f\u0648\u0627\u062a \u062a\u0642\u0646\u064a\u0629 \u0645\u062c\u0627\u0646\u064a\u0629 \u0627\u0648\u0646 \u0644\u0627\u064a\u0646';
 
-    <!-- Social Icons -->
-    <div class="social-icons">
-      <!-- Facebook -->
-      <a href="#" class="social-icon" aria-label="Facebook" title="Facebook">
-        <svg viewBox="0 0 24 24">
-          <path
-            d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
-        </svg>
-      </a>
-      <!-- Instagram -->
-      <a href="#" class="social-icon" aria-label="Instagram" title="Instagram">
-        <svg viewBox="0 0 24 24">
-          <path
-            d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" />
-        </svg>
-      </a>
-      <!-- TikTok -->
-      <a href="#" class="social-icon" aria-label="TikTok" title="TikTok">
-        <svg viewBox="0 0 24 24">
-          <path
-            d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z" />
-        </svg>
-      </a>
-      <!-- YouTube -->
-      <a href="#" class="social-icon" aria-label="YouTube" title="YouTube">
-        <svg viewBox="0 0 24 24">
-          <path
-            d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
-        </svg>
-      </a>
-    </div>
+/* tool list rows */
+[].forEach.call(document.querySelectorAll('.li[data-tool]'), function (el) {
+  el.style.cursor = 'pointer';
+  el.addEventListener('click', function () { openTool(el.getAttribute('data-tool')); });
+});
+/* CTA scrolls */
+function scrollTools(e) { if (e) e.preventDefault(); var t = document.getElementById('s3'); if (t) t.scrollIntoView({ behavior: 'smooth' }); }
+var heroGo = document.getElementById('hero-go'); if (heroGo) heroGo.addEventListener('click', scrollTools);
+var kGo = document.getElementById('k-go'); if (kGo) kGo.addEventListener('click', scrollTools);
+var dockBrand = document.getElementById('dock-brand'); if (dockBrand) { dockBrand.style.cursor = 'pointer'; dockBrand.addEventListener('click', function () { if (activeTool) closeTool(true); window.scrollTo({ top: 0, behavior: 'smooth' }); }); }
 
-    <!-- Tools Count -->
-    <span class="footer-tools-count"><b id="tool-count">0</b> أداة متاحة</span>
-
-    <!-- Note -->
-    <span class="footer-note">كل المعالجة تتم محلياً في متصفحك ما لم تُذكر الأداة خلاف ذلك.</span>
-  </footer>
-
-  <!-- ═══════════════════════════════════════════════════════════════════════
-     SCRIPTS
-     ═══════════════════════════════════════════════════════════════════════ -->
-  <script src="tools.js"></script>
-  <script>
-    /* =========================================================================
-       SHAHER TECH TOOLS — MASTER PORTAL BOOTSTRAP
-       Contract: tools are declared in tools.js as `toolsDB` and rendered here.
-       Do NOT rename toolsDB. Do NOT change the tool contract.
-       ========================================================================= */
-    (function () {
-      'use strict';
-
-      const grid = document.getElementById('tools-grid');
-      const search = document.getElementById('portal-search');
-      const chips = document.getElementById('category-chips');
-      const view = document.getElementById('tool-view');
-      const viewBody = document.getElementById('tool-body');
-      const viewTitle = document.getElementById('tool-title');
-      const viewDesc = document.getElementById('tool-desc');
-      const viewCat = document.getElementById('tool-category');
-      const closeBtn = document.getElementById('tool-close');
-      const shareBtn = document.getElementById('tool-share');
-      const noResults = document.getElementById('no-results');
-      const toolCount = document.getElementById('tool-count');
-
-      if (typeof toolsDB !== 'object' || toolsDB === null) {
-        grid.innerHTML = '<p class="no-results">toolsDB is missing or broken.</p>';
-        return;
+function findToolId(slug) {
+  if (!slug) return null;
+  slug = String(slug).toLowerCase().trim();
+  if (toolsDB[slug]) return slug;
+  for (var i = 0; i < entries.length; i++) {
+    var id = entries[i][0], t = entries[i][1];
+    if (t.slug && t.slug.toLowerCase() === slug) return id;
+    if (Array.isArray(t.aliases)) {
+      for (var j = 0; j < t.aliases.length; j++) {
+        if (String(t.aliases[j]).toLowerCase() === slug) return id;
       }
+    }
+    if (id.toLowerCase() === slug) return id;
+  }
+  return null;
+}
 
-      const entries = Object.entries(toolsDB);
-      const categories = ['All', ...new Set(entries.map(([, t]) => t.category))];
-      let activeCategory = 'All';
-      let activeTool = null;
+var metaDesc = document.getElementById('meta-description');
+var metaOgTitle = document.getElementById('meta-og-title');
+var metaOgDesc = document.getElementById('meta-og-description');
+var metaOgUrl = document.getElementById('meta-og-url');
+var metaCanonical = document.getElementById('meta-canonical');
+var HOME_DESC = metaDesc ? metaDesc.getAttribute('content') : '';
+var HOME_TITLE = metaOgTitle ? metaOgTitle.getAttribute('content') : '';
+var ORIGIN = window.location.origin;
 
-      document.title = 'Shaher Tech | شاهر تك — أدوات تقنية مجانية اون لاين';
-      toolCount.textContent = entries.length;
+function setRobotsMeta(noindex) {
+  var tag = document.querySelector('meta[name="robots"]');
+  if (noindex) {
+    if (!tag) { tag = document.createElement('meta'); tag.setAttribute('name', 'robots'); document.head.appendChild(tag); }
+    tag.setAttribute('content', 'noindex,follow');
+  } else if (tag) { tag.remove(); }
+}
 
-      // ---- category chips -------------------------------------------------
-      categories.forEach(function (cat) {
-        const chip = document.createElement('button');
-        chip.className = 'chip' + (cat === 'All' ? ' chip-active' : '');
-        chip.textContent = cat === 'All' ? 'الكل' : cat;
-        chip.dataset.category = cat;
-        chip.addEventListener('click', function () {
-          activeCategory = cat;
-          chips.querySelectorAll('.chip').forEach(function (c) { c.classList.remove('chip-active'); });
-          chip.classList.add('chip-active');
-          renderGrid();
-        });
-        chips.appendChild(chip);
-      });
+function updateMeta(tool) {
+  if (tool) {
+    var url = ORIGIN + '/' + encodeURIComponent(tool.slug || '');
+    if (metaDesc) metaDesc.setAttribute('content', tool.desc || HOME_DESC);
+    if (metaOgTitle) metaOgTitle.setAttribute('content', tool.title + ' \u2014 Shaher Tech | \u0634\u0627\u0647\u0631 \u062a\u0643');
+    if (metaOgDesc) metaOgDesc.setAttribute('content', tool.desc || HOME_DESC);
+    if (metaOgUrl) metaOgUrl.setAttribute('content', url);
+    if (metaCanonical) metaCanonical.setAttribute('href', url);
+    setRobotsMeta(false);
+  } else {
+    if (metaDesc) metaDesc.setAttribute('content', HOME_DESC);
+    if (metaOgTitle) metaOgTitle.setAttribute('content', HOME_TITLE);
+    if (metaOgDesc) metaOgDesc.setAttribute('content', HOME_DESC);
+    if (metaOgUrl) metaOgUrl.setAttribute('content', ORIGIN + '/');
+    if (metaCanonical) metaCanonical.setAttribute('href', ORIGIN + '/');
+    setRobotsMeta(false);
+  }
+}
 
-      // ---- grid -----------------------------------------------------------
-      function renderGrid() {
-        const q = search.value.trim().toLowerCase();
-        grid.innerHTML = '';
-        let shown = 0;
+function openTool(id, updateUrl) {
+  if (typeof updateUrl === 'undefined') updateUrl = true;
+  var tool = toolsDB[id];
+  if (!tool) return;
+  activeTool = id;
+  viewTitle.textContent = tool.title;
+  viewDesc.textContent = tool.desc || '';
+  viewCat.textContent = tool.category;
+  viewBody.innerHTML = '';
+  if (typeof tool.html === 'string') viewBody.innerHTML = tool.html;
+  view.hidden = false;
+  document.body.classList.add('tool-open');
+  window.scrollTo({ top: 0, behavior: 'instant' });
+  updateMeta(tool);
+  document.title = tool.title + ' \u2014 Shaher Tech | \u0634\u0627\u0647\u0631 \u062a\u0643';
+  if (updateUrl) {
+    var slug = tool.slug || id;
+    history.pushState({ tool: id }, '', '/' + encodeURIComponent(slug));
+  }
+  if (typeof tool.init === 'function') {
+    try { tool.init(); }
+    catch (err) {
+      viewBody.insertAdjacentHTML('beforeend', '<p class="state-error">\u26a0 This tool failed to initialise: ' + String(err && err.message || err) + '</p>');
+    }
+  }
+}
 
-        entries.forEach(function ([id, tool]) {
-          if (activeCategory !== 'All' && tool.category !== activeCategory) return;
-          if (q) {
-            const hay = (id + ' ' + tool.title + ' ' + tool.category + ' ' + (tool.desc || '')).toLowerCase();
-            if (!hay.includes(q)) return;
-          }
-          shown++;
+function closeTool(updateUrl) {
+  if (typeof updateUrl === 'undefined') updateUrl = true;
+  activeTool = null;
+  view.hidden = true;
+  document.body.classList.remove('tool-open');
+  viewBody.innerHTML = '';
+  updateMeta(null);
+  document.title = 'Shaher Tech | \u0634\u0627\u0647\u0631 \u062a\u0643 \u2014 \u0623\u062f\u0648\u0627\u062a \u062a\u0642\u0646\u064a\u0629 \u0645\u062c\u0627\u0646\u064a\u0629 \u0627\u0648\u0646 \u0644\u0627\u064a\u0646';
+  if (updateUrl) history.pushState(null, '', '/');
+}
 
-          const card = document.createElement('button');
-          card.className = 'tool-card';
-          card.type = 'button';
-          card.dataset.toolId = id;
-          card.innerHTML =
-            '<span class="tool-card-top"><span class="tool-emoji">' + (tool.emoji || '🛠') + '</span>' +
-            '<span class="tool-category-tag">' + tool.category + '</span></span>' +
-            '<span class="tool-card-title">' + tool.title + '</span>' +
-            '<span class="tool-card-desc">' + (tool.desc || '') + '</span>';
+closeBtn.addEventListener('click', function () { closeTool(true); });
 
-          card.addEventListener('click', function () { openTool(id); });
-          grid.appendChild(card);
-        });
+if (shareBtn) {
+  shareBtn.addEventListener('click', function () {
+    if (!activeTool) return;
+    var tool = toolsDB[activeTool];
+    var slug = (tool && tool.slug) || activeTool;
+    var shareUrl = window.location.origin + '/' + encodeURIComponent(slug);
+    navigator.clipboard.writeText(shareUrl).then(function () {
+      var orig = shareBtn.textContent;
+      shareBtn.textContent = '\u2713 \u062a\u0645 \u0646\u0633\u062e \u0627\u0644\u0631\u0627\u0628\u0637!';
+      setTimeout(function () { shareBtn.textContent = orig; }, 2000);
+    }).catch(function () {
+      prompt('\u0627\u0646\u0633\u062e \u0631\u0627\u0628\u0637 \u0627\u0644\u0623\u062f\u0627\u0629 \u0627\u0644\u0645\u0628\u0627\u0634\u0631:', shareUrl);
+    });
+  });
+}
 
-        noResults.hidden = shown !== 0;
-      }
+window.addEventListener('popstate', function () { checkUrlTool(); });
 
-      // ---- slug / alias resolver -----------------------------------------
-      function findToolId(slug) {
-        if (!slug) return null;
-        slug = String(slug).toLowerCase().trim();
-        if (toolsDB[slug]) return slug;
-        for (const [id, t] of Object.entries(toolsDB)) {
-          if (t.slug && t.slug.toLowerCase() === slug) return id;
-          if (Array.isArray(t.aliases)) {
-            for (const a of t.aliases) {
-              if (String(a).toLowerCase() === slug) return id;
-            }
-          }
-          if (id.toLowerCase() === slug) return id;
-        }
-        return null;
-      }
+function checkUrlTool() {
+  var rawPath = window.location.pathname.replace(/^\/+|\/+$/g, '');
+  var matchedId = findToolId(rawPath);
+  if (!matchedId) {
+    var params = new URLSearchParams(window.location.search);
+    var queryParam = params.get('tool') || (window.location.hash ? window.location.hash.replace('#', '') : null);
+    if (queryParam) matchedId = findToolId(queryParam);
+  }
+  if (matchedId) {
+    openTool(matchedId, false);
+  } else if (activeTool) {
+    closeTool(false);
+  } else if (rawPath) {
+    updateMeta(null);
+    setRobotsMeta(true);
+  }
+}
 
-      // ---- SEO: per-route meta -------------------------------------------
-      const metaDesc = document.getElementById('meta-description');
-      const metaOgTitle = document.getElementById('meta-og-title');
-      const metaOgDesc = document.getElementById('meta-og-description');
-      const metaOgUrl = document.getElementById('meta-og-url');
-      const metaCanonical = document.getElementById('meta-canonical');
-      const HOME_DESC = metaDesc ? metaDesc.getAttribute('content') : '';
-      const HOME_TITLE = metaOgTitle ? metaOgTitle.getAttribute('content') : '';
-      const ORIGIN = window.location.origin;
+document.addEventListener('keydown', function (e) {
+  if (e.key === 'Escape' && activeTool) closeTool(true);
+});
 
-      function setRobotsMeta(noindex) {
-        let tag = document.querySelector('meta[name="robots"]');
-        if (noindex) {
-          if (!tag) {
-            tag = document.createElement('meta');
-            tag.setAttribute('name', 'robots');
-            document.head.appendChild(tag);
-          }
-          tag.setAttribute('content', 'noindex,follow');
-        } else if (tag) {
-          tag.remove();
-        }
-      }
-
-      function updateMeta(tool) {
-        if (tool) {
-          const url = ORIGIN + '/' + encodeURIComponent(tool.slug || '');
-          if (metaDesc) metaDesc.setAttribute('content', tool.desc || HOME_DESC);
-          if (metaOgTitle) metaOgTitle.setAttribute('content', tool.title + ' — Shaher Tech | شاهر تك');
-          if (metaOgDesc) metaOgDesc.setAttribute('content', tool.desc || HOME_DESC);
-          if (metaOgUrl) metaOgUrl.setAttribute('content', url);
-          if (metaCanonical) metaCanonical.setAttribute('href', url);
-          setRobotsMeta(false);
-        } else {
-          if (metaDesc) metaDesc.setAttribute('content', HOME_DESC);
-          if (metaOgTitle) metaOgTitle.setAttribute('content', HOME_TITLE);
-          if (metaOgDesc) metaOgDesc.setAttribute('content', HOME_DESC);
-          if (metaOgUrl) metaOgUrl.setAttribute('content', ORIGIN + '/');
-          if (metaCanonical) metaCanonical.setAttribute('href', ORIGIN + '/');
-          setRobotsMeta(false);
-        }
-      }
-
-      // ---- open a tool ----------------------------------------------------
-      function openTool(id, updateUrl) {
-        if (typeof updateUrl === 'undefined') updateUrl = true;
-        const tool = toolsDB[id];
-        if (!tool) return;
-        activeTool = id;
-
-        viewTitle.textContent = tool.title;
-        viewDesc.textContent = tool.desc || '';
-        viewCat.textContent = tool.category;
-
-        viewBody.innerHTML = '';
-        if (typeof tool.html === 'string') viewBody.innerHTML = tool.html;
-
-        view.hidden = false;
-        document.body.classList.add('tool-open');
-        window.scrollTo({ top: 0, behavior: 'instant' });
-
-        updateMeta(tool);
-        document.title = tool.title + ' — Shaher Tech | شاهر تك';
-        if (updateUrl) {
-          const slug = tool.slug || id;
-          const newUrl = '/' + encodeURIComponent(slug);
-          history.pushState({ tool: id }, '', newUrl);
-        }
-
-        if (typeof tool.init === 'function') {
-          try { tool.init(); }
-          catch (err) {
-            viewBody.insertAdjacentHTML('beforeend',
-              '<p class="state-error">⚠ This tool failed to initialise: ' + String(err && err.message || err) + '</p>');
-          }
-        }
-      }
-
-      function closeTool(updateUrl) {
-        if (typeof updateUrl === 'undefined') updateUrl = true;
-        activeTool = null;
-        view.hidden = true;
-        document.body.classList.remove('tool-open');
-        viewBody.innerHTML = '';
-
-        updateMeta(null);
-        document.title = 'Shaher Tech | شاهر تك — أدوات تقنية مجانية اون لاين';
-        if (updateUrl) {
-          history.pushState(null, '', '/');
-        }
-      }
-
-      closeBtn.addEventListener('click', function () { closeTool(true); });
-      document.getElementById('brand-link').addEventListener('click', function (e) {
-        e.preventDefault(); closeTool(true);
-      });
-
-      if (shareBtn) {
-        shareBtn.addEventListener('click', function () {
-          if (!activeTool) return;
-          const tool = toolsDB[activeTool];
-          const slug = (tool && tool.slug) || activeTool;
-          const shareUrl = window.location.origin + '/' + encodeURIComponent(slug);
-          navigator.clipboard.writeText(shareUrl).then(function () {
-            const orig = shareBtn.textContent;
-            shareBtn.textContent = '✓ تم نسخ الرابط!';
-            setTimeout(function () { shareBtn.textContent = orig; }, 2000);
-          }).catch(function () {
-            prompt('انسخ رابط الأداة المباشر:', shareUrl);
-          });
-        });
-      }
-
-      window.addEventListener('popstate', function () {
-        checkUrlTool();
-      });
-
-      function checkUrlTool() {
-        let rawPath = window.location.pathname.replace(/^\/+|\/+$/g, '');
-        let matchedId = findToolId(rawPath);
-
-        if (!matchedId) {
-          const params = new URLSearchParams(window.location.search);
-          const queryParam = params.get('tool') || (window.location.hash ? window.location.hash.replace('#', '') : null);
-          if (queryParam) matchedId = findToolId(queryParam);
-        }
-
-        if (matchedId) {
-          openTool(matchedId, false);
-        } else if (activeTool) {
-          closeTool(false);
-        } else if (rawPath) {
-          updateMeta(null);
-          setRobotsMeta(true);
-        }
-      }
-
-      document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape' && activeTool) closeTool(true);
-        if (e.key === '/' && document.activeElement !== search) { e.preventDefault(); search.focus(); }
-      });
-      search.addEventListener('input', renderGrid);
-
-      renderGrid();
-      checkUrlTool();
-    })();
-  </script>
+checkUrlTool();
+})();
+</script>
 </body>
 
 </html>
