@@ -107,6 +107,7 @@ app.get('/api/health', function (req, res) {
 // When adding a tool: add it here AND to toolsDB AND TOOL_ROUTES AND sitemap.
 const SITE_ORIGIN = 'https://shaher-tech.vercel.app';
 const ROUTE_META = {
+  'pdf-to-images': { title: 'تحويل PDF إلى صور JPG وPNG', desc: 'حوّل صفحات PDF إلى صور JPG أو PNG، وحدد الصفحات المطلوبة وحمّل الصور منفردة أو في ZIP مجانًا من متصفحك بدون رفع الملف.' },
   'pdf-pages': { title: 'اختيار وحذف صفحات PDF', desc: 'محتاج صفحتين بس من ملف كبير؟ اختار الصفحات اللي هتحتفظ بيها أو اللي هتحذفها، وحمّل نسخة PDF جديدة من متصفحك بدون رفع الملف.' },
   'resize-images': { title: 'تغيير مقاس الصور دفعة واحدة (Batch Image Resize)', desc: 'غيّر أبعاد عدة صور مرة واحدة للمواقع والمتاجر: احتواء بدون قص، أو مقاس ثابت بخلفية أو قص من المنتصف، وحمّل النتائج في ZIP من متصفحك.' },
   'whatsapp': { title: 'رابط واتساب مباشر (WhatsApp Direct Link)', desc: 'افتح محادثة واتساب مع أي رقم بدون ما تحفظه في جهات اتصالك — اكتب الرقم وابدأ الشات فوراً.' },
@@ -120,6 +121,7 @@ const ROUTE_META = {
   'percentage': { title: 'حاسبة النسبة والخصم (Percentage Calculator)', desc: 'احسب قيمة أي نسبة من رقم، أو نسبة رقم من رقم، أو سعر منتج بعد الخصم — بضغطة واحدة ومن غير أي حسابات.' }
 };
 const ALIAS_TO_SLUG = {
+  'pdf-to-jpg': 'pdf-to-images', 'pdf-to-png': 'pdf-to-images', '12': 'pdf-to-images',
   'extract-pdf': 'pdf-pages', 'remove-pdf-pages': 'pdf-pages', '11': 'pdf-pages',
   'batch-resize': 'resize-images', '10': 'resize-images',
   'wa': 'whatsapp', '1': 'whatsapp',
@@ -184,6 +186,7 @@ function servedIndexHtml(slug) {
 // Known client-side tool routes (slugs + aliases from public/tools.js).
 // Unknown paths must return a REAL 404, not the SPA (soft-404 harms SEO).
 const TOOL_ROUTES = new Set([
+  'pdf-to-images', 'pdf-to-jpg', 'pdf-to-png', '12',
   'pdf-pages', 'extract-pdf', 'remove-pdf-pages', '11',
   'resize-images', 'batch-resize', '10',
   'whatsapp', 'wa', '1',
