@@ -1,0 +1,6 @@
+U2NetP by Xuebin Qin et al. https://github.com/xuebinqin/U-2-Net
+Apache License 2.0, supplied in bg-model-LICENSE.txt.
+Citation: Qin et al, U2-Net: Going Deeper with Nested U-Structure for Salient Object Detection, Pattern Recognition 106,107404,2020.
+Original checkpoint: upstream README Google Drive file 1rbSTGKAE-MTxBYHd-51l2hMOQPT_7EPy.
+Modification: converted original PyTorch U2NETP checkpoint to ONNX opset12 using torch.onnx.export, fixed1x3x320x320 input, October27 2026. No retraining.
+ONNX Runtime Web1.17.3 by Microsoft, MIT, see ort-LICENSE.txt and ort-ThirdPartyNotices.txt.
