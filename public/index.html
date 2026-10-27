@@ -26,36 +26,85 @@
   <meta property="og:url" id="meta-og-url" content="https://shaher-tech.vercel.app/">
   <meta property="og:locale" content="ar_AR">
   <meta name="twitter:card" content="summary_large_image">
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "WebSite",
-        "name": "Shaher Tech",
-        "alternateName": "شاهر تك",
-        "url": "https://shaher-tech.vercel.app/",
-        "inLanguage": "ar",
-        "description": "أدوات تقنية مجانية تعمل محلياً في المتصفح بدون تسجيل وبدون سيرفر."
-      },
-      {
-        "@type": "ItemList",
-        "name": "أدوات Shaher Tech المجانية",
-        "itemListElement": [
-          { "@type": "ListItem", "position": 1, "name": "رابط واتساب مباشر (WhatsApp Direct Link)", "url": "https://shaher-tech.vercel.app/whatsapp" },
-          { "@type": "ListItem", "position": 2, "name": "مهندس البرومبت متعدد المنصات (Multi-AI Prompt Architect)", "url": "https://shaher-tech.vercel.app/prompt" },
-          { "@type": "ListItem", "position": 3, "name": "مُقسم الفواتير الذكي", "url": "https://shaher-tech.vercel.app/qeteya" },
-          { "@type": "ListItem", "position": 4, "name": "دمج ملفات PDF", "url": "https://shaher-tech.vercel.app/pdf" },
-          { "@type": "ListItem", "position": 5, "name": "مُصغر الصور الذكي (Image Compressor)", "url": "https://shaher-tech.vercel.app/compress" },
-          { "@type": "ListItem", "position": 6, "name": "مُصغر الفيديوهات الذكي (Smart Video Compressor)", "url": "https://shaher-tech.vercel.app/video-compress" },
-          { "@type": "ListItem", "position": 7, "name": "تحويل الصور إلى ملف PDF (Images to PDF)", "url": "https://shaher-tech.vercel.app/images-to-pdf" },
-          { "@type": "ListItem", "position": 8, "name": "إنشاء رمز QR (QR Code)", "url": "https://shaher-tech.vercel.app/qr" },
-          { "@type": "ListItem", "position": 9, "name": "حاسبة النسبة والخصم (Percentage Calculator)", "url": "https://shaher-tech.vercel.app/percentage" }
-        ]
-      }
-    ]
-  }
-  </script>
+  <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "name": "Shaher Tech",
+      "alternateName": "شاهر تك",
+      "url": "https://shaher-tech.vercel.app/",
+      "inLanguage": "ar",
+      "description": "أدوات تقنية مجانية تعمل محلياً في المتصفح بدون تسجيل وبدون سيرفر."
+    },
+    {
+      "@type": "ItemList",
+      "name": "أدوات Shaher Tech المجانية",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "رابط واتساب مباشر (WhatsApp Direct Link)",
+          "url": "https://shaher-tech.vercel.app/whatsapp"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "مهندس البرومبت متعدد المنصات (Multi-AI Prompt Architect)",
+          "url": "https://shaher-tech.vercel.app/prompt"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "مُقسم الفواتير الذكي",
+          "url": "https://shaher-tech.vercel.app/qeteya"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "دمج ملفات PDF",
+          "url": "https://shaher-tech.vercel.app/pdf"
+        },
+        {
+          "@type": "ListItem",
+          "position": 5,
+          "name": "مُصغر الصور الذكي (Image Compressor)",
+          "url": "https://shaher-tech.vercel.app/compress"
+        },
+        {
+          "@type": "ListItem",
+          "position": 6,
+          "name": "مُصغر الفيديوهات الذكي (Smart Video Compressor)",
+          "url": "https://shaher-tech.vercel.app/video-compress"
+        },
+        {
+          "@type": "ListItem",
+          "position": 7,
+          "name": "تحويل الصور إلى ملف PDF (Images to PDF)",
+          "url": "https://shaher-tech.vercel.app/images-to-pdf"
+        },
+        {
+          "@type": "ListItem",
+          "position": 8,
+          "name": "إنشاء رمز QR (QR Code)",
+          "url": "https://shaher-tech.vercel.app/qr"
+        },
+        {
+          "@type": "ListItem",
+          "position": 9,
+          "name": "حاسبة النسبة والخصم (Percentage Calculator)",
+          "url": "https://shaher-tech.vercel.app/percentage"
+        },
+        {
+          "@type": "ListItem",
+          "position": 10,
+          "name": "تغيير مقاس الصور دفعة واحدة (Batch Image Resize)",
+          "url": "https://shaher-tech.vercel.app/resize-images"
+        }
+      ]
+    }
+  ]
+}</script>
 
   <!-- Google Fonts: Changa (headline), Cairo (body), Inter (en), JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -170,9 +219,10 @@ footer{color:var(--beige-m);text-align:center;padding:34px;font:600 12px WahbaSa
   <div class="card tf" style="--ac:#6366f1" data-open-tool="videoCompressorTool"><div class="bk"></div><div class="paper d">فيديو</div><div class="fr"><span class="ic"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="3"/><path d="M10 9l5 3-5 3z" fill="currentColor" stroke="none"/></svg></span><b>مصغّر الفيديو</b><small>صغّر حجم الفيديو</small></div></div>
   <div class="card tf" style="--ac:#10b981" data-open-tool="billSplitterTool"><div class="bk"></div><div class="paper">فواتير</div><div class="fr"><span class="ic"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 2v20l2-1.2 2 1.2 2-1.2 2 1.2 2-1.2 2 1.2 2-1.2 2 1.2V2l-2 1.2L17 2l-2 1.2L13 2l-2 1.2L9 2 7 3.2 5 2z"/><path d="M9 8h6M9 12h6"/></svg></span><b>مقسّم الفواتير</b><small>قسّم الحساب على أصحابك</small></div></div>
   <div class="card tf" style="--ac:#a855f7" data-open-tool="aiPromptArchitectTool"><div class="bk"></div><div class="paper">برومبت AI</div><div class="fr"><span class="ic"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/></svg></span><b>مهندس برومبت AI</b><small>جهّز برومبتك لأي أداة ذكاء اصطناعي</small></div></div>
+  <div class="card tf" style="--ac:#c8952e" data-open-tool="batchResizeTool"><div class="bk"></div><div class="paper d">مقاس الصور</div><div class="fr"><span class="ic">📐</span><b>تغيير مقاس الصور دفعة واحدة</b><small>مقاس موحد وتحميل ZIP</small></div></div>
   <div class="card tf" style="--ac:#c8952e" data-open-tool="percentageTool"><div class="bk"></div><div class="paper d">نسبة وخصم</div><div class="fr"><span class="ic">٪</span><b>حاسبة النسبة والخصم</b><small>النسبة والسعر بعد الخصم</small></div></div>
   <div class="tc"><div class="fan"><i style="--c:#4a3a16;--r:-8"></i><i style="--c:#6b5626;--r:-4"></i><i style="--c:#a07824;--r:0"></i><i style="--c:#333322;--r:4"></i><i style="--c:#c8952e;--r:8"></i><i style="--c:#e6b84d;--r:12"></i></div>
-   <div class="tp"><b>٩ أدوات، كلها مجانية.</b><div class="chips"><span data-open-tool="pdfMergeTool">PDF</span><span data-open-tool="imageCompressorTool">صور</span><span data-open-tool="videoCompressorTool">فيديو</span><span data-open-tool="qrMakerTool">QR</span><span data-open-tool="whatsappLinkTool">واتساب</span><span data-open-tool="billSplitterTool">فواتير</span><span data-open-tool="aiPromptArchitectTool">AI</span><span data-open-tool="whatsappLinkTool">روابط</span><span data-open-tool="percentageTool">حسابات</span></div></div></div>
+   <div class="tp"><b>١٠ أدوات، كلها مجانية.</b><div class="chips"><span data-open-tool="pdfMergeTool">PDF</span><span data-open-tool="imageCompressorTool">صور</span><span data-open-tool="videoCompressorTool">فيديو</span><span data-open-tool="qrMakerTool">QR</span><span data-open-tool="whatsappLinkTool">واتساب</span><span data-open-tool="billSplitterTool">فواتير</span><span data-open-tool="aiPromptArchitectTool">AI</span><span data-open-tool="whatsappLinkTool">روابط</span><span data-open-tool="percentageTool">حسابات</span><span data-open-tool="batchResizeTool">مقاسات</span></div></div></div>
  </div>
 </header>
 
@@ -195,7 +245,7 @@ footer{color:var(--beige-m);text-align:center;padding:34px;font:600 12px WahbaSa
   <div class="li" data-tool="qrMakerTool"><span class="bd">QR</span><span>إنشاء رمز QR<small>أنشئ رمز QR لأي لينك</small></span></div>
   <div class="li" data-tool="whatsappLinkTool"><img src="11-link.png" alt=""><span>رابط واتساب مباشر<small>افتح شات برسالة جاهزة</small></span></div>
   <div class="li" data-tool="billSplitterTool"><span class="bd">فو</span><span>مقسّم الفواتير<small>قسّم الحساب على أصحابك</small></span></div>
-  <div class="li" data-tool="aiPromptArchitectTool"><img src="14-star.png" alt=""><span>مهندس برومبت AI<small>جهّز برومبتك لأي أداة ذكاء اصطناعي</small></span></div> <div class="li" data-tool="percentageTool"><span class="bd">٪</span><span>حاسبة النسبة والخصم<small>قيمة النسبة، نسبة رقم من رقم، والسعر بعد الخصم</small></span></div></div>
+  <div class="li" data-tool="aiPromptArchitectTool"><img src="14-star.png" alt=""><span>مهندس برومبت AI<small>جهّز برومبتك لأي أداة ذكاء اصطناعي</small></span></div> <div class="li" data-tool="batchResizeTool"><span class="bd">📐</span><span>تغيير مقاس الصور دفعة واحدة<small>أبعاد موحدة ومجموعة صور في ZIP</small></span></div> <div class="li" data-tool="percentageTool"><span class="bd">٪</span><span>حاسبة النسبة والخصم<small>قيمة النسبة، نسبة رقم من رقم، والسعر بعد الخصم</small></span></div></div>
 </div></section>
 
 <section class="k" id="k">

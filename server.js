@@ -107,6 +107,7 @@ app.get('/api/health', function (req, res) {
 // When adding a tool: add it here AND to toolsDB AND TOOL_ROUTES AND sitemap.
 const SITE_ORIGIN = 'https://shaher-tech.vercel.app';
 const ROUTE_META = {
+  'resize-images': { title: 'تغيير مقاس الصور دفعة واحدة (Batch Image Resize)', desc: 'غيّر أبعاد عدة صور مرة واحدة للمواقع والمتاجر: احتواء بدون قص، أو مقاس ثابت بخلفية أو قص من المنتصف، وحمّل النتائج في ZIP من متصفحك.' },
   'whatsapp': { title: 'رابط واتساب مباشر (WhatsApp Direct Link)', desc: 'افتح محادثة واتساب مع أي رقم بدون ما تحفظه في جهات اتصالك — اكتب الرقم وابدأ الشات فوراً.' },
   'prompt': { title: 'Multi-AI Prompt Architect', desc: 'حوّل فكرتك البسيطة إلى برومبت احترافي جاهز للنسخ إلى ChatGPT أو Gemini أو Claude.' },
   'qeteya': { title: 'مُقسم الفواتير الذكي', desc: 'احسب نصيب كل فرد في فاتورة الأكل أو القهوة، وولد رسالة واتساب شيك بإنستاباي وفودافون كاش فوراً.' },
@@ -118,6 +119,7 @@ const ROUTE_META = {
   'percentage': { title: 'حاسبة النسبة والخصم (Percentage Calculator)', desc: 'احسب قيمة أي نسبة من رقم، أو نسبة رقم من رقم، أو سعر منتج بعد الخصم — بضغطة واحدة ومن غير أي حسابات.' }
 };
 const ALIAS_TO_SLUG = {
+  'batch-resize': 'resize-images', '10': 'resize-images',
   'wa': 'whatsapp', '1': 'whatsapp',
   'prompts': 'prompt', 'ai': 'prompt', '2': 'prompt',
   'split': 'qeteya', 'bill': 'qeteya', 'hesab': 'qeteya', 'qsmha': 'qeteya', '3': 'qeteya',
@@ -180,6 +182,7 @@ function servedIndexHtml(slug) {
 // Known client-side tool routes (slugs + aliases from public/tools.js).
 // Unknown paths must return a REAL 404, not the SPA (soft-404 harms SEO).
 const TOOL_ROUTES = new Set([
+  'resize-images', 'batch-resize', '10',
   'whatsapp', 'wa', '1',
   'prompt', 'prompts', 'ai', '2',
   'qeteya', 'split', 'bill', 'hesab', 'qsmha', '3',
