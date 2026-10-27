@@ -25,13 +25,6 @@ app.use(express.static(path.join(__dirname, 'public'), {
     if (/\.js$/.test(filePath)) res.setHeader('Content-Type', 'application/javascript; charset=utf-8');
   }
 }));
-app.use(express.static(path.join(__dirname), {
-  extensions: ['html'],
-  setHeaders: function (res, filePath) {
-    if (/\.js$/.test(filePath)) res.setHeader('Content-Type', 'application/javascript; charset=utf-8');
-  }
-}));
-
 // ---- Atria proxy --------------------------------------------------------
 const ATRIA_URL = process.env.ATRIA_API_URL || 'https://api.atralabs.dev/v1/chat/completions';
 const ATRIA_KEY = process.env.ATRIA_API_KEY;
@@ -202,10 +195,6 @@ app.get('*', function (req, res) {
   if (fs.existsSync(publicCandidate) && fs.statSync(publicCandidate).isFile()) {
     return res.sendFile(publicCandidate);
   }
-  const candidate = path.join(__dirname, req.path);
-  if (fs.existsSync(candidate) && fs.statSync(candidate).isFile()) {
-    return res.sendFile(candidate);
-  }
   const seg = req.path.replace(/^\/+|\/+$/g, '');
   if (seg === '' || TOOL_ROUTES.has(seg)) {
     const slug = seg === '' ? null : (ROUTE_META[seg] ? seg : (ALIAS_TO_SLUG[seg] || null));
@@ -218,7 +207,7 @@ app.get('*', function (req, res) {
     if (fs.existsSync(publicIndex)) {
       return res.sendFile(publicIndex);
     }
-    return res.sendFile(path.join(__dirname, 'index.html'));
+    return res.status(404).send('Page not found');
   }
   res.status(404).send('<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><meta name="robots" content="noindex"><title>404 — الصفحة مش موجودة | Shaher Tech</title></head><body style="font-family:sans-serif;background:#0a0b0b;color:#e8e6e3;display:flex;min-height:100vh;align-items:center;justify-content:center;text-align:center"><div><h1>404</h1><p>الصفحة دي مش موجودة.</p><p><a href="/" style="color:#d4af37">ارجع لكل الأدوات</a></p></div></body></html>');
 });

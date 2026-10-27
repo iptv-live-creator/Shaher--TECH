@@ -3421,7 +3421,7 @@ const toolsDB = {
           <!-- Result View -->
           <div id="vc-result-view" class="vc-result-view">
             <div class="vc-success-banner">
-              🎉 تم ضغط الفيديو بنجاح بأعلى توفير مع الحفاظ على نقاء الجودة!
+              تم تجهيز الفيديو. قارن الحجم بالأصل قبل التحميل.
             </div>
 
             <div class="vc-comparison-grid">
@@ -3434,7 +3434,7 @@ const toolsDB = {
                 <span id="vc-new-val" class="vc-comp-val">--</span>
               </div>
               <div class="vc-comp-card saved">
-                <span class="vc-comp-label">نسبة التوفير 🔥</span>
+                <span class="vc-comp-label">فرق الحجم</span>
                 <span id="vc-saved-val" class="vc-comp-val">--</span>
               </div>
             </div>
@@ -3446,7 +3446,7 @@ const toolsDB = {
 
             <div class="vc-download-actions">
               <a id="vc-download-btn" class="btn-action vc-main-btn" href="#" download="compressed_video.mp4" style="text-decoration:none;">
-                ⬇️ تحميل الفيديو المضغوط
+                ⬇️ تحميل الفيديو الناتج
               </a>
               <button id="vc-reset-btn" type="button" class="btn-ghost" style="padding:12px 24px; font-size:14px;">
                 🔄 ضغط فيديو آخر
@@ -3870,11 +3870,15 @@ const toolsDB = {
           origValEl.textContent = formatBytes(currentFile.size);
           newValEl.textContent = formatBytes(finalBlob.size);
 
-          const savedRatio = Math.max(0, ((currentFile.size - finalBlob.size) / currentFile.size) * 100).toFixed(1);
-          if (activePreset === 'quality') {
-            savedValEl.textContent = 'وفرت ' + savedRatio + '% 💎';
+          const savedRatio = ((currentFile.size - finalBlob.size) / currentFile.size) * 100;
+          savedValEl.style.cssText = '';
+          if (savedRatio > 0) {
+            savedValEl.textContent = 'الحجم أقل بنسبة ' + savedRatio.toFixed(1) + '%';
+          } else if (finalBlob.size > currentFile.size) {
+            savedValEl.style.cssText = 'font-family:inherit;font-size:14px;letter-spacing:normal;line-height:1.8;direction:rtl;color:#e6b84d';
+            savedValEl.textContent = 'الملف الناتج أكبر من الأصل بنسبة ' + Math.abs(savedRatio).toFixed(1) + '%. استخدم الأصل أو جرّب إعدادًا أقل.';
           } else {
-            savedValEl.textContent = 'وفرت ' + savedRatio + '% 🔥';
+            savedValEl.textContent = 'الحجم لم يتغير.';
           }
 
           resultVideo.src = resultBlobUrl;
