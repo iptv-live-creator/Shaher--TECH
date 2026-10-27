@@ -107,6 +107,7 @@ app.get('/api/health', function (req, res) {
 // When adding a tool: add it here AND to toolsDB AND TOOL_ROUTES AND sitemap.
 const SITE_ORIGIN = 'https://shaher-tech.vercel.app';
 const ROUTE_META = {
+  'pdf-pages': { title: 'اختيار وحذف صفحات PDF', desc: 'محتاج صفحتين بس من ملف كبير؟ اختار الصفحات اللي هتحتفظ بيها أو اللي هتحذفها، وحمّل نسخة PDF جديدة من متصفحك بدون رفع الملف.' },
   'resize-images': { title: 'تغيير مقاس الصور دفعة واحدة (Batch Image Resize)', desc: 'غيّر أبعاد عدة صور مرة واحدة للمواقع والمتاجر: احتواء بدون قص، أو مقاس ثابت بخلفية أو قص من المنتصف، وحمّل النتائج في ZIP من متصفحك.' },
   'whatsapp': { title: 'رابط واتساب مباشر (WhatsApp Direct Link)', desc: 'افتح محادثة واتساب مع أي رقم بدون ما تحفظه في جهات اتصالك — اكتب الرقم وابدأ الشات فوراً.' },
   'prompt': { title: 'Multi-AI Prompt Architect', desc: 'حوّل فكرتك البسيطة إلى برومبت احترافي جاهز للنسخ إلى ChatGPT أو Gemini أو Claude.' },
@@ -119,6 +120,7 @@ const ROUTE_META = {
   'percentage': { title: 'حاسبة النسبة والخصم (Percentage Calculator)', desc: 'احسب قيمة أي نسبة من رقم، أو نسبة رقم من رقم، أو سعر منتج بعد الخصم — بضغطة واحدة ومن غير أي حسابات.' }
 };
 const ALIAS_TO_SLUG = {
+  'extract-pdf': 'pdf-pages', 'remove-pdf-pages': 'pdf-pages', '11': 'pdf-pages',
   'batch-resize': 'resize-images', '10': 'resize-images',
   'wa': 'whatsapp', '1': 'whatsapp',
   'prompts': 'prompt', 'ai': 'prompt', '2': 'prompt',
@@ -182,6 +184,7 @@ function servedIndexHtml(slug) {
 // Known client-side tool routes (slugs + aliases from public/tools.js).
 // Unknown paths must return a REAL 404, not the SPA (soft-404 harms SEO).
 const TOOL_ROUTES = new Set([
+  'pdf-pages', 'extract-pdf', 'remove-pdf-pages', '11',
   'resize-images', 'batch-resize', '10',
   'whatsapp', 'wa', '1',
   'prompt', 'prompts', 'ai', '2',
