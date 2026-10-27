@@ -3352,10 +3352,10 @@ const toolsDB = {
           <!-- 1-Click Action Card -->
           <div id="vc-action-card" class="vc-action-card">
             <button id="vc-start-btn" type="button" class="vc-main-btn">
-              <span>💎 ابدأ الضغط بأعلى جودة</span>
+              <span>💎 ضغط مع الحفاظ على الوضوح قدر الإمكان</span>
             </button>
             <p id="vc-action-hint" class="vc-action-hint">
-              💎 وضع الجودة: أعلى معدل بيانات ممكن للحفاظ على الوضوح مع تقليل الحجم.
+              💎 الضغط قد يقلل الجودة. شاهد المعاينة قبل التحميل؛ إذا زاد الحجم نحتفظ بالأصل ما لم تطلب كتم الصوت أو تغيير المقاس.
             </p>
 
             <!-- Quick Presets -->
@@ -3529,17 +3529,17 @@ const toolsDB = {
 
         if (activePreset === 'quality') {
           const w = hiddenVideo.videoWidth || 1920;
-          // Visual lossless safe bitrate: 1080p: ~3.3 Mbps, 720p: ~2.2 Mbps, smaller: ~1.5 Mbps
+          // Initial bitrate target; lossy encoding does not guarantee identical quality.
           const rateMbps = (w >= 1920) ? 3.3 : (w >= 1280 ? 2.2 : 1.5);
           let safeTargetMB = (dur * rateMbps) / 8;
           // Never exceed 85% of original size
           safeTargetMB = Math.min(origMB * 0.85, safeTargetMB);
-          return Math.max(4, Math.round(safeTargetMB * 10) / 10);
+          return Math.max(0.001, safeTargetMB);
         }
 
-        if (activePreset === '10mb') return 9.5;
-        if (activePreset === '16mb') return 15.5;
-        if (activePreset === '25mb') return 24.5;
+        if (activePreset === '10mb') return Math.min(origMB * 0.85, 9.5);
+        if (activePreset === '16mb') return Math.min(origMB * 0.85, 15.5);
+        if (activePreset === '25mb') return Math.min(origMB * 0.85, 24.5);
 
         return 9.5;
       }
@@ -3550,9 +3550,9 @@ const toolsDB = {
         const origMB = currentFile.size / (1024 * 1024);
         const savedPct = Math.max(0, Math.min(98, Math.round(((origMB - targetMB) / origMB) * 100)));
         if (activePreset === 'quality') {
-          statExpected.textContent = '~' + targetMB.toFixed(1) + ' MB (توفير ' + savedPct + '%)';
+          statExpected.textContent = 'هدف تقريبي: ' + formatBytes(targetMB * 1024 * 1024) + ' (توفير ' + savedPct + '%)';
         } else {
-          statExpected.textContent = '~' + targetMB.toFixed(1) + ' MB (توفير ' + savedPct + '% 🔥)';
+          statExpected.textContent = 'هدف تقريبي: ' + formatBytes(targetMB * 1024 * 1024) + ' (توفير ' + savedPct + '% 🔥)';
         }
       }
 
@@ -3631,8 +3631,8 @@ const toolsDB = {
 
             const btnSpan = startBtn.querySelector('span');
             if (activePreset === 'quality') {
-              if (btnSpan) btnSpan.textContent = '💎 ابدأ الضغط بأعلى جودة';
-              if (actionHintEl) actionHintEl.textContent = '💎 وضع الجودة: أعلى معدل بيانات ممكن للحفاظ على الوضوح مع تقليل الحجم.';
+              if (btnSpan) btnSpan.textContent = '💎 ضغط مع الحفاظ على الوضوح قدر الإمكان';
+              if (actionHintEl) actionHintEl.textContent = '💎 الضغط قد يقلل الجودة. شاهد المعاينة قبل التحميل؛ إذا زاد الحجم نحتفظ بالأصل ما لم تطلب كتم الصوت أو تغيير المقاس.';
             } else if (activePreset === '10mb') {
               if (btnSpan) btnSpan.textContent = '⚡ ابدأ الضغط (هدف ~10MB)';
               if (actionHintEl) actionHintEl.textContent = '⚡ وضع أقصى تصغير: مخصص للوصول لحجم صغير جداً وتسهيل الإرسال السريع (ممتاز للمقاطع القصيرة).';
@@ -3696,7 +3696,8 @@ const toolsDB = {
 
         const duration = Math.max(1, hiddenVideo.duration);
         const isMuted = muteToggle.checked;
-        const audioBitrate = isMuted ? 0 : 96000;
+        const originalBitrate = currentFile.size * 8 / duration;
+        const audioBitrate = isMuted ? 0 : Math.min(96000, Math.max(12000, Math.round(originalBitrate * 0.12)));
         let videoBitrate;
 
         const origW = hiddenVideo.videoWidth || 1280;
@@ -3706,7 +3707,7 @@ const toolsDB = {
         let targetH = origH;
 
         if (activePreset === 'quality') {
-          // Visual Lossless Bitrate: Full HD gets 3.4 Mbps, 720p gets 2.2 Mbps (identical to original)
+          // Initial quality-mode target, further capped by source bitrate.
           if (origW >= 1920) {
             videoBitrate = 3400000;
           } else if (origW >= 1280) {
@@ -3719,8 +3720,11 @@ const toolsDB = {
           const totalTargetBits = targetMB * 1024 * 1024 * 8;
           const totalBitrate = totalTargetBits / duration;
           videoBitrate = Math.round(totalBitrate - audioBitrate);
-          videoBitrate = Math.max(280000, Math.min(3800000, videoBitrate));
+          videoBitrate = Math.max(16000, Math.min(3800000, videoBitrate));
         }
+
+        // Never ask the encoder for more bits than this source needs.
+        videoBitrate = Math.max(16000, Math.min(videoBitrate, Math.round(originalBitrate * 0.85 - audioBitrate)));
 
         const resChoice = resSelect.value;
         if (resChoice === '1080' && targetW > 1920) {
@@ -3861,7 +3865,9 @@ const toolsDB = {
           hiddenVideo.removeEventListener('timeupdate', onTimeUpdate);
 
           const outMime = (mediaRecorder.mimeType && mediaRecorder.mimeType.length) ? mediaRecorder.mimeType : (mime || 'video/webm');
-          const finalBlob = new Blob(recordedChunks, { type: outMime });
+          const encodedBlob = new Blob(recordedChunks, { type: outMime });
+          const keepOriginal = encodedBlob.size >= currentFile.size && !isMuted && targetW === origW && targetH === origH;
+          const finalBlob = keepOriginal ? currentFile : encodedBlob;
 
           // Present Results
           if (resultBlobUrl) URL.revokeObjectURL(resultBlobUrl);
@@ -3872,24 +3878,28 @@ const toolsDB = {
 
           const savedRatio = ((currentFile.size - finalBlob.size) / currentFile.size) * 100;
           savedValEl.style.cssText = '';
+          const banner = resultView.querySelector('.vc-success-banner');
+          banner.textContent = keepOriginal ? 'الملف الأصلي أصغر بالفعل. احتفظنا به كما هو من غير فقد جودة.' : 'تم تجهيز الفيديو. قارن الحجم بالأصل قبل التحميل.';
           if (savedRatio > 0) {
             savedValEl.textContent = 'الحجم أقل بنسبة ' + savedRatio.toFixed(1) + '%';
           } else if (finalBlob.size > currentFile.size) {
             savedValEl.style.cssText = 'font-family:inherit;font-size:14px;letter-spacing:normal;line-height:1.8;direction:rtl;color:#e6b84d';
             savedValEl.textContent = 'الملف الناتج أكبر من الأصل بنسبة ' + Math.abs(savedRatio).toFixed(1) + '%. استخدم الأصل أو جرّب إعدادًا أقل.';
           } else {
-            savedValEl.textContent = 'الحجم لم يتغير.';
+            savedValEl.style.cssText = 'font-family:inherit;font-size:14px;letter-spacing:normal;line-height:1.8;direction:rtl';
+            savedValEl.textContent = keepOriginal ? 'الأصل هو الأفضل هنا: نفس الملف ونفس الجودة، من غير زيادة الحجم.' : 'الحجم لم يتغير.';
           }
 
           resultVideo.src = resultBlobUrl;
           resultVideo.load();
 
           // Prepare download filename
-          const cleanName = currentFile.name.replace(/\\.[^.]+$/, '');
+          const cleanName = currentFile.name.replace(/\.[^.]+$/, '');
           const isMp4 = outMime.toLowerCase().includes('mp4');
           const ext = isMp4 ? '.mp4' : '.webm';
           downloadBtn.href = resultBlobUrl;
-          downloadBtn.download = cleanName + '_compressed' + ext;
+          downloadBtn.download = keepOriginal ? currentFile.name : cleanName + '_compressed' + ext;
+          downloadBtn.textContent = keepOriginal ? 'تحميل الملف الأصلي بدون تغيير' : 'تحميل الفيديو الناتج';
 
           processingView.style.display = 'none';
           resultView.style.display = 'flex';
