@@ -1,0 +1,52 @@
+/1 /whatsapp 301
+/2 /prompt 301
+/3 /qeteya 301
+/4 /pdf 301
+/7 /images-to-pdf 301
+/8 /qr 301
+/9 /percentage 301
+/wa /whatsapp 301
+/prompts /prompt 301
+/ai /prompt 301
+/split /qeteya 301
+/bill /qeteya 301
+/hesab /qeteya 301
+/qsmha /qeteya 301
+/merge /pdf 301
+/pdfmerge /pdf 301
+/pdf-merge /pdf 301
+/image /compress 301
+/img /compress 301
+/resize /compress 301
+/video /video-compress 301
+/vcomp /video-compress 301
+/compress-video /video-compress 301
+/mp4 /video-compress 301
+/img2pdf /images-to-pdf 301
+/topdf /images-to-pdf 301
+/scan /images-to-pdf 301
+/qrcode /qr 301
+/barcode /qr 301
+/percent /percentage 301
+/nesba /percentage 301
+/khasm /percentage 301
+/discount /percentage 301
+
+/batch-resize /resize-images 301
+/10 /resize-images 301
+
+/extract-pdf /pdf-pages 301
+/remove-pdf-pages /pdf-pages 301
+/11 /pdf-pages 301
+
+/pdf-to-jpg /pdf-to-images 301
+/pdf-to-png /pdf-to-images 301
+/12 /pdf-to-images 301
+
+/background-remover /remove-background 301
+/remove-bg /remove-background 301
+/13 /remove-background 301
+
+/trim-audio /audio-cutter 301
+/mp3-cutter /audio-cutter 301
+/14 /audio-cutter 301
