@@ -181,6 +181,12 @@ function servedIndexHtml(slug) {
     'offers': { '@type': 'Offer', 'price': '0', 'priceCurrency': 'USD' },
     'isPartOf': { '@type': 'WebSite', 'name': 'Shaher Tech', 'alternateName': 'شاهر تك', 'url': SITE_ORIGIN + '/' }
   };
+  // Initial tool content is present without waiting for JavaScript rendering.
+  const initialTool = require('./tool-prerender.json')[slug];
+  if (initialTool) {
+    html = html.replace(/<section aria-label="Active tool"[\s\S]*?<\/section>/, function () { return initialTool.html; });
+    html = html.replace('<body>', '<body class="tool-open">');
+  }
   const jsonLdTag = '<script type="application/ld+json">' + JSON.stringify(jsonLd).replace(/<\//g, '<\\/') + '</' + 'script>';
   html = html.replace('</head>', '  ' + jsonLdTag + '\n</head>');
   return html;

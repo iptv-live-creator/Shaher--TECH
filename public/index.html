@@ -217,7 +217,7 @@ var viewBody = document.getElementById('tool-body');
 var viewTitle = document.getElementById('tool-title');
 var viewDesc = document.getElementById('tool-desc');
 var viewCat = document.getElementById('tool-category');
-var _cats = { 'Social Media': 'سوشيال ميديا', 'Utilities': 'أدوات', 'PDF': 'ملفات', 'Image': 'صور', 'Video': 'فيديو', 'AI': 'ذكاء اصطناعي' };
+var _cats = { 'Social Media': 'سوشيال ميديا', 'Utilities': 'أدوات', 'PDF': 'ملفات', 'Image': 'صور', 'Video': 'فيديو', 'Audio': 'صوت', 'AI': 'ذكاء اصطناعي' };
 var closeBtn = document.getElementById('tool-close');
 var shareBtn = document.getElementById('tool-share');
 if (typeof toolsDB !== 'object' || toolsDB === null) return;
@@ -303,6 +303,7 @@ function openTool(id, updateUrl) {
   viewBody.innerHTML = '';
   if (typeof tool.html === 'string') viewBody.innerHTML = tool.html;
   view.hidden = false;
+  if(shareBtn)shareBtn.hidden=false;
   document.body.classList.add('tool-open');
   window.scrollTo({ top: 0, behavior: 'instant' });
   updateMeta(tool);
@@ -330,7 +331,7 @@ function closeTool(updateUrl) {
   if (updateUrl) history.pushState(null, '', '/');
 }
 
-closeBtn.addEventListener('click', function () { closeTool(true); });
+closeBtn.addEventListener('click', function (e) { e.preventDefault();closeTool(true); });
 
 if (shareBtn) {
   shareBtn.addEventListener('click', function () {
