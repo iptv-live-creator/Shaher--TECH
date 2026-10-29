@@ -56,3 +56,7 @@
 
 /join-images /combine-images 301
 /16 /combine-images 301
+
+/extract-audio /video-audio 301
+/mute-video /video-audio 301
+/17 /video-audio 301

@@ -107,6 +107,7 @@ app.get('/api/health', function (req, res) {
 // When adding a tool: add it here AND to toolsDB AND TOOL_ROUTES AND sitemap.
 const SITE_ORIGIN = 'https://shaher-tech.vercel.app';
 const ROUTE_META = {
+  'video-audio': { title: "استخراج الصوت من الفيديو وكتم الفيديو أونلاين", desc: "استخرج صوت الفيديو في ملف مستقل أو احفظ نسخة صامتة من غير إعادة ضغط. أداة مجانية تعمل داخل متصفحك بدون رفع الملف، مع دعم MP4 وMOV وWebM حسب الترميز." },
   'combine-images': { title: "دمج الصور في صورة واحدة أونلاين", desc: "اجمع عدة صور أو لقطات شاشة في صورة واحدة طويلة أو جنب بعض. رتّب الصور واحذف الزائد وحمّل PNG أو JPG مجانًا من المتصفح بدون رفع الصور." },
   'pdf-to-text': { title: "استخراج النص من PDF مجانًا", desc: "استخرج النص العربي والإنجليزي من PDF كامل أو صفحات محددة، وانسخه أو حمّله TXT مجانًا داخل المتصفح بدون رفع الملف. للملفات النصية وليس صور السكانر." },
   'audio-cutter': { title: 'قص الصوت أونلاين - MP3 وWAV', desc: 'قص جزء من تسجيل أو أغنية، اسمع المقطع وحمّله MP3 أو WAV مجانًا من المتصفح بدون رفع الملف.' },
@@ -125,6 +126,7 @@ const ROUTE_META = {
   'percentage': { title: 'حاسبة النسبة والخصم (Percentage Calculator)', desc: 'احسب قيمة أي نسبة من رقم، أو نسبة رقم من رقم، أو سعر منتج بعد الخصم — بضغطة واحدة ومن غير أي حسابات.' }
 };
 const ALIAS_TO_SLUG = {
+  'extract-audio': 'video-audio', 'mute-video': 'video-audio', '17': 'video-audio',
   'join-images': 'combine-images', '16': 'combine-images',
   'extract-pdf-text': 'pdf-to-text', '15': 'pdf-to-text',
   'trim-audio': 'audio-cutter', 'mp3-cutter': 'audio-cutter', '14': 'audio-cutter',
@@ -200,6 +202,7 @@ function servedIndexHtml(slug) {
 // Known client-side tool routes (slugs + aliases from public/tools.js).
 // Unknown paths must return a REAL 404, not the SPA (soft-404 harms SEO).
 const TOOL_ROUTES = new Set([
+  'video-audio', 'extract-audio', 'mute-video', '17',
   'combine-images', 'join-images', '16',
   'pdf-to-text', 'extract-pdf-text', '15',
   'audio-cutter', 'trim-audio', 'mp3-cutter', '14',

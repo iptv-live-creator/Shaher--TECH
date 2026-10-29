@@ -1,0 +1,5 @@
+Mediabunny1.63.0, copyrightVanilagyandcontributors. Unmodified browser bundle.
+License:MozillaPublicLicense2.0, see mediabunny-LICENSE.txt.
+Upstream:https://github.com/Vanilagy/mediabunny
+Exact npm source package:https://registry.npmjs.org/mediabunny/-/mediabunny-1.63.0.tgz
+Source bundle and source files are included in the same package. No changes to library files.
