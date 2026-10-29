@@ -50,3 +50,6 @@
 /trim-audio /audio-cutter 301
 /mp3-cutter /audio-cutter 301
 /14 /audio-cutter 301
+
+/extract-pdf-text /pdf-to-text 301
+/15 /pdf-to-text 301

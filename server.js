@@ -107,6 +107,7 @@ app.get('/api/health', function (req, res) {
 // When adding a tool: add it here AND to toolsDB AND TOOL_ROUTES AND sitemap.
 const SITE_ORIGIN = 'https://shaher-tech.vercel.app';
 const ROUTE_META = {
+  'pdf-to-text': { title: "استخراج النص من PDF مجانًا", desc: "استخرج النص العربي والإنجليزي من PDF كامل أو صفحات محددة، وانسخه أو حمّله TXT مجانًا داخل المتصفح بدون رفع الملف. للملفات النصية وليس صور السكانر." },
   'audio-cutter': { title: 'قص الصوت أونلاين - MP3 وWAV', desc: 'قص جزء من تسجيل أو أغنية، اسمع المقطع وحمّله MP3 أو WAV مجانًا من المتصفح بدون رفع الملف.' },
   'remove-background': { title: 'إزالة خلفية الصور مجانًا', desc: 'احذف خلفية صورة تلقائيًا على جهازك، وصحّح الحواف بفرشاة، وحمّل PNG شفافة أو JPG بخلفية بيضاء مجانًا بدون حساب.' },
   'pdf-to-images': { title: 'تحويل PDF إلى صور JPG وPNG', desc: 'حوّل صفحات PDF إلى صور JPG أو PNG، وحدد الصفحات المطلوبة وحمّل الصور منفردة أو في ZIP مجانًا من متصفحك بدون رفع الملف.' },
@@ -123,6 +124,7 @@ const ROUTE_META = {
   'percentage': { title: 'حاسبة النسبة والخصم (Percentage Calculator)', desc: 'احسب قيمة أي نسبة من رقم، أو نسبة رقم من رقم، أو سعر منتج بعد الخصم — بضغطة واحدة ومن غير أي حسابات.' }
 };
 const ALIAS_TO_SLUG = {
+  'extract-pdf-text': 'pdf-to-text', '15': 'pdf-to-text',
   'trim-audio': 'audio-cutter', 'mp3-cutter': 'audio-cutter', '14': 'audio-cutter',
   'background-remover': 'remove-background', 'remove-bg': 'remove-background', '13': 'remove-background',
   'pdf-to-jpg': 'pdf-to-images', 'pdf-to-png': 'pdf-to-images', '12': 'pdf-to-images',
@@ -196,6 +198,7 @@ function servedIndexHtml(slug) {
 // Known client-side tool routes (slugs + aliases from public/tools.js).
 // Unknown paths must return a REAL 404, not the SPA (soft-404 harms SEO).
 const TOOL_ROUTES = new Set([
+  'pdf-to-text', 'extract-pdf-text', '15',
   'audio-cutter', 'trim-audio', 'mp3-cutter', '14',
   'remove-background', 'background-remover', 'remove-bg', '13',
   'pdf-to-images', 'pdf-to-jpg', 'pdf-to-png', '12',
