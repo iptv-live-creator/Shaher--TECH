@@ -53,3 +53,6 @@
 
 /extract-pdf-text /pdf-to-text 301
 /15 /pdf-to-text 301
+
+/join-images /combine-images 301
+/16 /combine-images 301
