@@ -66,3 +66,6 @@
 /video-to-images /video-frames 301
 /extract-frames /video-frames 301
 /19 /video-frames 301
+/images-to-video /frames-to-video 301
+/photos-to-video /frames-to-video 301
+/20 /frames-to-video 301
