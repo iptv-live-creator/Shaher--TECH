@@ -13,7 +13,7 @@ if(!decodable)throw Error('codec');
 if(d.mode==='inspect'){
  let est=0,rate=0;
  try{const stats=await video.computePacketStats(100);est=stats.packetCount||0;rate=stats.averagePacketRate||0;}catch(_){}
- if(!est&&rate>0)est=Math.round(rate*duration);
+ if(rate>0&&duration>0)est=Math.round(rate*duration);
  self.postMessage({meta:{duration,decodable:true,width:video.codedWidth||0,height:video.codedHeight||0,frames:est,fps:rate}});
  return;
 }
