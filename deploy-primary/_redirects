@@ -63,3 +63,6 @@
 /trim-video /video-trim 301
 /cut-video /video-trim 301
 /18 /video-trim 301
+/video-to-images /video-frames 301
+/extract-frames /video-frames 301
+/19 /video-frames 301

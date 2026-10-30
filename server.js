@@ -107,6 +107,7 @@ app.get('/api/health', function (req, res) {
 // When adding a tool: add it here AND to toolsDB AND TOOL_ROUTES AND sitemap.
 const SITE_ORIGIN = 'https://shaher-tech.vercel.app';
 const ROUTE_META = {
+  'video-frames': { title: "تحويل الفيديو لصور", desc: "استخرج كل فريم من الفيديو كصورة مرقّمة بالترتيب، وحمّلها ZIP. مجانًا من متصفحك من غير رفع الملف ولا تسجيل." },
   'video-trim': { title: "قص الفيديو أونلاين", desc: "قصّ الجزء اللي محتاجه من الفيديو بدقة بالثانية، وحمّله MP4 جاهز للمشاركة. مجانًا من متصفحك من غير رفع الملف ولا تسجيل." },
   'video-audio': { title: "استخراج الصوت من الفيديو وكتم الفيديو أونلاين", desc: "استخرج صوت الفيديو في ملف مستقل أو احفظ نسخة صامتة من غير إعادة ضغط. أداة مجانية تعمل داخل متصفحك بدون رفع الملف، مع دعم MP4 وMOV وWebM حسب الترميز." },
   'combine-images': { title: "دمج الصور في صورة واحدة أونلاين", desc: "اجمع عدة صور أو لقطات شاشة في صورة واحدة طويلة أو جنب بعض. رتّب الصور واحذف الزائد وحمّل PNG أو JPG مجانًا من المتصفح بدون رفع الصور." },
@@ -127,6 +128,7 @@ const ROUTE_META = {
   'percentage': { title: 'حاسبة النسبة والخصم (Percentage Calculator)', desc: 'احسب قيمة أي نسبة من رقم، أو نسبة رقم من رقم، أو سعر منتج بعد الخصم — بضغطة واحدة ومن غير أي حسابات.' }
 };
 const ALIAS_TO_SLUG = {
+  'video-to-images': 'video-frames', 'extract-frames': 'video-frames', '19': 'video-frames',
   'trim-video': 'video-trim', 'cut-video': 'video-trim', '18': 'video-trim',
   'extract-audio': 'video-audio', 'mute-video': 'video-audio', '17': 'video-audio',
   'join-images': 'combine-images', '16': 'combine-images',
@@ -204,6 +206,7 @@ function servedIndexHtml(slug) {
 // Known client-side tool routes (slugs + aliases from public/tools.js).
 // Unknown paths must return a REAL 404, not the SPA (soft-404 harms SEO).
 const TOOL_ROUTES = new Set([
+  'video-frames', 'video-to-images', 'extract-frames', '19',
   'video-trim', 'trim-video', 'cut-video', '18',
   'video-audio', 'extract-audio', 'mute-video', '17',
   'combine-images', 'join-images', '16',
