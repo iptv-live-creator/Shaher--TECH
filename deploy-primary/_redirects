@@ -69,3 +69,7 @@
 /images-to-video /frames-to-video 301
 /photos-to-video /frames-to-video 301
 /20 /frames-to-video 301
+/story-video /video-story 301
+/reels-video /video-story 301
+/video-9-16 /video-story 301
+/21 /video-story 301
