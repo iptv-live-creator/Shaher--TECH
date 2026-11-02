@@ -411,3 +411,64 @@ $('vs-start').onclick=()=>{if(!selected||!meta||busy)return;invalidate();launch(
 $('vs-clear').onclick=clear;$('vs-cancel').onclick=()=>{kill();say('تم الإلغاء. اضغط تجهيز الفيديو للستوري للبدء من جديد، أو اختار ملف تاني.')};
 const watch=new MutationObserver(()=>{if(!document.contains(file)){kill();invalidate();selected=null;meta=null;watch.disconnect()}});watch.observe(document.getElementById('tool-body'),{childList:true});
 }};
+toolsDB.heicToJpgTool={emoji:'📷',title:'تحويل HEIC لـJPG',slug:'heic-to-jpg',aliases:['heic-jpg','convert-heic','22'],category:'Image',desc:'حوّل صور الآيفون HEIC لـJPG يفتح على أي جهاز، صورة واحدة أو دفعة كاملة مع تحميل ZIP. مجانًا من متصفحك من غير رفع الصور.',html:`
+<style>.hj-app{direction:rtl;text-align:right}.hj-app [hidden]{display:none!important}.hj-app button,.hj-app a.hj-download{font:inherit;min-height:44px;padding:10px 18px;border:1px solid #64502b;border-radius:999px;color:#e6b84d;background:#211c12;cursor:pointer;text-decoration:none;display:inline-block;margin:4px}.hj-app button.primary,.hj-app a.hj-download{background:linear-gradient(135deg,#e6b84d,#c8952e);color:#17130b;font-weight:700}.hj-app button:disabled{opacity:.45;cursor:default}.hj-app.hj-loaded .unified-upload{padding:10px;margin:0;min-height:0}.hj-app.hj-loaded .unified-upload-icon,.hj-app.hj-loaded .unified-upload>strong,.hj-app.hj-loaded .unified-upload>span{display:none}.hj-row{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0;align-items:center}.hj-help{font-size:13px;color:#a89c84;line-height:1.9}.hj-status{line-height:1.8;margin:12px 0;min-height:24px}.hj-app details{font-size:13px;color:#a89c84;line-height:1.9;margin-top:18px}.hj-app a.hj-download span{white-space:nowrap}.hj-busy::before{content:'';display:inline-block;width:16px;height:16px;border:2px solid #76602f;border-top-color:#efc45c;border-radius:50%;animation:hj-spin .8s linear infinite;margin-left:8px;vertical-align:middle}@keyframes hj-spin{to{transform:rotate(360deg)}}@media(prefers-reduced-motion:reduce){.hj-busy::before{animation:none}}.hj-warn{color:#e6b84d}</style>
+<div class="hj-app"><label for="hj-file" class="label-hint">اختار صور HEIC</label><input id="hj-file" type="file" class="form-control" multiple accept="image/heic,image/heif,.heic,.heif"><p class="hj-help">صور HEIC وHEIF اللي بتلقطها أيفون وiPad، حتى ٢٠ صورة في المرة و٢٥ ميجا للصورة. الصور بتفضل على جهازك طول الوقت.</p><p id="hj-status" class="hj-status" role="status" aria-live="polite">اختار صور HEIC، وهنحوّلها JPG يفتح على أي جهاز.</p>
+<div id="hj-editor" hidden><p id="hj-name" class="hj-help" style="overflow-wrap:anywhere"></p><p id="hj-skip" class="hj-help hj-warn" hidden></p><div class="hj-row"><button id="hj-start" type="button" class="primary">تحويل الكل لـJPG</button><button id="hj-clear" type="button">مسح</button></div></div><button id="hj-cancel" type="button" hidden>إلغاء</button><div id="hj-output" hidden></div><details><summary>الصيغ والتفاصيل</summary><p>أيفون وiPad بيحفظوا الصور بصيغة HEIC اللي مش بتفتح على ويندوز وأجهزة كتير ولا بعض المواقع. الأداة بتحوّلها JPG عالمي بنفس الأبعاد والجودة عمليًا. لو اخترت أكتر من صورة بتتحوّل ورا بعض وبتقدر تحمّلهم كلهم مرة واحدة في ملف ZIP، أو تحمّل أي صورة لوحدها. لو ملف HEIC فيه أكتر من صورة مدموجة (زي Burst) بتتحوّل الصورة الأساسية بس.</p><p>التحويل بيتم كله على جهازك: مفيش رفع للصور لأي سيرفر. بيانات الكاميرا المخفية جوه الملف (زي التاريخ والمكان) مش بتتنقل لملف JPG الناتج - الناتج صورة نظيفة للمشاركة، ولو محتاج البيانات دي احتفظ بالأصل. التحويل مش تحسين جودة: JPG بضغط بسيط قريب جدًا من الأصل. الصور التالفة أو غير المقروءة بتتخطى مع رسالة باسمها، وباقي الدفعة بيكمل. الملفات الكبيرة جدًا ممكن تتعب ذاكرة الموبايل؛ حوّل دفعات أصغر لو المعالجة توقفت.</p><p>محرك التحويل <a href="https://alexcorvi.github.io/heic2any/" target="_blank" rel="noopener">heic2any</a>0.0.4 غير معدل، MIT: <a href="/heic2any-LICENSE.md">الرخصة</a> - وبيدمج libheif وlibde265، LGPL3.0: <a href="/libheif-LGPL-3.0.txt">الرخصة</a> · <a href="/heic2any-NOTICE.txt">الإسناد والمصادر</a>.</p></details></div>`,init:function(){
+const $=id=>document.getElementById(id),file=$('hj-file'),app=file.closest('.hj-app');let picked=[],skipped=[],seq=0,busy=false,cancelFlag=false,urls=[];
+function say(t,spin=false){$('hj-status').textContent=t;$('hj-status').classList.toggle('hj-busy',spin)}
+function mb(b){return (b/1048576).toFixed(1)+' ميجا'}
+function invalidate(){for(let u of urls)URL.revokeObjectURL(u);urls=[];$('hj-output').replaceChildren();$('hj-output').hidden=true}
+function lock(){file.disabled=busy;$('hj-start').disabled=busy;$('hj-clear').disabled=busy;$('hj-cancel').hidden=!busy}
+function reset(){seq++;cancelFlag=false;busy=false;lock()}
+function clear(){reset();invalidate();picked=[];skipped=[];file.value='';$('hj-editor').hidden=true;app.classList.remove('hj-loaded');say('اختار صور HEIC، وهنحوّلها JPG يفتح على أي جهاز.')}
+function crc32(a){let c=0xffffffff;for(const b of a){c^=b;for(let j=0;j<8;j++)c=(c>>>1)^((c&1)?0xedb88320:0);}return(c^0xffffffff)>>>0}
+function makeZip(entries){const pieces=[],central=[];let offset=0,cs=0;const enc=new TextEncoder();for(const e of entries){const name=enc.encode(e.name),data=e.bytes,crc=crc32(data),h=new Uint8Array(30+name.length),v=new DataView(h.buffer);v.setUint32(0,0x04034b50,true);v.setUint16(4,20,true);v.setUint16(6,0x0800,true);v.setUint32(14,crc,true);v.setUint32(18,data.length,true);v.setUint32(22,data.length,true);v.setUint16(26,name.length,true);h.set(name,30);pieces.push(h,data);const c=new Uint8Array(46+name.length),d=new DataView(c.buffer);d.setUint32(0,0x02014b50,true);d.setUint16(4,20,true);d.setUint16(6,20,true);d.setUint16(8,0x0800,true);d.setUint32(16,crc,true);d.setUint32(20,data.length,true);d.setUint32(24,data.length,true);d.setUint16(28,name.length,true);d.setUint32(42,offset,true);c.set(name,46);central.push(c);cs+=c.length;offset+=h.length+data.length;}const end=new Uint8Array(22),v=new DataView(end.buffer);v.setUint32(0,0x06054b50,true);v.setUint16(8,entries.length,true);v.setUint16(10,entries.length,true);v.setUint32(12,cs,true);v.setUint32(16,offset,true);return new Blob([...pieces,...central,end],{type:'application/zip'})}
+async function engine(){if(window.heic2any)return;await new Promise((res,rej)=>{let s=document.createElement('script');s.src='/heic2any.min.js';s.onload=res;s.onerror=()=>{s.remove();rej(Error('engine'))};document.head.appendChild(s)});if(!window.heic2any)throw Error('engine')}
+function base(n){return n.replace(/\.(heic|heif)$/i,'')}
+function linkFor(blob,name){let a=document.createElement('a');let u=URL.createObjectURL(blob);urls.push(u);a.href=u;a.className='hj-download';a.download=name;a.replaceChildren(document.createTextNode('حمّل ('),Object.assign(document.createElement('span'),{dir:'ltr',textContent:name}),document.createTextNode(') - '+mb(blob.size)));return a}
+async function convert(){if(!picked.length||busy)return;invalidate();let id=seq;busy=true;cancelFlag=false;lock();say('جاري تحميل محرك التحويل...',true);
+ try{await engine()}catch(e){busy=false;lock();say('تعذر تحميل محرك التحويل. راجع الاتصال وأعد المحاولة.');return}
+ if(id!==seq)return;
+ let done=0,failed=[],entries=[];
+ for(const f of picked){
+  if(cancelFlag||id!==seq){busy=false;lock();say('تم الإلغاء. اضغط تحويل الكل لـJPG للبدء من جديد، أو اختار صور تانية.');return}
+  say('جاري تحويل '+(done+failed.length+1)+' من '+picked.length+': '+f.name+'...',true);
+  try{
+   let res=await heic2any({blob:f,toType:'image/jpeg',quality:0.9});
+   if(Array.isArray(res))res=res[0];
+   if(!res||!res.size)throw Error('empty');
+   let nm=base(f.name)+'.jpg',k=2;
+   while(entries.some(e=>e.name===nm))nm=base(f.name)+'-'+(k++)+'.jpg';
+   entries.push({name:nm,bytes:new Uint8Array(await res.arrayBuffer()),blob:res});
+   done++;
+  }catch(e){failed.push(f.name)}
+ }
+ busy=false;lock();
+ if(!done){say(failed.length?'تعذر تحويل أي صورة من المختارة ('+failed.slice(0,3).join('، ')+(failed.length>3?'...':'')+'). ممكن تكون تالفة أو مش HEIC حقيقي.':'مفيش صور للتحويل.');return}
+ const out=$('hj-output');
+ if(done>1){
+  const zip=makeZip(entries.map(e=>({name:e.name,bytes:e.bytes})));
+  out.appendChild(linkFor(zip,'heic-to-jpg.zip'));
+ }
+ for(const e of entries)out.appendChild(linkFor(e.blob,e.name));
+ let note=document.createElement('p');note.className='hj-help';
+ note.textContent='اتحوّل '+done+' من '+picked.length+' صورة لـJPG بنفس الأبعاد.'+(failed.length?(' اتخطى '+failed.length+' ملف مش قابل للقراءة: '+failed.slice(0,3).join('، ')+(failed.length>3?'...':'')+'.'):'')+' راجع الصور قبل المشاركة.';
+ out.appendChild(note);out.hidden=false;
+ say(failed.length?('جاهز: '+done+' صورة اتحوّلت، و'+failed.length+' اتخطى.'):'كل الصور جاهزة للتحميل: '+done+' صورة JPG.')}
+file.onchange=()=>{const list=[...file.files];clear();if(!list.length)return;
+ const good=[],skip=[];
+ for(const f of list){
+  if(!/\.(heic|heif)$/i.test(f.name)){skip.push(f.name+' (مش HEIC)');continue}
+  if(f.size===0||f.size>25*1048576){skip.push(f.name+' (أكبر من ٢٥ ميجا)');continue}
+  good.push(f)}
+ if(good.length>20){const extra=good.splice(20);for(const f of extra)skip.push(f.name+' (فوق حد ٢٠ صورة)')}
+ if(!good.length){say(skip.length?'الملفات المختارة مش صالحة: '+skip.slice(0,3).join('، ')+(skip.length>3?'...':'')+'. اختار صور HEIC أو HEIF حتى ٢٥ ميجا.':'اختار صور HEIC أو HEIF.');return}
+ picked=good;skipped=skip;
+ $('hj-name').textContent=good.length===1?(good[0].name+' - '+mb(good[0].size)):(good.length+' صور HEIC - '+mb(good.reduce((s,f)=>s+f.size,0))+' إجمالي');
+ if(skip.length){$('hj-skip').textContent='اتخطى '+skip.length+' ملف: '+skip.slice(0,4).join('، ')+(skip.length>4?'...':'')+'.';$('hj-skip').hidden=false}else{$('hj-skip').hidden=true}
+ $('hj-editor').hidden=false;app.classList.add('hj-loaded');say('اضغط تحويل الكل لـJPG، واستنى لما يخلص.')};
+$('hj-start').onclick=convert;
+$('hj-clear').onclick=clear;$('hj-cancel').onclick=()=>{cancelFlag=true};
+const watch=new MutationObserver(()=>{if(!document.contains(file)){reset();invalidate();picked=[];watch.disconnect()}});watch.observe(document.getElementById('tool-body'),{childList:true});
+}};

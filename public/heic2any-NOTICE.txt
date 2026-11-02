@@ -1,0 +1,8 @@
+heic2any 0.0.4 (unmodified bundle: /heic2any.min.js)
+Wrapper: MIT License - see /heic2any-LICENSE.md
+Source: https://github.com/alexcorvi/heic2any
+
+The bundle embeds these LGPL-3.0 libraries, unmodified:
+- libheif (HEIF/HEIC decoding): https://github.com/strukturag/libheif
+- libde265 (H.265 decoding): https://github.com/strukturag/libde265
+LGPL-3.0 license text: /libheif-LGPL-3.0.txt

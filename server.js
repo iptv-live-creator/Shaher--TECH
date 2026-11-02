@@ -107,6 +107,7 @@ app.get('/api/health', function (req, res) {
 // When adding a tool: add it here AND to toolsDB AND TOOL_ROUTES AND sitemap.
 const SITE_ORIGIN = 'https://shaher-tech.vercel.app';
 const ROUTE_META = {
+  'heic-to-jpg': { title: "تحويل HEIC لـJPG", desc: "حوّل صور الآيفون HEIC لـJPG يفتح على أي جهاز، صورة واحدة أو دفعة كاملة مع تحميل ZIP. مجانًا من متصفحك من غير رفع الصور ولا تسجيل." },
   'video-story': { title: "تجهيز الفيديو للستوري والريلز 9:16", desc: "حوّل أي فيديو لمقاس الستوري والريلز الرأسي 9:16 بخلفية ضبابية من غير حواف سودا، مع الاحتفاظ بالصوت. مجانًا من متصفحك من غير رفع الملف ولا تسجيل." },
   'frames-to-video': { title: "تحويل الصور لفيديو", desc: "حوّل صور مترقمة بالترتيب أو ملف ZIP صور لفيديو MP4 واحد بسرعة فريمات تختارها. مجانًا من متصفحك من غير رفع الملفات ولا تسجيل." },
   'video-frames': { title: "تحويل الفيديو لصور", desc: "استخرج كل فريم من الفيديو كصورة مرقّمة بالترتيب، وحمّلها ZIP. مجانًا من متصفحك من غير رفع الملف ولا تسجيل." },
@@ -130,6 +131,7 @@ const ROUTE_META = {
   'percentage': { title: 'حاسبة النسبة والخصم (Percentage Calculator)', desc: 'احسب قيمة أي نسبة من رقم، أو نسبة رقم من رقم، أو سعر منتج بعد الخصم — بضغطة واحدة ومن غير أي حسابات.' }
 };
 const ALIAS_TO_SLUG = {
+  'heic-jpg': 'heic-to-jpg', 'convert-heic': 'heic-to-jpg', '22': 'heic-to-jpg',
   'story-video': 'video-story', 'reels-video': 'video-story', 'video-9-16': 'video-story', '21': 'video-story',
   'images-to-video': 'frames-to-video', 'photos-to-video': 'frames-to-video', '20': 'frames-to-video',
   'video-to-images': 'video-frames', 'extract-frames': 'video-frames', '19': 'video-frames',
@@ -210,6 +212,7 @@ function servedIndexHtml(slug) {
 // Known client-side tool routes (slugs + aliases from public/tools.js).
 // Unknown paths must return a REAL 404, not the SPA (soft-404 harms SEO).
 const TOOL_ROUTES = new Set([
+  'heic-to-jpg', 'heic-jpg', 'convert-heic', '22',
   'video-story', 'story-video', 'reels-video', 'video-9-16', '21',
   'frames-to-video', 'images-to-video', 'photos-to-video', '20',
   'video-frames', 'video-to-images', 'extract-frames', '19',

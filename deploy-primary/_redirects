@@ -73,3 +73,6 @@
 /reels-video /video-story 301
 /video-9-16 /video-story 301
 /21 /video-story 301
+/heic-jpg /heic-to-jpg 301
+/convert-heic /heic-to-jpg 301
+/22 /heic-to-jpg 301
